@@ -1,0 +1,81 @@
+/*
+form template for dynamic form fields
+*/
+
+.dynamic-form-field {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.dynamic-form-field-label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.dynamic-form-field-input {
+  width: 100%;
+}
+
+.dynamic-form-field-input-text {
+  width: 100%;
+}
+
+.dynamic-form-field-input-textarea {
+  width: 100%;
+}
+
+.dynamic-form-field-input-select {
+  width: 100%;
+}
+
+.dynamic-form-field-input-checkbox {
+  width: 100%;
+}
+
+.dynamic-form-field-input-radio {
+  width: 100%;
+}
+
+.dynamic-form-field-input-radio-inline {
+  width: 100%;
+}
+
+.dynamic-form-field-input-checkbox-inline {
+  width: 100%;
+}
+
+.dynamic-form-field-input-file {
+  width: 100%;
+}
+
+.dynamic-form-field-input-file-image {
+  width: 100%;
+}
+
+.dynamic-form-field-input-file-image-preview {
+  width: 100%;
+}
+
+.dynamic-form-field-input-file-image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.dynamic-form-field-input-file-image-preview-container {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.dynamic-form-field-input-file-image-preview-container img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.dynamic-form-field-input-file-image-preview-container button {
+  display: none;
+}
+
+.dynamic-form-field-input-file-image-preview-container button.remove {
+  display: inline-block;
+}
