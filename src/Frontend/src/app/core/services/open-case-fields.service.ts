@@ -15,31 +15,49 @@ export class OpenCaseFieldsService {
     const questions: FormFieldBase<string>[] = [
 
       new DropdownField({
-        key: 'brave',
-        label: 'Bravery Rating',
+        key: 'district',
+        label: 'מחוז',
         options: [
-          {key: 'solid',  value: 'Solid'},
-          {key: 'great',  value: 'Great'},
-          {key: 'good',   value: 'Good'},
-          {key: 'unproven', value: 'Unproven'}
+          {key: '',  value: ''},
+          {key: '1', value: 'מחוז 1'},
+          {key: '2', value: 'מחוז 2'},
+          {key: '3', value: 'מחוז 3'},
         ],
-        order: 3
       }),
 
-      new TextboxField({
-        key: 'firstName',
-        label: 'First name',
-        value: 'Bombasto',
-        required: true,
-        order: 1
+      new DropdownField({
+        key: 'area',
+        label: 'מרחב',
+        options: [
+          {key: '',  value: ''},
+          {key: '1', value: 'מרחב 1'},
+          {key: '2', value: 'מרחב 2'},
+          {key: '3', value: 'מרחב 3'},
+        ],
       }),
 
-      new TextboxField({
-        key: 'emailAddress',
-        label: 'Email',
-        type: 'email',
-        order: 2
-      })
+      new DropdownField({
+        key: 'station',
+        label: 'תחנה',
+        options: [
+          {key: '',  value: ''},
+          {key: '1', value: 'תחנה 1'},
+          {key: '2', value: 'תחנה 2'},
+          {key: '3', value: 'תחנה 3'},
+        ],
+      }),
+
+      new DropdownField({
+        key: 'unit',
+        label: 'יחידת חקירות',
+        options: [
+          {key: '',  value: ''},
+          {key: '1', value: 'יחידת חקירות 1'},
+          {key: '2', value: 'יחידת חקירות 2'},
+          {key: '3', value: 'יחידת חקירות 3'},
+        ],
+      }),
+
     ];
 
     return of(questions.sort((a, b) => a.order - b.order));

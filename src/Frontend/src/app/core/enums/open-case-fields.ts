@@ -1,3 +1,4 @@
+import {FormFieldBase} from '../utils/form-field-base';
 export enum OpenCaseFields {
   internalNumber,
   CaseType,
@@ -5,7 +6,10 @@ export enum OpenCaseFields {
   CasePriority,
 
 
-//TODO: Add question fields here 
+//TODO: Add question fields here
+
+
+}
 
 
 
@@ -33,6 +37,3 @@ export enum OpenCaseFields {
 -דרגה –dropdown
 - מס' אישי –number
 */
-
-
-}
