@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from django.http.response import FileResponse
+from django.http.response import HttpResponse
+from django.http import Http404
+import os
 
 from caseHandler.models import Cases
 from caseHandler.serializers import CaseSerializer
@@ -38,3 +42,12 @@ def caseApi(request, case_name=""):
         department = Cases.objects.get(CaseName=case_name)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+
+
+@csrf_exempt
+def downloadFile(request):
+    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images'))+'\\'
+    if request.method == 'GET':
+        img_data = JSONParser().parse(request)
+        return FileResponse(open(file_derectory + img_data['filename'], 'rb'))
+    return Http404("Not Get Request")
