@@ -82,12 +82,17 @@ export class OpenCaseFieldsService {
     במחוז צפון ישנם שלושה מרחבים: כינרת, עמקים וגליל. | במחוז דרום ישנם שלושה מרחבים: לכיש, נגב ואילת. | במחוז מרכז ישנם שלושה מרחבים: שרון, שפלה ונתב"ג. | במחוז ת"א ישנם ארבעה מרחבים: ירקון, דן, איילון ויפתח. | במחוז ש"י ישנם שני מרחבים: חברון ושומרון. | במחוז ירושלים ישנם שלושה מרחבים: דוד, קדם וציון. | במחוז חוף יש שני מרחבים: אשר ומנשה.
     */
     new TextboxField({
-        key: 'internalNumber',
+        key: 'internalNumber',// +year
         label: 'מספר פנימי',
         required: true,
         type:'text'
       }),
-      
+      new TextboxField({
+        key: 'internalNumberyear',// +year
+        label: 'מספר פנימי שנה',
+        required: true,
+        type:'text'
+      }),  
   
       new TextboxField({
         key:"referenceNumber",
