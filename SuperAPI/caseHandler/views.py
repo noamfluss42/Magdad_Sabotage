@@ -6,6 +6,9 @@ from django.http.response import JsonResponse
 from caseHandler.models import Cases
 from caseHandler.serializers import CaseSerializer
 
+from caseHandler.models import Exhibits
+from caseHandler.serializers import ExhibitsSerializer
+
 from django.core.files.storage import default_storage
 
 
@@ -36,5 +39,35 @@ def caseApi(request, case_name=""):
 
     elif request.method == 'DELETE':
         department = Cases.objects.get(CaseName=case_name)
+        department.delete()
+        return JsonResponse("Deleted Succeffully!!", safe=False)
+
+
+@csrf_exempt
+def exhibitsApi(request, bag_number=""):
+    if request.method == 'GET':
+        exhibits_value = Exhibits.objects.all()
+        exhibits_serializer = ExhibitsSerializer(exhibits_value, many=True)
+        return JsonResponse(exhibits_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        exhibits_data = JSONParser().parse(request)
+        department_serializer = ExhibitsSerializer(data=exhibits_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse("Added Successfully!!", safe=False)
+        return JsonResponse("Failed to Add.", safe=False)
+
+    elif request.method == 'PUT':
+        department_data = JSONParser().parse(request)
+        department = Exhibits.objects.get(DepartmentId=department_data['DepartmentId'])
+        department_serializer = ExhibitsSerializer(department, data=department_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse("Updated Successfully!!", safe=False)
+        return JsonResponse("Failed to Update.", safe=False)
+
+    elif request.method == 'DELETE':
+        department = Exhibits.objects.get(CaseName=bag_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
