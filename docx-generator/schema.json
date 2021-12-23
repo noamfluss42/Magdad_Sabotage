@@ -1,0 +1,23 @@
+{
+    "lab_name":"TEXT",
+    "date_created": "DD/MM/YYYY",
+    "phone_number": "TEXT",
+    "inside_lab": "NNN/YYYY",
+    "recipient": "TEXT",
+    "urgency": "normal/urgent/urgent_arrest",
+    "hazards": ["biological","toxic","sharp","The first three are the only options, not all of them have to appear"],
+    "exhibits": ["normal","additional","returning","The first three are the only options, not all of them have to appear"],
+    "unit": "TEXT",
+    "additional_field": "TEXT",
+    "additional_field_info": "TEXT",
+    "bag_number": "TEXT",
+    "exhibit_description": "TEXT",
+    "exhibits_packaging": "TEXT",
+    "exhibits_mark": "TEXT",
+    "event_description": "TEXT",
+    "testing_method": "TEXT",
+    "notes": "TEXT",
+    "sender_name": "TEXT",
+    "sender_rank": "TEXT",
+    "sender_serial_number": "TEXT"
+}
