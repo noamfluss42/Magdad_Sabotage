@@ -5,7 +5,7 @@ import { FormFieldBase } from '../../utils/form-field-base';
 @Component({
   selector: 'app-dynamic-form-field',
   templateUrl: './dynamic-form-field.component.html',
-  // styleUrls: ['../../../styles/dynamic-form-field.component.css']
+  styleUrls: ['../../../styles/dynamic-form-field.component.css'],
 })
 export class DynamicFormFieldComponent{
 

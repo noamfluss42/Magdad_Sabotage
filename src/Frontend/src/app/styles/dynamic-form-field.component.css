@@ -1,5 +1,9 @@
-/* :host {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-} */
+.ng-valid[required],
+.ng-valid.required {
+  align-items: right;
+  /* border-left: 3px solid green; */
+}
+.ng-invalid:not(form) {
+  align-items: right;
+  /* border-left: 3px solid red; */
+}

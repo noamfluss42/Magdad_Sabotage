@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import {Constants} from '../core/constants/constants';
-import { OpenCaseFields } from '../core/constants/OpenCasefields';
+import {Constants} from '../constants/constants';
+import { OpenCaseFields } from '../constants/OpenCasefields';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -11,11 +11,12 @@ const httpOptions = {
     Authorization: 'my-auth-token'
   })
 };
-@Injectable()
-export class ConfigService {
+@Injectable({
+  providedIn: 'root'
+})
+export class OpenCaseDataService {
 
-  constructor(private http: HttpClient,
-    ) { }
+  constructor(private http: HttpClient) { }
   getConfig():Observable<OpenCaseFields[]> {
     // now returns an Observable of Config
     return this.http.get<OpenCaseFields[]>(Constants.API_URL+'/case/');
