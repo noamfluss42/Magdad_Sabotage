@@ -110,7 +110,7 @@ export class OpenCaseFieldsService {
       }),
       new TextboxField({
         key: 'signDate',
-        label: 'תאריך קבלה',
+        label: 'תאריך הזנה',
         required: true,
         type: 'text',
       }),

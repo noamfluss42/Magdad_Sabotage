@@ -23,7 +23,7 @@ export class DynamicFormComponent implements OnInit {
     this.form = this.fcs.toFormGroup(this.fields as FormFieldBase<string>[]);
   }
   onSubmit(){ 
-    this.openCaseData.postConfig(this.form.getRawValue()).subscribe();
+    this.openCaseData.postCaseFields(this.form.getRawValue()).subscribe();
     // console.log(this.form.getRawValue());
     this.payLoad = JSON.stringify(this.form.getRawValue());
   }
