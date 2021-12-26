@@ -1,9 +1,7 @@
 <div [formGroup]="form">
-
   <label [attr.for]="field.key">{{ field.label }}</label>
 
   <div [ngSwitch]="field.controlType">
-
     <input
       *ngSwitchCase="'textbox'"
       [formControlName]="field.key"
