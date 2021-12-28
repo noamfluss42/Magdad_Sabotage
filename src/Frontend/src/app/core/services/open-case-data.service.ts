@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Constants } from '../constants/constants';
-import { OpenCaseFields } from '../constants/OpenCasefields';
+import { OpenCaseFields } from '../models/OpenCasefields';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export class OpenCaseDataService {
   }
   /** DELETE: delete the case from the server */
   deleteCaseField(id: number): Observable<unknown> {
-    const url = `${this.openCaseUrl}/${id}`; // DELETE 
+    const url = `${this.openCaseUrl}/${id}`; // DELETE
     return this.http.delete(url, httpOptions);
   }
 

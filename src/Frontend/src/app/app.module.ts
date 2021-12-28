@@ -4,13 +4,17 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { DynamicFormFieldComponent } from './core/components/dynamic-form-field/dynamic-form-field.component';
-import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-form.component';
+import { DynamicFormComponent } from './core/components/openCase-dynamic-form/dynamic-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { RegisterExhibitDynamicFormComponent } from './core/components/register-exhibit-dynamic-form/register-exhibit-dynamic-form.component';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule, routingComponents} from './app-routing.module';
+import { GenLabDynamicFormComponent } from './core/components/gen-lab-dynamic-form/gen-lab-dynamic-form.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -22,9 +26,12 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    RouterModule,
+    AppRoutingModule
   ],
-  declarations: [AppComponent, DynamicFormComponent, DynamicFormFieldComponent],
+  declarations: [AppComponent, DynamicFormComponent, DynamicFormFieldComponent,RegisterExhibitDynamicFormComponent, routingComponents, GenLabDynamicFormComponent],
   bootstrap: [AppComponent],
+  providers: [],
 })
 export class AppModule {
   constructor() {}

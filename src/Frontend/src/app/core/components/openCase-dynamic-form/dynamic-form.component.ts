@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OpenCaseDataService } from '../../services/open-case-data.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
@@ -18,13 +19,15 @@ export class DynamicFormComponent implements OnInit {
 
 
 
-  constructor(private fcs: FieldControlService, private openCaseData: OpenCaseDataService) {};
+  constructor(private fcs: FieldControlService,private router: Router, private openCaseData: OpenCaseDataService) {};
     ngOnInit(): void {
     this.form = this.fcs.toFormGroup(this.fields as FormFieldBase<string>[]);
   }
-  onSubmit(){ 
+  onSubmit(){
     this.openCaseData.postCaseFields(this.form.getRawValue()).subscribe();
     // console.log(this.form.getRawValue());
-    this.payLoad = JSON.stringify(this.form.getRawValue());
+    //route to next page and add exhibit
+    this.router.navigate(['/register-exhibit']);
+    // this.payLoad = JSON.stringify(this.form.getRawValue());
   }
 }
