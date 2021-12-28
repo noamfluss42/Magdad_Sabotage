@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TextboxField } from '../utils/field-textbox';
+import { CheckboxField } from '../utils/field-checkbox';
 import { FormFieldBase } from '../utils/form-field-base';
 import { DropdownField } from '../utils/field-dropdown';
 import { of } from 'rxjs';
@@ -10,11 +11,21 @@ export class GenLabFormFieldsService {
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      new TextboxField({
+      new DropdownField({
         key: 'addressee',
         label: 'אל',
-        required: true,
-        type: 'text',
+        options: [
+          { key: 'מעבדה ביולוגית', value: 'מעבדה ביולוגית' },
+          { key: 'מעבדת פיתוח ט"א ', value: 'מעבדת פיתוח ט"א' },
+          { key: ' מעבדה ביולוגית ומעבדת פיתוח ט"א', value: 'מעבדה ביולוגית ומעבדת פיתוח ט"א' },
+          { key: ' מעבדת אלקטרוניקה', value: 'מעבדת אלקטרוניקה' },
+          { key: ' חוקר זירה במחוז', value: 'חוקר זירה במחוז' },
+          { key: ' מעבדת סימנים', value: ' מעבדת סימנים' },
+          { key: ' מעבדת דליקים', value: 'מעבדת דליקים' },
+          { key: ' חי"ק ענף טכני ל"א', value: 'חי"ק ענף טכני ל"א' },
+          { key: ' מעבדת סיבים ופולימרים', value: 'מעבדת סיבים ופולימרים' },
+          { key: ' מעבדת ניידת לזירת עבירה מחוז צפון', value: 'מעבדת ניידת לזירת עבירה מחוז צפון' },
+        ],
       }),
       new DropdownField({
         key: 'urgency',
@@ -26,7 +37,7 @@ export class GenLabFormFieldsService {
         ],
       }),
 
-      new DropdownField({
+      new CheckboxField({
         key: 'risks',
         label: 'סיכונים',
         options: [

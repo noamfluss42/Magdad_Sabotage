@@ -9,6 +9,7 @@ h1 {
   text-align:center;
 }
 h2, h3 {
+  padding: 10px;
   color: #444;
   font-weight: lighter;
 }
@@ -18,7 +19,7 @@ h3 {
 body {
   padding: .5rem;
   max-width: 1000px;
-  margin: auto;
+  margin: 10px auto;
 }
 @media (min-width: 600px) {
   body {
@@ -77,9 +78,9 @@ nav a.active {
 hr {
   margin: 1.5rem 0;
 }
-input[type="text"] {
-  box-sizing: border-box;
-  width: 80%;
-  padding: .5rem;
+:host {
+  margin: 10px ;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
-

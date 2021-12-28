@@ -1,24 +1,41 @@
-<div [formGroup]="form">
-  <label [attr.for]="field.key">{{ field.label }}</label>
-
+<div [formGroup]="form" >
+  <mat-label [attr.for]="field.key">{{  field.label  }}   </mat-label>
+  <mat-form-field appearance="fill">
   <div [ngSwitch]="field.controlType">
     <input
+      matInput
       *ngSwitchCase="'textbox'"
       [formControlName]="field.key"
       [id]="field.key"
       [type]="field.type"
     />
+    <textarea
+      matInput
+      *ngSwitchCase="'textarea'"
+      [formControlName]="field.key"
+      [id]="field.key"
+      [type]="field.type"
+      ></textarea>
+      <!-- <ng-container
+      <!-- *ngSwitchCase="'checkbox'"
+      [formControlName]="field.key"
+      [id]="field.key" 
+      *ngFor="let opt of field.options" [value]="opt.key">
+        {{ opt.value }}
+    ></mat-checkbox> -->
 
-    <select
+
+
+
+    <mat-select
       [id]="field.key"
       *ngSwitchCase="'dropdown'"
       [formControlName]="field.key"
     >
-      <option *ngFor="let opt of field.options" [value]="opt.key">
+      <mat-option *ngFor="let opt of field.options" [value]="opt.key">
         {{ opt.value }}
-      </option>
-    </select>
+      </mat-option>
+    </mat-select>
   </div>
-
-  <div class="errorMessage" *ngIf="!isValid">{{ field.label }} is required</div>
+</mat-form-field>
 </div>
