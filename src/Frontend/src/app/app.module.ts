@@ -15,6 +15,9 @@ import { RegisterExhibitDynamicFormComponent } from './core/components/register-
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule, routingComponents} from './app-routing.module';
 import { GenLabDynamicFormComponent } from './core/components/gen-lab-dynamic-form/gen-lab-dynamic-form.component';
+import { OpenCaseFieldsService } from './core/services/open-case-fields.service';
+import { RegisterExhibitFieldsService } from './core/services/register-exhibit-fields.service';
+import { GenLabFormFieldsService } from './core/services/gen-lab-form-fields.service';
 @NgModule({
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { GenLabDynamicFormComponent } from './core/components/gen-lab-dynamic-fo
   ],
   declarations: [AppComponent, DynamicFormComponent, DynamicFormFieldComponent,RegisterExhibitDynamicFormComponent, routingComponents, GenLabDynamicFormComponent],
   bootstrap: [AppComponent],
-  providers: [],
+  providers: [OpenCaseFieldsService,RegisterExhibitFieldsService,GenLabFormFieldsService],
 })
 export class AppModule {
   constructor() {}
