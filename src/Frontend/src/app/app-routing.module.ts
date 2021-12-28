@@ -12,11 +12,19 @@ const routes: Routes = [
     path: 'registerExhibit',
     component: RegisterExhibitScreenComponent,
   },
-  { path: '',   redirectTo: '/case', pathMatch: 'full' },
+  {
+    path: 'genLabForm',
+    component: GenLabFormScreenComponent,
+  },
+  { path: '', redirectTo: '/case', pathMatch: 'full' },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-export const routingComponents = [OpenCaseScreenComponent,RegisterExhibitScreenComponent,GenLabFormScreenComponent]
+export const routingComponents = [
+  OpenCaseScreenComponent,
+  RegisterExhibitScreenComponent,
+  GenLabFormScreenComponent,
+];
