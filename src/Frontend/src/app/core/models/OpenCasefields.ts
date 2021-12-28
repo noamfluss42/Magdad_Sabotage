@@ -19,5 +19,9 @@ export interface OpenCaseFields
   'signDate':string;
   'eventLocation':string;
   'eventDescription':string;
+  'senderName':string;
+  'senderRank':string;
+  'sendSerialNumber':string;
+  'labName':string;
 
 }

@@ -5,14 +5,13 @@ import { FormFieldBase } from '../utils/form-field-base';
 import { DropdownField } from '../utils/field-dropdown';
 import { of } from 'rxjs';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GenLabFormFieldsService {
-
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      new DropdownField({
-        key: 'addressee',
+      new TextboxField({
+        key: 'recipient',
         label: 'אל',
         options: [
           { key: 'מעבדה ביולוגית', value: 'מעבדה ביולוגית' },
@@ -37,8 +36,8 @@ export class GenLabFormFieldsService {
         ],
       }),
 
-      new CheckboxField({
-        key: 'risks',
+      new DropdownField({
+        key: 'hazards',
         label: 'סיכונים',
         options: [
           { key: 'ביולוגי', value: 'ביולוגי' },
@@ -62,11 +61,12 @@ export class GenLabFormFieldsService {
         type: 'text',
       }),
       new TextboxField({
-        key: 'comments',
+        key: 'notes',
         label: 'הערות',
         required: true,
         type: 'text',
       }),
     ];
     return of(questions.sort((a, b) => a.order - b.order));
-  }}
+  }
+}

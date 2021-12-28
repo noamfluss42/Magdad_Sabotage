@@ -126,6 +126,41 @@ export class OpenCaseFieldsService {
         required: true,
         type: 'text',
       }),
+      new TextboxField({
+        key:'senderName',
+        label: 'שם ',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'senderRank',
+        label: 'דרגה ',
+        required: true,
+        type: 'text',
+    }),
+      new TextboxField({
+        key:'senderName',
+        label: 'שם ',
+        required: true,
+        type: 'text',
+      }),
+      new DropdownField({
+        key:'labName',
+        label: 'שם מעבדה ',
+        options: [
+          { key: 'מעבדת חבלה דרום', value: 'מעבדת חבלה דרום' },
+          { key: 'מעבדת חבלה ת"א', value: 'מעבדת חבלה ת"א' },
+          { key: 'מעבדת חבלה צפון', value: 'מעבדת חבלה צפון' },
+          { key: 'מעבדת חבלה ירושלים', value: 'מעבדת חבלה ירושלים' },
+        ],
+      }),
+
+      new TextboxField({
+        key:'phoneNumber',
+        label: 'מספר טלפון ',
+        required: true,
+        type: 'text',
+      }),
     ];
 
     return of(questions.sort((a, b) => a.order - b.order));

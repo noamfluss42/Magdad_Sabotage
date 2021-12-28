@@ -16,12 +16,13 @@ import { MatInputModule } from '@angular/material/input';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RegisterExhibitDynamicFormComponent } from './core/components/register-exhibit-dynamic-form/register-exhibit-dynamic-form.component';
 import { RouterModule } from '@angular/router';
-import { AppRoutingModule, routingComponents} from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { GenLabDynamicFormComponent } from './core/components/gen-lab-dynamic-form/gen-lab-dynamic-form.component';
 import { OpenCaseFieldsService } from './core/services/open-case-fields.service';
 import { RegisterExhibitFieldsService } from './core/services/register-exhibit-fields.service';
 import { GenLabFormFieldsService } from './core/services/gen-lab-form-fields.service';
 import { MatCheckboxModule } from '@angular/Material/checkbox'
+import { SharedDataService } from './core/services/shared-data.service';
 @NgModule({
   imports: [
     BrowserModule,
@@ -41,9 +42,21 @@ import { MatCheckboxModule } from '@angular/Material/checkbox'
     
   ],
 
-  declarations: [AppComponent, DynamicFormComponent, DynamicFormFieldComponent,RegisterExhibitDynamicFormComponent, routingComponents, GenLabDynamicFormComponent],
+  declarations: [
+    AppComponent,
+    DynamicFormComponent,
+    DynamicFormFieldComponent,
+    RegisterExhibitDynamicFormComponent,
+    routingComponents,
+    GenLabDynamicFormComponent,
+  ],
   bootstrap: [AppComponent],
-  providers: [OpenCaseFieldsService,RegisterExhibitFieldsService,GenLabFormFieldsService],
+  providers: [
+    OpenCaseFieldsService,
+    RegisterExhibitFieldsService,
+    GenLabFormFieldsService,
+    SharedDataService,
+  ],
 })
 export class AppModule {
   constructor() {}

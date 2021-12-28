@@ -5,9 +5,9 @@ import { TextboxField } from "../utils/field-textbox";
 
 export interface GenLabFormFields
 {
-  "addressee":string;
+  "recipient":string;
   "urgency":string;
-  "risks":string;
+  "hazards":string;
   "exhibits":string;
   "testEssence":string;
   "comments":string;
