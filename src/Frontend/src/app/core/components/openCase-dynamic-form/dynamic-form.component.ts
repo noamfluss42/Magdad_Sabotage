@@ -8,7 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Router } from '@angular/router';
 @Component({
-  selector: 'app-dynamic-form',
+  selector: 'app-OpenCase-dynamic-form',
   templateUrl: './dynamic-form.component.html',
   providers: [FieldControlService,OpenCaseDataService]
 })
