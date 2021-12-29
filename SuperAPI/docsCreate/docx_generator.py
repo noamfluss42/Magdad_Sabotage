@@ -7,6 +7,7 @@ The indexs in the following code have been chosen by trying and guessing
 each set of indexs that is in use holds a different editable field.
 '''
 import docx
+import io
 from docx.oxml.shared import OxmlElement
 import sys
 import os
@@ -15,7 +16,7 @@ CHECKBOX_PATH = './w:fldChar/w:ffData/w:checkBox'
 
 
 def generate_docx(args, file_name):
-    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__),))+'\\' #get relative directory location and go into file storage directory
+    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__),'\\')) #get relative directory location and go into file storage directory
     doc = docx.Document(file_derectory+'template.docx')
     doc.paragraphs[0].runs[0].text = args["labName"]
     doc.paragraphs[1].runs[0].text = args["dateCreated"].split('/')[2]
@@ -66,7 +67,11 @@ def generate_docx(args, file_name):
     doc.tables[0].rows[1].cells[0].paragraphs[14].runs[1].text = args["senderName"]
     doc.tables[0].rows[1].cells[0].paragraphs[14].runs[3].text = args["senderRank"]
     doc.tables[0].rows[1].cells[0].paragraphs[14].runs[5].text = args["senderSerialNumber"]
-    doc.save(file_derectory+f'{file_name}.docx')
+
+    buffer = io.BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    return buffer
 
 
 def main():

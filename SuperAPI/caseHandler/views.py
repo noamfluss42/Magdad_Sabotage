@@ -47,9 +47,11 @@ def caseApi(request, case_name=""):
 
 @csrf_exempt
 def downloadFile(request):
-    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'docsCreate')) + '\\' #get relative directory location and go into file storage directory
+    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'docsCreate','\\'))  #get relative directory location and go into file storage directory
     if request.method == 'GET':
         img_data = JSONParser().parse(request)
-        generate_docx(img_data, img_data['filename'])#create file
-        return FileResponse(open(file_derectory + img_data['filename']+'.docx', 'rb'))#return file
+        file = generate_docx(img_data, img_data['filename'])  # create file
+        resp = FileResponse(file, as_attachment=True, filename=img_data['filename'] + '.docx')  # create return file
+        return resp
+
     return Http404("Not Get Request")
