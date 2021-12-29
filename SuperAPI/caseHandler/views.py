@@ -10,6 +10,7 @@ import os
 from caseHandler.models import Cases
 from caseHandler.serializers import CaseSerializer
 
+from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
 
@@ -46,8 +47,9 @@ def caseApi(request, case_name=""):
 
 @csrf_exempt
 def downloadFile(request):
-    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images'))+'\\'
+    file_derectory = os.path.realpath(os.path.join(os.path.dirname(__file__), '..', 'docsCreate')) + '\\' #get relative directory location and go into file storage directory
     if request.method == 'GET':
         img_data = JSONParser().parse(request)
-        return FileResponse(open(file_derectory + img_data['filename'], 'rb'))
+        generate_docx(img_data, img_data['filename'])#create file
+        return FileResponse(open(file_derectory + img_data['filename']+'.docx', 'rb'))#return file
     return Http404("Not Get Request")
