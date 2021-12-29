@@ -58,27 +58,27 @@ def generate_docx(args,file_name):
 
 def main():
     args = {
-        "lab_name":"מעבדת   חבלה   ת\"א",
-        "date_created": "23/11/2020",
-        "phone_number": "04-5431234",
-        "inside_lab": "683/2020",
+        "labName":"מעבדת   חבלה   ת\"א",
+        "dateCreated": "23/11/2020",
+        "phoneNumber": "04-5431234",
+        "internalNumber": "683/2020",
         "recipient": "אין לי מושג",
         "urgency": "urgent",
         "hazards": ["biological","toxic"],
         "exhibits": ["normal"],
         "unit": "תחנת טבריה",
-        "additional_field": "פל\"א",
-        "additional_field_info": "8126744",
-        "bag_number": "1",
-        "exhibit_description": "משהו ממש יפה",
-        "exhibits_packaging": "ארוז עם פס",
-        "exhibits_mark": "פס אדום",
-        "event_description": "מצאנו חפץ חשוד",
-        "testing_method": "אין לי מושג למה בדקנו את זה",
+        "referenceType": "פל\"א",
+        "referenceNumber": "8126744",
+        "bagNumber": "1",
+        "exhibitDescription": "משהו ממש יפה",
+        "exhibitsPackaging": "ארוז עם פס",
+        "exhibitsMark": "פס אדום",
+        "eventDescription": "מצאנו חפץ חשוד",
+        "testingEssense": "אין לי מושג למה בדקנו את זה",
         "notes": "שלום",
-        "sender_name": "בר שפר",
-        "sender_rank": "סמל",
-        "sender_serial_number": "05324543"
+        "senderName": "בר שפר",
+        "senderRank": "סמל",
+        "senderSerialNumber": "05324543"
     }
     generate_docx(args,sys.argv[1])
 
