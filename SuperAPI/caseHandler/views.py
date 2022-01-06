@@ -85,3 +85,52 @@ def downloadFile(request):
         resp = FileResponse(file, as_attachment=True, filename=img_data['filename'] + '.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
+@csrf_exempt
+def downloadFileParam(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        try:
+            exhibit = Exhibits.objects.get(bag_number=data['bagNumber'])
+            exhibit_data = ExhibitsSerializer(exhibit).data
+            print("exhibit data :",exhibit_data)
+            data["exhibitDescription"] = exhibit_data['exhibit_description']
+            data["exhibitsPackaging"] = exhibit_data['exhibits_packaging']
+            data["exhibitsMark"] = exhibit_data['exhibits_mark']
+            data["bagNumber"] = exhibit_data['bag_number']
+
+            case_fields = ["eventDescription","referenceNumber"]
+            case = Case.objects.get(internalNumber=exhibit_data['case_id'])
+            case_data = CaseSerializer(case).data
+            case_data = {key: case_data[key] for key in case_fields}#get only essential fields
+            print("case data :", dict(case_data))
+            data.update(case_data)
+            print("Data",data)
+        except Exception as e:
+            print("ERROR",e)
+            return JsonResponse("case id not found", safe=False)
+        print("DATAAAAAAA\n",data)
+        for key in data:
+            data[key] = str(data[key])
+        file = generate_docx(data, str(exhibit_data['case_id'])+'-'+data['bagNumber'])  # create file binary stream
+        resp = FileResponse(file, as_attachment=True, filename= str(exhibit_data['case_id'])+'-'+data['bagNumber'] + '.docx')  # create return resp with file
+        return resp
+    return JsonResponse("Not POST Request", safe=False)
+
+# { this function takes a json with these parameters
+#   "labName": "",
+#   "dateCreated": "",
+#   "phoneNumber": "",
+# 	"recipient": "",
+#   "urgency": "",
+#  	"hazards": ,
+#   "exhibits": "",
+#   "unit": "",
+#   "referenceType": "",
+# 	"bagNumber": "",
+# 	"testingEssense": "",
+#   "notes": "",
+#   "senderName": "",
+#   "senderRank": "",
+#   "senderSerialNumber": "" ,
+# 	"internalNumber": ""
+#     }

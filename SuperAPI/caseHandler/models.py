@@ -19,7 +19,7 @@ class Case(models.Model):
 
 class Exhibits(models.Model):
     exhibit_description = models.CharField(max_length=256)
-    case_id = models.IntegerField(primary_key=True)
-    bag_number = models.PositiveIntegerField()
+    case_id = models.IntegerField()
+    bag_number = models.PositiveIntegerField(primary_key=True)
     exhibits_packaging = models.CharField(max_length=256)
     exhibits_mark = models.CharField(max_length=256)
