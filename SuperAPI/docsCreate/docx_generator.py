@@ -62,7 +62,7 @@ def generate_docx(args, file_name):
     doc.tables[0].rows[1].cells[0].paragraphs[5].runs[0].text = args["exhibitsPackaging"]
     doc.tables[0].rows[1].cells[0].paragraphs[7].runs[0].text = args["exhibitsMark"]
     doc.tables[0].rows[1].cells[0].paragraphs[9].runs[0].text = args["eventDescription"]
-    doc.tables[0].rows[1].cells[0].paragraphs[11].runs[0].text = args["testingEssense"]
+    doc.tables[0].rows[1].cells[0].paragraphs[11].runs[0].text = args["testingEssence"]
     doc.tables[0].rows[1].cells[0].paragraphs[13].runs[0].text = args["notes"]
     doc.tables[0].rows[1].cells[0].paragraphs[14].runs[1].text = args["senderName"]
     doc.tables[0].rows[1].cells[0].paragraphs[14].runs[3].text = args["senderRank"]
@@ -92,7 +92,7 @@ def main():
         "exhibitsPackaging": "ארוז עם פס",
         "exhibitsMark": "פס אדום",
         "eventDescription": "מצאנו חפץ חשוד",
-        "testingEssense": "אין לי מושג למה בדקנו את זה",
+        "testingEssence": "אין לי מושג למה בדקנו את זה",
         "notes": "שלום",
         "senderName": "בר שפר",
         "senderRank": "סמל",

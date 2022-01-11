@@ -1,8 +1,8 @@
 {
-    "lab_name":"TEXT",
-    "date_created": "DD/MM/YYYY",
-    "phone_number": "TEXT",
-    "inside_lab": "NNN/YYYY",
+    "labName":"TEXT",
+    "dateCreated": "DD/MM/YYYY",
+    "phoneNumber": "TEXT",
+    "internalNumber": "NNN/YYYY",
     "recipient": "TEXT",
     "urgency": "normal/urgent/urgent_arrest",
     "hazards": ["biological","toxic","sharp","The first three are the only options, not all of them have to appear"],
