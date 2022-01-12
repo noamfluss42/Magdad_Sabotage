@@ -16,7 +16,6 @@ CHECKBOX_PATH = './w:fldChar/w:ffData/w:checkBox'
 
 
 def generate_docx(args, file_name):
-    print('no man here')
     file_derectory = os.path.join(os.path.dirname(__file__),'..')
     doc = docx.Document(os.getcwd()+'\\docsCreate\\template.docx')#get  directory of template docx
     doc.paragraphs[0].runs[0].text = args["labName"]

@@ -82,11 +82,11 @@ def downloadFile(request):
     if request.method == 'GET':
         docx_data = request.GET.dict()
         file = generate_docx(docx_data, 'temp.docx')  # create file binary stream
-        print('into the unkown')
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
 @csrf_exempt
+# I think we can delete that.
 def downloadFileParam(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
