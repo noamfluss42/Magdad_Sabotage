@@ -10,7 +10,7 @@ urlpatterns=[
     url(r'^case/([0-9]+)$',views.caseApi),
     url(r'^exhibits/$', views.exhibitsApi),
     url(r'^exhibits/([0-9]+)$', views.exhibitsApi),
-    url(r'^img/$', views.downloadFileParam),
-    url(r'^img/([0-9]+)$', views.downloadFile)
+    # url(r'^img/$', views.downloadFileParam),
+    url(r'^img', views.downloadFile)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

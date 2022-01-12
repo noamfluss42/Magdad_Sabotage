@@ -80,9 +80,10 @@ def exhibitsApi(request, bag_number=""):
 @csrf_exempt
 def downloadFile(request):
     if request.method == 'GET':
-        img_data = JSONParser().parse(request)
-        file = generate_docx(img_data, img_data['filename'])  # create file binary stream
-        resp = FileResponse(file, as_attachment=True, filename=img_data['filename'] + '.docx')  # create return resp with file
+        docx_data = request.GET.dict()
+        file = generate_docx(docx_data, 'temp.docx')  # create file binary stream
+        print('into the unkown')
+        resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
 @csrf_exempt

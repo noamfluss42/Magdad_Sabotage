@@ -15,7 +15,7 @@
     "exhibitsPackaging": "TEXT",
     "exhibitsMark": "TEXT",
     "eventDescription": "TEXT",
-    "testingEssense": "TEXT",
+    "testingEssence": "TEXT",
     "notes": "TEXT",
     "senderName": "TEXT",
     "senderRank": "TEXT",
