@@ -22,14 +22,14 @@ export class RegisterExhibitFieldsService {
       }),
 
       new TextboxField({
-        key: 'pack',
+        key: 'exhibitsPackaging',
         label: 'אריזה',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'mark',
+        key: 'exhibitsMark',
         label: 'סימון',
         required: true,
         type: 'text',
