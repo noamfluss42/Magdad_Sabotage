@@ -12,7 +12,6 @@ export class RegisterExhibitScreenComponent implements OnInit {
 
   constructor(service:RegisterExhibitFieldsService) {
     this.fields$ = service.getQuestions();
-
   }
 
   ngOnInit(): void {
