@@ -125,25 +125,25 @@ export class OpenCaseFieldsService {
         type: 'text',
       }),
       new TextboxField({
-        key:'senderName',
+        key: 'senderName',
         label: 'שם ',
         required: true,
         type: 'text',
       }),
       new TextboxField({
-        key:'senderRank',
+        key: 'senderRank',
         label: 'דרגה ',
         required: true,
         type: 'text',
-    }),
+      }),
       new TextboxField({
-        key:'senderName',
-        label: 'שם ',
+        key: 'senderSerialNumber',
+        label: "מס' אישי ",
         required: true,
         type: 'text',
       }),
       new DropdownField({
-        key:'labName',
+        key: 'labName',
         label: 'שם מעבדה ',
         options: [
           { key: 'מעבדת חבלה דרום', value: 'מעבדת חבלה דרום' },
@@ -154,7 +154,7 @@ export class OpenCaseFieldsService {
       }),
 
       new TextboxField({
-        key:'phoneNumber',
+        key: 'phoneNumber',
         label: 'מספר טלפון ',
         required: true,
         type: 'text',

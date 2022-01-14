@@ -1,4 +1,3 @@
-export class Constants
-{
+export class Constants {
   static readonly API_URL = 'http://localhost:8000';
 }
