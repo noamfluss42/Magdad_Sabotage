@@ -23,6 +23,7 @@ import { RegisterExhibitFieldsService } from './core/services/register-exhibit-f
 import { GenLabFormFieldsService } from './core/services/gen-lab-form-fields.service';
 import { MatCheckboxModule } from '@angular/Material/checkbox'
 import { SharedDataService } from './core/services/shared-data.service';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 @NgModule({
   imports: [
     BrowserModule,
@@ -38,8 +39,9 @@ import { SharedDataService } from './core/services/shared-data.service';
     AppRoutingModule,
     MatGridListModule,
     MatSelectModule,
-    MatCheckboxModule
-    
+    MatCheckboxModule,
+    MatProgressBarModule,
+
   ],
 
   declarations: [

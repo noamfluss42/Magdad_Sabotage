@@ -36,7 +36,7 @@ export class GenLabFormFieldsService {
         ],
       }),
 
-      new DropdownField({
+      new CheckboxField({
         key: 'hazards',
         label: 'סיכונים',
         options: [

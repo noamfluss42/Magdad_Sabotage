@@ -1,10 +1,9 @@
-<div>
-  <nav>
-    <ul>
-      <li><a routerLink="/">Case</a></li>
-      <li><a routerLink="/registerExhibit">Register</a></li>
-      <li><a routerLink="/genLabForm">Generate docx</a></li>
-    </ul>
-  </nav>
-</div>
-<router-outlet></router-outlet>
+<router-outlet>
+<mat-toolbar color="primary">
+  <span>ניהול יומן תיק</span>
+  <div class="spacer"></div>
+   <a mat-button routerLink="/">Case</a>
+   <a mat-button routerLink="/registerExhibit">Exhibit</a>
+   <a mat-button routerLink="/genLabForm" >Generate docx</a>
+ </mat-toolbar>
+</router-outlet>

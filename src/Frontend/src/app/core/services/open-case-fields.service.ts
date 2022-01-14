@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { TextboxField } from '../utils/field-textbox';
 import { FormFieldBase } from '../utils/form-field-base';
 import { DropdownField } from '../utils/field-dropdown';
-//TODO: fetch fields from enum
 
 import { of } from 'rxjs';
 
 @Injectable()
 export class OpenCaseFieldsService {
-  // TODO: get from a remote source of question metadata
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new DropdownField({
@@ -165,4 +163,12 @@ export class OpenCaseFieldsService {
 
     return of(questions.sort((a, b) => a.order - b.order));
   }
+  //! impleamation of the getting internal number to register exhibit service SOMEHOW?
+  // getInternalNumber() {
+  //   this.getQuestions().forEach(element => {
+  //     if (element[0].key === 'internalNumber') {
+  //       return element[0].value;
+  //     }
+  //   });
+  // }
 }

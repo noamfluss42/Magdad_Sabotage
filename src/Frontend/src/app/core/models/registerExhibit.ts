@@ -5,7 +5,9 @@ import { TextboxField } from "../utils/field-textbox";
 
 export interface RegisterExhibitFields
 {
+  "internalNumber":string;
   "bagNumber":string;
+  "caseNumber":string;
   "ExhibitDescription":string;
   "pack":string;
   "mark":string;

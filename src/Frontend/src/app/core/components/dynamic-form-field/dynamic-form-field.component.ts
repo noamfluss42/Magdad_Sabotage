@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { FormFieldBase } from '../../utils/form-field-base';
@@ -7,12 +7,11 @@ import { FormFieldBase } from '../../utils/form-field-base';
   templateUrl: './dynamic-form-field.component.html',
   styleUrls: ['../../../styles/dynamic-form-field.component.css'],
 })
-export class DynamicFormFieldComponent{
-
-  constructor() { }
+export class DynamicFormFieldComponent {
+  constructor() {}
   @Input() field!: FormFieldBase<string>;
   @Input() form!: FormGroup;
-  get isValid() { return this.form.controls[this.field.key].valid;
-
-}
+  get isValid() {
+    return this.form.controls[this.field.key].valid;
+  }
 }

@@ -19,12 +19,25 @@
       <!-- <ng-container
       <!-- *ngSwitchCase="'checkbox'"
       [formControlName]="field.key"
-      [id]="field.key" 
+      [id]="field.key"
       *ngFor="let opt of field.options" [value]="opt.key">
         {{ opt.value }}
     ></mat-checkbox> -->
+        <span *ngSwitchCase="'checkbox'" >
+          <ul >
+            <li *ngFor="let checkbox of field.options">
+              <mat-checkbox
+              [id]="field.key"
+              [formControlName]="field.key"
+              
+              >
+              {{checkbox.value}}
+            </mat-checkbox>
+            </li>
+          </ul>
 
 
+      </span>
 
 
     <mat-select
