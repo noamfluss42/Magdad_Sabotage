@@ -1,20 +1,21 @@
-<div [formGroup]="form" >
-  <mat-label [attr.for]="field.key">{{  field.label  }}   </mat-label>
+<div [formGroup]="form">
+  <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
   <mat-form-field appearance="fill">
-  <div [ngSwitch]="field.controlType">
-    <input
-      matInput
-      *ngSwitchCase="'textbox'"
-      [formControlName]="field.key"
-      [id]="field.key"
-      [type]="field.type"
-    />
-    <textarea
-      matInput
-      *ngSwitchCase="'textarea'"
-      [formControlName]="field.key"
-      [id]="field.key"
-      [type]="field.type"
+    <div [ngSwitch]="field.controlType">
+      <input
+        matInput
+        *ngSwitchCase="'textbox'"
+        [formControlName]="field.key"
+        [id]="field.key"
+        [type]="field.type"
+      />
+
+      <textarea
+        matInput
+        *ngSwitchCase="'textarea'"
+        [formControlName]="field.key"
+        [id]="field.key"
+        [type]="field.type"
       ></textarea>
       <!-- <ng-container
       <!-- *ngSwitchCase="'checkbox'"
@@ -23,32 +24,25 @@
       *ngFor="let opt of field.options" [value]="opt.key">
         {{ opt.value }}
     ></mat-checkbox> -->
-        <span *ngSwitchCase="'checkbox'" >
-          <ul >
-            <li *ngFor="let checkbox of field.options">
-              <mat-checkbox
-              [id]="field.key"
-              [formControlName]="field.key"
-              
-              >
-              {{checkbox.value}}
+      <span *ngSwitchCase="'checkbox'">
+        <ul>
+          <li *ngFor="let checkbox of field.options">
+            <mat-checkbox [id]="field.key" [formControlName]="field.key">
+              {{ checkbox.value }}
             </mat-checkbox>
-            </li>
-          </ul>
-
-
+          </li>
+        </ul>
       </span>
 
-
-    <mat-select
-      [id]="field.key"
-      *ngSwitchCase="'dropdown'"
-      [formControlName]="field.key"
-    >
-      <mat-option *ngFor="let opt of field.options" [value]="opt.key">
-        {{ opt.value }}
-      </mat-option>
-    </mat-select>
-  </div>
-</mat-form-field>
+      <mat-select
+        [id]="field.key"
+        *ngSwitchCase="'dropdown'"
+        [formControlName]="field.key"
+      >
+        <mat-option *ngFor="let opt of field.options" [value]="opt.key">
+          {{ opt.value }}
+        </mat-option>
+      </mat-select>
+    </div>
+  </mat-form-field>
 </div>
