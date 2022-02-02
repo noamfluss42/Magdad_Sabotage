@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { FieldControlService } from '../../services/field-control.service';
 import { FormFieldBase } from '../../utils/form-field-base';
 import { OpenCaseDataService } from '../../services/open-case-data.service';
@@ -20,8 +20,14 @@ export class DynamicFormComponent implements OnInit {
     private fcs: FieldControlService,
     private router: Router,
     private openCaseData: OpenCaseDataService,
-    private sharedData: SharedDataService
-  ) {}
+    private sharedData: SharedDataService,
+    private fb: FormBuilder,
+  ) {
+      this.form = this.fb.group({
+        fields: this.fields
+      });
+
+  }
   ngOnInit(): void {
     this.form = this.fcs.toFormGroup(this.fields as FormFieldBase<string>[]);
   }

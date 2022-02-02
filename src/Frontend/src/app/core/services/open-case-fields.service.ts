@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TextboxField } from '../utils/field-textbox';
 import { FormFieldBase } from '../utils/form-field-base';
 import { DropdownField } from '../utils/field-dropdown';
-
+import {DatePickerField} from '../utils/field-datepicker';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -94,23 +94,24 @@ export class OpenCaseFieldsService {
         type: 'text',
       }),
 
-      new TextboxField({
+      new DatePickerField({
         key: 'eventDate',
         label: 'תאריך אירוע',
         required: true,
         type: 'text',
       }),
-      new TextboxField({
+      new DatePickerField({
         key: 'ReceivedDate',
         label: 'תאריך קבלה',
         required: true,
         type: 'text',
       }),
-      new TextboxField({
+      new DatePickerField({
         key: 'signDate',
         label: 'תאריך הזנה',
         required: true,
         type: 'text',
+
       }),
       new TextboxField({
         key: 'eventLocation',

@@ -23,7 +23,8 @@ import { GenLabFormFieldsService } from './core/services/gen-lab-form-fields.ser
 import { OpenCaseFieldsService } from './core/services/open-case-fields.service';
 import { RegisterExhibitFieldsService } from './core/services/register-exhibit-fields.service';
 import { SharedDataService } from './core/services/shared-data.service';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 @NgModule({
   imports: [
     BrowserModule,
@@ -41,6 +42,8 @@ import { SharedDataService } from './core/services/shared-data.service';
     MatSelectModule,
     MatCheckboxModule,
     MatProgressBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
 
   declarations: [
@@ -57,6 +60,9 @@ import { SharedDataService } from './core/services/shared-data.service';
     RegisterExhibitFieldsService,
     GenLabFormFieldsService,
     SharedDataService,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
   ],
 })
 export class AppModule {
