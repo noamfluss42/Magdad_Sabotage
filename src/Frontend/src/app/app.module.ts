@@ -25,6 +25,8 @@ import { RegisterExhibitFieldsService } from './core/services/register-exhibit-f
 import { SharedDataService } from './core/services/shared-data.service';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MainScreenComponent } from './pages/main-screen/main-screen.component';
+import {MatStepperModule} from '@angular/material/stepper';
 @NgModule({
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatStepperModule
   ],
 
   declarations: [
@@ -53,6 +56,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     RegisterExhibitDynamicFormComponent,
     routingComponents,
     GenLabDynamicFormComponent,
+    MainScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
@@ -62,7 +66,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     SharedDataService,
     MatDatepickerModule,
     MatNativeDateModule,
-
+    
   ],
 })
 export class AppModule {
