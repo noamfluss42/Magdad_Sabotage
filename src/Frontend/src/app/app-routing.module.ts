@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OpenCaseScreenComponent } from './pages/open-case-screen/open-case-screen.component';
 import { RegisterExhibitScreenComponent } from './pages/register-exhibit-screen/register-exhibit-screen.component';
 import { GenLabFormScreenComponent } from './pages/gen-lab-form-screen/gen-lab-form-screen.component';
+import { EditExhibitScreenComponent } from './pages/edit-exhibit-screen/edit-exhibit-screen.component';
 const routes: Routes = [
   {
     path: 'case',
@@ -16,6 +17,10 @@ const routes: Routes = [
     path: 'genLabForm',
     component: GenLabFormScreenComponent,
   },
+  {
+    path: 'editExhibit',
+    component: EditExhibitScreenComponent,
+  },
   { path: '', redirectTo: '/case', pathMatch: 'full' },
 ];
 @NgModule({
@@ -27,4 +32,5 @@ export const routingComponents = [
   OpenCaseScreenComponent,
   RegisterExhibitScreenComponent,
   GenLabFormScreenComponent,
+  EditExhibitScreenComponent,
 ];

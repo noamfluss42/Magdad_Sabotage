@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DynamicFormFieldComponent } from './core/components/dynamic-form-field/dynamic-form-field.component';
+import { EditExhibitDynamicFormComponent } from './core/components/edit-exhibit-dynamic-form/edit-exhibit-dynamic-form.component';
 import { GenLabDynamicFormComponent } from './core/components/gen-lab-dynamic-form/gen-lab-dynamic-form.component';
 import { DynamicFormComponent } from './core/components/openCase-dynamic-form/dynamic-form.component';
 import { RegisterExhibitDynamicFormComponent } from './core/components/register-exhibit-dynamic-form/register-exhibit-dynamic-form.component';
@@ -50,6 +51,7 @@ import { SharedDataService } from './core/services/shared-data.service';
     RegisterExhibitDynamicFormComponent,
     routingComponents,
     GenLabDynamicFormComponent,
+    EditExhibitDynamicFormComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

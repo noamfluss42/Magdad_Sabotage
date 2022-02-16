@@ -1,0 +1,21 @@
+<div>
+  <h1>עריכת מוצג</h1>
+  <div *ngIf="data; then editExhibit; else getExhibit"></div>
+  <ng-template #editExhibit>
+    <app-edit-exhibit-dynamic-form
+      [fields]="fields$ | async"
+      [exhibitData]="data"
+    ></app-edit-exhibit-dynamic-form>
+  </ng-template>
+  <ng-template #getExhibit>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <app-dynamic-form-field
+        [field]="field$"
+        [form]="form"
+      ></app-dynamic-form-field>
+      <div class="form-row">
+        <button type="submit" [disabled]="!form.valid">Get Exhibit</button>
+      </div>
+    </form>
+  </ng-template>
+</div>

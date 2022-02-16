@@ -24,6 +24,7 @@ export class RegisterExhibitDynamicFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.fields);
     this.form = this.fcs.toFormGroup(this.fields as FormFieldBase<string>[]);
   }
   onSubmit() {
