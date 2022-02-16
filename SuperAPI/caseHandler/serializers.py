@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from caseHandler.models import Case
+from caseHandler.models import Exhibits
 
 class CaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,3 +19,7 @@ class CaseSerializer(serializers.ModelSerializer):
                    "signDate",
                    "eventLocation",
                    "eventDescription")
+class ExhibitsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exhibits
+        fields = ('exhibit_description', 'bag_number', 'exhibits_packaging', 'exhibits_mark', 'case_id')
