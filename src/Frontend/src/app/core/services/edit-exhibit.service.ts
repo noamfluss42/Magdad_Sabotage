@@ -32,4 +32,18 @@ export class EditExhibitService {
       }
     );
   }
+
+  postExhibit(data: any) {
+    const body = {
+      bag_number: data.bagNumber,
+      case_id: data.caseId,
+      exhibit_description: data.exhibitDescription,
+      exhibits_packaging: data.exhibitsPackaging,
+      exhibits_mark: data.exhibitsMark,
+    };
+    return this.http.post<any>(`${Constants.API_URL}/registerExhibit`, body, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      responseType: 'json',
+    });
+  }
 }
