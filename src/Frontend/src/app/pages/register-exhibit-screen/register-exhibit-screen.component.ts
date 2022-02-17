@@ -5,17 +5,14 @@ import { RegisterExhibitFieldsService } from 'src/app/core/services/register-exh
 @Component({
   selector: 'app-register-exhibit-screen',
   templateUrl: './register-exhibit-screen.component.html',
-  styleUrls: ['./register-exhibit-screen.component.css']
+  styleUrls: ['./register-exhibit-screen.component.css'],
 })
 export class RegisterExhibitScreenComponent implements OnInit {
   fields$: Observable<FormFieldBase<any>[]>;
 
-  constructor(service:RegisterExhibitFieldsService) {
+  constructor(service: RegisterExhibitFieldsService) {
     this.fields$ = service.getQuestions();
   }
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 }

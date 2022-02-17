@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
+import { EditExhibitService } from '../../services/edit-exhibit.service';
 import { FieldControlService } from '../../services/field-control.service';
 import { RegisterExhibitDataService } from '../../services/register-exhibit-data.service';
 import { SharedDataService } from '../../services/shared-data.service';
@@ -21,6 +22,7 @@ export class RegisterExhibitDynamicFormComponent implements OnInit {
     private red: RegisterExhibitDataService,
     private sharedData: SharedDataService,
     private router: Router,
+    private service: EditExhibitService,
     private fb: FormBuilder,
   ) {
     this.form = this.fb.group({
@@ -30,12 +32,15 @@ export class RegisterExhibitDynamicFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.fields);
     this.form = this.fcs.toFormGroup(this.fields as FormFieldBase<string>[]);
   }
   onSubmit() {
     const formRawValue = this.form.getRawValue();
+    this.service.postExhibit(this.form.getRawValue()).subscribe((res) => {
+      this.payLoad = res.toString();
+    });
     this.sharedData.addToData(formRawValue);
-    this.payLoad = JSON.stringify(formRawValue);
     this.router.navigate(['/genLabForm']);
   }
 }
