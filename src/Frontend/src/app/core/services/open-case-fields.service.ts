@@ -22,6 +22,14 @@ export class OpenCaseFieldsService {
           { key: 'פח"ע', value: 'פח"ע' },
         ],
       }),
+      new DropdownField({
+        key: 'receivedOrGO',
+        label: 'יציאה/קבלה',
+        options: [
+          { key: 'יציאה לאירוע', value: 'יציאה לאירוע' },
+          { key: 'קבלת אירוע', value: 'קבלת אירוע' },
+          ],
+          }),
 
       new DropdownField({
         key: 'district',
@@ -100,12 +108,14 @@ export class OpenCaseFieldsService {
         required: true,
         type: 'text',
       }),
+
       new DatePickerField({
         key: 'ReceivedDate',
         label: 'תאריך קבלה',
         required: true,
         type: 'text',
       }),
+
       new DatePickerField({
         key: 'signDate',
         label: 'תאריך הזנה',
@@ -113,36 +123,42 @@ export class OpenCaseFieldsService {
         type: 'text',
 
       }),
+
       new TextboxField({
         key: 'eventLocation',
         label: 'מקום האירוע',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'eventDescription',
         label: 'תיאור האירוע',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'senderName',
         label: 'שם ',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'senderRank',
         label: 'דרגה ',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'senderSerialNumber',
         label: "מס' אישי ",
         required: true,
         type: 'text',
       }),
+
       new DropdownField({
         key: 'labName',
         label: 'שם מעבדה ',
