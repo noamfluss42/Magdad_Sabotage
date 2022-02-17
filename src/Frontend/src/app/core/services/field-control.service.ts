@@ -9,7 +9,7 @@ export class FieldControlService {
   constructor() { }
   toFormGroup(questions: FormFieldBase<string>[] ) {
     const group: any = {};
-
+    
     questions.forEach(question => {
       group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
                                               : new FormControl(question.value || '');

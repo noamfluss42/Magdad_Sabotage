@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TextboxField } from '../utils/field-textbox';
 import { FormFieldBase } from '../utils/form-field-base';
 import { DropdownField } from '../utils/field-dropdown';
-
+import {DatePickerField} from '../utils/field-datepicker';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -22,6 +22,14 @@ export class OpenCaseFieldsService {
           { key: 'פח"ע', value: 'פח"ע' },
         ],
       }),
+      new DropdownField({
+        key: 'receivedOrGO',
+        label: 'יציאה/קבלה',
+        options: [
+          { key: 'יציאה לאירוע', value: 'יציאה לאירוע' },
+          { key: 'קבלת אירוע', value: 'קבלת אירוע' },
+          ],
+          }),
 
       new DropdownField({
         key: 'district',
@@ -94,54 +102,63 @@ export class OpenCaseFieldsService {
         type: 'text',
       }),
 
-      new TextboxField({
+      new DatePickerField({
         key: 'eventDate',
         label: 'תאריך אירוע',
         required: true,
         type: 'text',
       }),
-      new TextboxField({
+
+      new DatePickerField({
         key: 'ReceivedDate',
         label: 'תאריך קבלה',
         required: true,
         type: 'text',
       }),
-      new TextboxField({
+
+      new DatePickerField({
         key: 'signDate',
         label: 'תאריך הזנה',
         required: true,
         type: 'text',
+
       }),
+
       new TextboxField({
         key: 'eventLocation',
         label: 'מקום האירוע',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'eventDescription',
         label: 'תיאור האירוע',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'senderName',
         label: 'שם ',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'senderRank',
         label: 'דרגה ',
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'senderSerialNumber',
         label: "מס' אישי ",
         required: true,
         type: 'text',
       }),
+
       new DropdownField({
         key: 'labName',
         label: 'שם מעבדה ',

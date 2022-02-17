@@ -1,3 +1,4 @@
+
 *{
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -8,7 +9,6 @@ h1 {
   text-align:center;
 }
 h2, h3 {
-  padding: 20px;
   color: #444;
   font-weight: lighter;
 }
@@ -20,6 +20,11 @@ body {
   max-width: 1000px;
   margin: 10px auto;
 }
+@media (min-width: 600px) {
+  body {
+    padding: 4rem;
+  }
+}
 body, input[text] {
   color: #333;
   font-family: Cambria, Georgia, serif;
@@ -27,24 +32,30 @@ body, input[text] {
 a {
   cursor: pointer;
 }
+button {
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: black;
+  font-size: 1.2rem;
+  padding: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
 button:hover {
   background-color: black;
   color: white;
 }
-/* Navigation link styles */
-nav a {
-  padding: 5px 15px;
-  text-decoration: none;
-  margin-right: 10px;
-  margin-top: 10px;
-  display: inline-block;
-  background-color: #e8e8e8;
-  color: #3d3d3d;
-  border-radius: 12px;
+button:disabled {
+  background-color: #eee;
+  color: #aaa;
+  cursor: auto;
 }
-:host {
-  display: flex;
-  align-items: flex-start;
-  text-align: left;
-  direction: ltr;
+div{
+  margin:auto;
+  width:50%;
+  border:3px;
+  padding:10px;
 }

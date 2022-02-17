@@ -1,18 +1,26 @@
-<div DIR="auto">
-  <form (ngSubmit)="onSubmit()" [formGroup]="form">
-    <div *ngFor="let field of fields" class="form-row">
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" >
+    <mat-grid-list  DIR="auto" cols="3" rowHeight="100px">
+    <mat-grid-tile *ngFor="let field of fields" >
       <app-dynamic-form-field
         [field]="field"
         [form]="form"
       ></app-dynamic-form-field>
-    </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div DIR="auto" class="form-row">
+        <!-- [disabled]="!form.valid" -->
+    <button
+    mat-raised-button
+    type="submit"
+    color="primary"
 
-    <div class="form-row">
-      <button type="submit" [disabled]="!form.valid">Save</button>
-    </div>
+  >הבא</button>
+  </div>
+
   </form>
 
   <!-- <div *ngIf="payLoad" class="form-row">
     <strong>Saved the following values</strong><br>{{payLoad}}
    </div> -->
-</div>
+

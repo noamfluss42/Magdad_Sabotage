@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 import { EditExhibitService } from '../../services/edit-exhibit.service';
 import { FieldControlService } from '../../services/field-control.service';
@@ -22,8 +22,14 @@ export class RegisterExhibitDynamicFormComponent implements OnInit {
     private red: RegisterExhibitDataService,
     private sharedData: SharedDataService,
     private router: Router,
-    private service: EditExhibitService
-  ) {}
+    private service: EditExhibitService,
+    private fb: FormBuilder,
+  ) {
+    this.form = this.fb.group({
+      fields: this.fields
+    });
+
+  }
 
   ngOnInit(): void {
     console.log(this.fields);

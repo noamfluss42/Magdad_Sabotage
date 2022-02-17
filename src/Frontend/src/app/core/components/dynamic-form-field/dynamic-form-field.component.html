@@ -1,54 +1,49 @@
-<div [formGroup]="form" >
-  <mat-label [attr.for]="field.key">{{  field.label  }}   </mat-label>
-  <mat-form-field appearance="fill">
-  <div [ngSwitch]="field.controlType">
+<div class="dynamic-form" [ngSwitch]="field.controlType" [formGroup]="form">
+  <mat-form-field appearance="fill" *ngSwitchCase="'textbox'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
     <input
       matInput
-      *ngSwitchCase="'textbox'"
       [formControlName]="field.key"
       [id]="field.key"
       [type]="field.type"
     />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngSwitchCase="'datepicker'">
+    <mat-label [attr.for]="field.key">{{ field.label }}</mat-label>
+    <input matInput [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngSwitchCase="'textarea'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
     <textarea
       matInput
-      *ngSwitchCase="'textarea'"
       [formControlName]="field.key"
       [id]="field.key"
       [type]="field.type"
-      ></textarea>
-      <!-- <ng-container
-      <!-- *ngSwitchCase="'checkbox'"
-      [formControlName]="field.key"
+    >
+    </textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngSwitchCase="'checkbox'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
+    <mat-checkbox
+      *ngFor="let checkbox of field.options"
       [id]="field.key"
-      *ngFor="let opt of field.options" [value]="opt.key">
-        {{ opt.value }}
-    ></mat-checkbox> -->
-        <span *ngSwitchCase="'checkbox'" >
-          <ul >
-            <li *ngFor="let checkbox of field.options">
-              <mat-checkbox
-              [id]="field.key"
-              [formControlName]="field.key"
-              
-              >
-              {{checkbox.value}}
-            </mat-checkbox>
-            </li>
-          </ul>
-
-
-      </span>
-
-
-    <mat-select
-      [id]="field.key"
-      *ngSwitchCase="'dropdown'"
       [formControlName]="field.key"
     >
+      {{ checkbox.value }}
+    </mat-checkbox>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngSwitchCase="'dropdown'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
+    <mat-select matInput [id]="field.key" [formControlName]="field.key">
       <mat-option *ngFor="let opt of field.options" [value]="opt.key">
         {{ opt.value }}
       </mat-option>
     </mat-select>
-  </div>
-</mat-form-field>
+  </mat-form-field>
 </div>
