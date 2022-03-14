@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Case(models.Model):
+    class Meta:
+        unique_together = (('internalNumber', 'ReceivedDate'),)
     referenceType = models.CharField(max_length=100)
     eventType = models.CharField(max_length=100)
     district = models.CharField(max_length=100)
