@@ -26,20 +26,17 @@ export class EditExhibitScreenComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // This function will run once the bag_number is submitted, then the forms will change
+  // this can be seen in the html template.s
   onSubmit(): void {
     if (!this.form.getRawValue()?.bag_number) return;
-    // this.service
-    //   .getExhibit(this.form.getRawValue().bagNumber)
-    //   .subscribe((x: any) => (this.data = x));
-    this.data = {
-      bag_number: '12345',
-      exhibit_mark: '12345',
-      exhibit_packaging: '12345',
-      case_id: '12345',
-      exhibit_description: 'test',
-    };
+    this.service
+      .getExhibit(this.form.getRawValue().bagNumber)
+      .subscribe((x: any) => (this.data = x));
   }
 
+  // Will be called after child form initializes, will fill the form with data
+  // That have been returned from the server.
   onFieldsInit = (form: FormGroup): void => {
     form.controls['bag_number'].setValue(this.data.bag_number);
     form.controls['bag_number'].disable();
@@ -51,6 +48,9 @@ export class EditExhibitScreenComponent implements OnInit {
     );
   };
 
+  // Will be called after child form submitted
+  // Function must be defined as arrow function otherwise 'this' keyword will refer to
+  // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onChildSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     this.service.editExhibit(form.getRawValue()).subscribe((res: any) => {
       cb(res);

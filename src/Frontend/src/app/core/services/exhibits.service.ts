@@ -14,12 +14,14 @@ export class ExhibitsService {
 
   constructor(private http: HttpClient) {}
 
+  /* GET: get exhibit by bag_number from the server */
   getExhibit(bag_number: string) {
     return this.http.get(`${this.exhibitsURL}/${bag_number}`, {
       responseType: 'json',
     });
   }
 
+  /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
     return this.http.put<any>(
       `${this.exhibitsURL}/${exhibit.bag_number}`,
@@ -31,6 +33,7 @@ export class ExhibitsService {
     );
   }
 
+  /* POST: add new exhibit to the server */
   postExhibit(exhibit: Exhibit) {
     return this.http.post<any>(`${Constants.API_URL}/exhibits`, exhibit, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),

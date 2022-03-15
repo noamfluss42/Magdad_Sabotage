@@ -18,9 +18,9 @@ export class CasesService {
     return this.http.get<Case[]>(this.caseURL);
   }
 
-  /* POSTL: add new Case do database */
+  /* POST: add new Case do database */
 
-  // In Typescript 'case' is an illegal parameter name, therfore we use 'case
+  // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
   postCase(case_: Case): Observable<Case> {
     return this.http.post<Case>(this.caseURL, case_, {
       headers: new HttpHeaders({
@@ -36,6 +36,7 @@ export class CasesService {
     return this.http.get<Case[]>(this.caseURL, options);
   }
 
+  /* DELETE: delete case by id on the server.*/
   deleteCase(id: number): Observable<unknown> {
     return this.http.delete(`${this.caseURL}/${id}`);
   }

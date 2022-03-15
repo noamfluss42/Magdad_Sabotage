@@ -22,6 +22,9 @@ export class GenLabFormScreenComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // will be called after child form submits.
+  // Function must be defined as arrow function otherwise 'this' keyword will refer to
+  // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
     this.sharedData.addToData(formRawValue);

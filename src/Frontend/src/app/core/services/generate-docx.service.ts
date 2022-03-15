@@ -9,9 +9,10 @@ import { saveAs } from 'file-saver';
 export class GenerateDocxService {
   constructor(private http: HttpClient) {}
 
+  // send the documents parameters to the server and retrive a file.
   downloadDocx(docxData: any) {
     this.http
-      .request('GET', `http://localhost:8000/img`, {
+      .request('GET', `${Constants.API_URL}/img`, {
         responseType: 'blob',
         params: docxData,
       })
