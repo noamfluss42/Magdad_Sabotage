@@ -20,28 +20,10 @@ export class SharedDataService {
   prepareForDocx() {
     this.currentData.pipe(first()).subscribe((data: any) => {
       const docxData = {
-        labName: data['labName'],
-        dateCreated: getCurrentDate(),
-        phoneNumber: data['phoneNumber'],
-        internalNumber: `${data['internalNumber']}/${data['internalNumberyear']}`,
-        recipient: data['recipient'],
-        urgency: data['urgency'],
-        hazards: data['hazards'],
-        exhibits: data['exhibits'],
-        unit: data['InvestigatingUnit'],
-        referenceType: data['referenceType'],
-        referenceNumber: data['referenceNumber'],
-        bagNumber: data['bagNumber'],
-        exhibitDescription: data['exhibitDescription'],
-        exhibitsPackaging: data['exhibitsPackaging'],
-        exhibitsMark: data['exhibitsMark'],
-        eventDescription: data['eventDescription'],
-        testingEssence: data['testingEssence'],
-        notes: data['notes'],
-        senderName: data['senderName'],
-        senderRank: data['senderRank'],
-        senderSerialNumber: data['senderSerialNumber'],
+        ...data,
+        date_created: getCurrentDate(),
       };
+      console.log(docxData);
       this.generateDocxService.downloadDocx(docxData);
     });
   }

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { OpenCaseDataService } from './open-case-data.service';
+import { ExhibitsService } from './exhibits.service';
 
-describe('OpenCaseDataService', () => {
-  let service: OpenCaseDataService;
+describe('ExhibitsService', () => {
+  let service: ExhibitsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(OpenCaseDataService);
+    service = TestBed.inject(ExhibitsService);
   });
 
   it('should be created', () => {

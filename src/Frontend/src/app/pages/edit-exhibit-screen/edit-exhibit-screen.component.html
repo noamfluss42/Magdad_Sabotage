@@ -2,10 +2,12 @@
   <h1>עריכת מוצג</h1>
   <div *ngIf="data; then editExhibit; else getExhibit"></div>
   <ng-template #editExhibit>
-    <app-edit-exhibit-dynamic-form
-      [fields]="fields$ | async"
-      [exhibitData]="data"
-    ></app-edit-exhibit-dynamic-form>
+    <app-dynamic-form
+      [fields]="fields$"
+      buttonText="ערוך"
+      [onSubmit]="onChildSubmit"
+      [onInit]="onFieldsInit"
+    ></app-dynamic-form>
   </ng-template>
   <ng-template #getExhibit>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">

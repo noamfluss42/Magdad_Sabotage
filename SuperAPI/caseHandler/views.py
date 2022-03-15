@@ -35,7 +35,7 @@ def caseApi(request, case_name=""):
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
-        department = Case.objects.get(internalNumber=department_data['internalNumber'])
+        department = Case.objects.get(internal_number=department_data['internal_number'])
         department_serializer = CaseSerializer(department, data=department_data)
         if department_serializer.is_valid():
             department_serializer.save()
@@ -43,10 +43,9 @@ def caseApi(request, case_name=""):
         return JsonResponse("Failed to Update.", safe=False)
 
     elif request.method == 'DELETE':
-        department = Case.objects.get(internalNumber=case_name)
+        department = Case.objects.get(internal_number=case_name)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
-
 
 @csrf_exempt
 def exhibitsApi(request, bag_number=""):
@@ -58,8 +57,10 @@ def exhibitsApi(request, bag_number=""):
         exhibits_data = JSONParser().parse(request)
         department_serializer = ExhibitsSerializer(data=exhibits_data)
         if department_serializer.is_valid():
+            print('INSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\n')
             department_serializer.save()
             return JsonResponse("Added Successfully!!", safe=False)
+        print('outside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\n')
         return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
@@ -81,42 +82,10 @@ def exhibitsApi(request, bag_number=""):
 def downloadFile(request):
     if request.method == 'GET':
         docx_data = request.GET.dict()
-        file = generate_docx(docx_data, 'temp.docx')  # create file binary stream
+        file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
-@csrf_exempt
-# I think we can delete that.
-def downloadFileParam(request):
-    if request.method == 'POST':
-        data = JSONParser().parse(request)
-        try:
-            exhibit = Exhibits.objects.get(bag_number=data['bagNumber'])
-            exhibit_data = ExhibitsSerializer(exhibit).data
-            print("exhibit data :",exhibit_data)
-            data["exhibitDescription"] = exhibit_data['exhibit_description']
-            data["exhibitsPackaging"] = exhibit_data['exhibits_packaging']
-            data["exhibitsMark"] = exhibit_data['exhibits_mark']
-            data["bagNumber"] = exhibit_data['bag_number']
-
-            case_fields = ["eventDescription","referenceNumber"]
-            case = Case.objects.get(internalNumber=exhibit_data['case_id'])
-            case_data = CaseSerializer(case).data
-            case_data = {key: case_data[key] for key in case_fields}#get only essential fields
-            print("case data :", dict(case_data))
-            data.update(case_data)
-            print("Data",data)
-        except Exception as e:
-            print("ERROR",e)
-            return JsonResponse("case id not found", safe=False)
-        print("DATAAAAAAA\n",data)
-        for key in data:
-            data[key] = str(data[key])
-        file = generate_docx(data, str(exhibit_data['case_id'])+'-'+data['bagNumber'])  # create file binary stream
-        resp = FileResponse(file, as_attachment=True, filename= str(exhibit_data['case_id'])+'-'+data['bagNumber'] + '.docx')  # create return resp with file
-        return resp
-    return JsonResponse("Not POST Request", safe=False)
-
 # { this function takes a json with these parameters
 #   "labName": "",
 #   "dateCreated": "",

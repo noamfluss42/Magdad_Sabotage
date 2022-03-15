@@ -18,15 +18,5 @@ export class GenerateDocxService {
       .subscribe((data: any) => {
         saveAs(data, 'report.docx');
       });
-    // this.http
-    //   .get(`http://localhost:8000/img`, {
-    //     params: docxData,
-    //     headers: {
-    //       responseType: 'blob',
-    //     },
-    //   })
-    //   .subscribe((data: Blob) => {
-    //     console.log(data);
-    //   });
   }
 }

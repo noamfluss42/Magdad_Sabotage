@@ -1,21 +1,63 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TextboxField } from '../utils/field-textbox';
+import type { Observable } from 'rxjs';
+import { Constants } from '../constants/constants';
+import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import { DropdownField } from '../utils/field-dropdown';
-import {DatePickerField} from '../utils/field-datepicker';
-import { of } from 'rxjs';
+import type { Case } from '../utils/types';
 
-@Injectable()
-export class OpenCaseFieldsService {
+@Injectable({
+  providedIn: 'root',
+})
+export class CasesService {
+  caseURL = `${Constants.API_URL}/case/`;
+  constructor(private http: HttpClient) {}
+
+  // return Observable of Case[]
+  getCase() {
+    return this.http.get<Case[]>(this.caseURL);
+  }
+
+  /* POSTL: add new Case do database */
+
+  // In Typescript 'case' is an illegal parameter name, therfore we use 'case
+  postCase(case_: Case): Observable<Case> {
+    return this.http.post<Case>(this.caseURL, case_, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
+  }
+
+  /* GET case fields that contains search term */
+  searchCaseFields(term: string): Observable<Case[]> {
+    term = term.trim();
+    const options = term ? { params: new HttpParams().set('name', term) } : {};
+    return this.http.get<Case[]>(this.caseURL, options);
+  }
+
+  deleteCase(id: number): Observable<unknown> {
+    return this.http.delete(`${this.caseURL}/${id}`);
+  }
+
+  /* UPDATE: update the case field on the server. Returns the updated case upon success. */
+  updateCase(case_: Case): Observable<Case> {
+    return this.http.put<Case>(this.caseURL, case_, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
+  }
+
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new DropdownField({
-        key: 'referenceType',
+        key: 'reference_type',
         label: 'סוג סימוכין',
         options: [{ key: 'פלא', value: 'פלא' }],
       }),
       new DropdownField({
-        key: 'eventType',
+        key: 'event_type',
         label: 'סוג אירוע',
         options: [
           { key: 'פלילי', value: 'פלילי' },
@@ -23,13 +65,13 @@ export class OpenCaseFieldsService {
         ],
       }),
       new DropdownField({
-        key: 'receivedOrGO',
+        key: 'received_or_go',
         label: 'יציאה/קבלה',
         options: [
           { key: 'יציאה לאירוע', value: 'יציאה לאירוע' },
           { key: 'קבלת אירוע', value: 'קבלת אירוע' },
-          ],
-          }),
+        ],
+      }),
 
       new DropdownField({
         key: 'district',
@@ -65,7 +107,7 @@ export class OpenCaseFieldsService {
         ],
       }),
       new DropdownField({
-        key: 'InvestigatingUnit',
+        key: 'investigating_unit',
         label: 'יחידת חקירות',
         options: [
           { key: 'בין שאן', value: 'בין שאן' },
@@ -83,84 +125,83 @@ export class OpenCaseFieldsService {
     במחוז צפון ישנם שלושה מרחבים: כינרת, עמקים וגליל. | במחוז דרום ישנם שלושה מרחבים: לכיש, נגב ואילת. | במחוז מרכז ישנם שלושה מרחבים: שרון, שפלה ונתב"ג. | במחוז ת"א ישנם ארבעה מרחבים: ירקון, דן, איילון ויפתח. | במחוז ש"י ישנם שני מרחבים: חברון ושומרון. | במחוז ירושלים ישנם שלושה מרחבים: דוד, קדם וציון. | במחוז חוף יש שני מרחבים: אשר ומנשה.
     */
       new TextboxField({
-        key: 'internalNumber', // +year
+        key: 'internal_number', // +year
         label: 'מספר פנימי',
         required: true,
         type: 'text',
       }),
       new TextboxField({
-        key: 'internalNumberyear', // +year
+        key: 'internal_number_year', // +year
         label: 'מספר פנימי שנה',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'referenceNumber',
+        key: 'reference_number',
         label: 'מספר סימוכין',
         required: true,
         type: 'text',
       }),
 
       new DatePickerField({
-        key: 'eventDate',
+        key: 'event_date',
         label: 'תאריך אירוע',
         required: true,
         type: 'text',
       }),
 
       new DatePickerField({
-        key: 'ReceivedDate',
+        key: 'received_date',
         label: 'תאריך קבלה',
         required: true,
         type: 'text',
       }),
 
       new DatePickerField({
-        key: 'signDate',
+        key: 'sign_date',
         label: 'תאריך הזנה',
         required: true,
         type: 'text',
-
       }),
 
       new TextboxField({
-        key: 'eventLocation',
+        key: 'event_location',
         label: 'מקום האירוע',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'eventDescription',
+        key: 'event_description',
         label: 'תיאור האירוע',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'senderName',
+        key: 'sender_name',
         label: 'שם ',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'senderRank',
+        key: 'sender_rank',
         label: 'דרגה ',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'senderSerialNumber',
+        key: 'sender_serial_number',
         label: "מס' אישי ",
         required: true,
         type: 'text',
       }),
 
       new DropdownField({
-        key: 'labName',
+        key: 'lab_name',
         label: 'שם מעבדה ',
         options: [
           { key: 'מעבדת חבלה דרום', value: 'מעבדת חבלה דרום' },
@@ -171,21 +212,13 @@ export class OpenCaseFieldsService {
       }),
 
       new TextboxField({
-        key: 'phoneNumber',
+        key: 'phone_number',
         label: 'מספר טלפון ',
         required: true,
         type: 'text',
       }),
     ];
 
-    return of(questions.sort((a, b) => a.order - b.order));
+    return questions.sort((a, b) => a.order - b.order);
   }
-  //! impleamation of the getting internal number to register exhibit service SOMEHOW?
-  // getInternalNumber() {
-  //   this.getQuestions().forEach(element => {
-  //     if (element[0].key === 'internalNumber') {
-  //       return element[0].value;
-  //     }
-  //   });
-  // }
 }

@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TextboxField } from '../utils/field-textbox';
-import { CheckboxField } from '../utils/field-checkbox';
+import { TextboxField, CheckboxField, DropdownField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import { DropdownField } from '../utils/field-dropdown';
-import { of } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
-export class GenLabFormFieldsService {
+export class LabFormService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
@@ -36,9 +34,9 @@ export class GenLabFormFieldsService {
         key: 'urgency',
         label: 'דחיפות',
         options: [
-          { key: 'רגיל', value: 'רגיל' },
-          { key: 'דחוף', value: 'דחוף' },
-          { key: 'דחוף מעצר', value: 'דחוף מעצר' },
+          { key: 'normal', value: 'רגיל' },
+          { key: 'urgent', value: 'דחוף' },
+          { key: 'urgent_arrest', value: 'דחוף מעצר' },
         ],
       }),
 
@@ -46,22 +44,22 @@ export class GenLabFormFieldsService {
         key: 'hazards',
         label: 'סיכונים',
         options: [
-          { key: 'ביולוגי', value: 'ביולוגי' },
-          { key: 'רעיל', value: 'רעיל' },
-          { key: 'מוצג חד', value: 'מוצג חד' },
+          { key: 'biological', value: 'ביולוגי' },
+          { key: 'toxic', value: 'רעיל' },
+          { key: 'sharp', value: 'חד' },
         ],
       }),
       new DropdownField({
         key: 'exhibits',
         label: 'מוצגים',
         options: [
-          { key: 'רגיל', value: 'רגיל' },
-          { key: 'נוסף', value: 'נוסף' },
-          { key: 'חוזר', value: 'חוזר' },
+          { key: 'normal', value: 'רגיל' },
+          { key: 'additional', value: 'נוסף' },
+          { key: 'returning', value: 'חוזר' },
         ],
       }),
       new TextboxField({
-        key: 'testingEssence',
+        key: 'testing_essence',
         label: 'מהות הבדיקה',
         required: true,
         type: 'text',
@@ -73,6 +71,6 @@ export class GenLabFormFieldsService {
         type: 'text',
       }),
     ];
-    return of(questions.sort((a, b) => a.order - b.order));
+    return questions.sort((a, b) => a.order - b.order);
   }
 }

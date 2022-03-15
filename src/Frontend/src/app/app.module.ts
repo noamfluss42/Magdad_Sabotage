@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -16,18 +16,12 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DynamicFormFieldComponent } from './core/components/dynamic-form-field/dynamic-form-field.component';
-import { EditExhibitDynamicFormComponent } from './core/components/edit-exhibit-dynamic-form/edit-exhibit-dynamic-form.component';
-import { GenLabDynamicFormComponent } from './core/components/gen-lab-dynamic-form/gen-lab-dynamic-form.component';
-import { DynamicFormComponent } from './core/components/openCase-dynamic-form/dynamic-form.component';
-import { RegisterExhibitDynamicFormComponent } from './core/components/register-exhibit-dynamic-form/register-exhibit-dynamic-form.component';
-import { GenLabFormFieldsService } from './core/services/gen-lab-form-fields.service';
-import { OpenCaseFieldsService } from './core/services/open-case-fields.service';
-import { RegisterExhibitFieldsService } from './core/services/register-exhibit-fields.service';
 import { SharedDataService } from './core/services/shared-data.service';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MainScreenComponent } from './pages/main-screen/main-screen.component';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
+import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-form.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -47,29 +41,18 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatProgressBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatStepperModule
+    MatStepperModule,
   ],
 
   declarations: [
     AppComponent,
     DynamicFormComponent,
     DynamicFormFieldComponent,
-    RegisterExhibitDynamicFormComponent,
     routingComponents,
-    GenLabDynamicFormComponent,
-    EditExhibitDynamicFormComponent,
     MainScreenComponent,
   ],
   bootstrap: [AppComponent],
-  providers: [
-    OpenCaseFieldsService,
-    RegisterExhibitFieldsService,
-    GenLabFormFieldsService,
-    SharedDataService,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    
-  ],
+  providers: [SharedDataService, MatDatepickerModule, MatNativeDateModule],
 })
 export class AppModule {
   constructor() {}

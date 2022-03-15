@@ -1,6 +1,8 @@
 <div>
   <h1>רישום מוצג</h1>
-  <app-register-exhibit-dynamic-form
-    [fields]="fields$ | async"
-  ></app-register-exhibit-dynamic-form>
+  <app-dynamic-form
+    [fields]="fields$"
+    buttonText="הבא"
+    [onSubmit]="onSubmit"
+  ></app-dynamic-form>
 </div>

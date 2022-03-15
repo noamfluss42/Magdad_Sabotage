@@ -8,7 +8,7 @@ from django.conf import settings
 urlpatterns=[
     url(r'^case/$',views.caseApi),
     url(r'^case/([0-9]+)$',views.caseApi),
-    url(r'^exhibits/$', views.exhibitsApi),
+    url(r'^exhibits', views.exhibitsApi),
     url(r'^exhibits/([0-9]+)$', views.exhibitsApi),
     # url(r'^img/$', views.downloadFileParam),
     url(r'^img', views.downloadFile)
