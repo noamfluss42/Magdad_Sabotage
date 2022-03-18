@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxDefaultOptions, MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +22,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MainScreenComponent } from './pages/main-screen/main-screen.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-form.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 @NgModule({
   imports: [
     BrowserModule,
@@ -42,6 +45,9 @@ import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-for
     MatDatepickerModule,
     MatNativeDateModule,
     MatStepperModule,
+    MatDividerModule,
+    MatDialogModule,
+    MatListModule
   ],
 
   declarations: [
@@ -52,8 +58,7 @@ import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-for
     MainScreenComponent,
   ],
   bootstrap: [AppComponent],
-  providers: [SharedDataService, MatDatepickerModule, MatNativeDateModule],
-})
+  providers: [SharedDataService, MatDatepickerModule, MatNativeDateModule,MatDialogModule,]})
 export class AppModule {
   constructor() {}
 }

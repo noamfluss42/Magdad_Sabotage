@@ -2,8 +2,8 @@ export interface Exhibit {
   bag_number: string;
   case_id: string;
   exhibit_description: string;
-  exhibits_packaging: string;
-  exhibits_mark: string;
+  exhibit_packaging: string;
+  exhibit_mark: string;
 }
 
 export interface Case {

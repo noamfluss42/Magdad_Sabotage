@@ -1,13 +1,13 @@
-*{
+* {
   font-family: Arial, Helvetica, sans-serif;
 }
 h1 {
-
-  color: #264D73;
+  color: #264d73;
   font-size: 2.5rem;
-  text-align:center;
+  text-align: center;
 }
-h2, h3 {
+h2,
+h3 {
   padding: 20px;
   color: #444;
   font-weight: lighter;
@@ -16,11 +16,13 @@ h3 {
   font-size: 1.3rem;
 }
 body {
-  padding: .5rem;
+  padding: 0.5rem;
   max-width: 1000px;
   margin: 10px auto;
 }
-body, input[text] {
+
+body,
+input[text] {
   color: #333;
   font-family: Cambria, Georgia, serif;
 }
@@ -47,4 +49,5 @@ nav a {
   align-items: flex-start;
   text-align: left;
   direction: ltr;
+  margin-top: 75px;
 }

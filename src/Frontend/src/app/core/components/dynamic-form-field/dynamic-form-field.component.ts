@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import { MatCheckboxDefaultOptions, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox';
+
 
 import { FormFieldBase } from '../../utils/form-field-base';
 @Component({
@@ -11,7 +13,7 @@ export class DynamicFormFieldComponent {
   /*
    * This Component is used to create a from field as html.
    * Switches between the types according to field.controlType.
-   * This is used in the DynamnicFormComponent.
+   * This is used in the DynamicFormComponent.
    */
 
   @Input() field!: FormFieldBase<string>;

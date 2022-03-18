@@ -27,18 +27,18 @@
     </textarea>
   </mat-form-field>
 
-  <mat-form-field appearance="fill" *ngSwitchCase="'checkbox'">
+  <mat-selection-list
+    appearance="fill"
+    *ngSwitchCase="'checkbox'"
+    [formControlName]="field.key"
+  >
     <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
-    <input matInput [hidden]="true" name="myModel" />
-    <mat-checkbox
-      *ngFor="let checkbox of field.options"
-      [id]="field.key"
-      [formControlName]="field.key"
-    >
-      {{ checkbox.value }}
-    </mat-checkbox>
-  </mat-form-field>
-
+      <mat-list-option *ngFor="let checkbox of field.options"
+        [id]="field.key" [value]="checkbox.value">
+          {{ checkbox.value }}
+        
+      </mat-list-option>
+  </mat-selection-list>
   <mat-form-field appearance="fill" *ngSwitchCase="'dropdown'">
     <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
     <mat-select matInput [id]="field.key" [formControlName]="field.key">
