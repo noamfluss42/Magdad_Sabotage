@@ -6,7 +6,8 @@ export class FormFieldBase<T> {
   order: number;
   controlType: string;
   type: string;
-  options: {key: string, value: string}[];
+  options: {key: string, value: string,checked?:boolean}[];
+  completed: boolean = false;
 
   constructor(options: {
       value?: T;
@@ -16,7 +17,8 @@ export class FormFieldBase<T> {
       order?: number;
       controlType?: string;
       type?: string;
-      options?: {key: string, value: string}[];
+      options?: {key: string, value: string, checked?: boolean}[];
+      completed?: boolean;
     } = {}) {
     this.value = options.value;
     this.key = options.key || '';
@@ -26,5 +28,6 @@ export class FormFieldBase<T> {
     this.controlType = options.controlType || '';
     this.type = options.type || '';
     this.options = options.options || [];
+    this.completed = !!options.completed;
   }
 }

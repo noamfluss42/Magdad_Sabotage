@@ -1,26 +1,61 @@
-<div [formGroup]="form">
-
-  <label [attr.for]="field.key">{{ field.label }}</label>
-
-  <div [ngSwitch]="field.controlType">
-
+<div
+  class="dynamic-form"
+  [ngSwitch]="field.controlType"
+  [formGroup]="form"
+  style="height: 10em"
+>
+  <mat-form-field appearance="fill" *ngSwitchCase="'textbox'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
     <input
-      *ngSwitchCase="'textbox'"
+      matInput
       [formControlName]="field.key"
       [id]="field.key"
       [type]="field.type"
     />
+  </mat-form-field>
 
-    <select
-      [id]="field.key"
-      *ngSwitchCase="'dropdown'"
+  <mat-form-field appearance="fill" *ngSwitchCase="'datepicker'">
+    <mat-label [attr.for]="field.key">{{ field.label }}</mat-label>
+    <input matInput [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" *ngSwitchCase="'textarea'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
+    <textarea
+      matInput
       [formControlName]="field.key"
+      [id]="field.key"
+      [type]="field.type"
     >
-      <option *ngFor="let opt of field.options" [value]="opt.key">
-        {{ opt.value }}
-      </option>
-    </select>
-  </div>
+    </textarea>
+  </mat-form-field>
 
-  <div class="errorMessage" *ngIf="!isValid">{{ field.label }} is required</div>
+  <mat-selection-list
+    appearance="fill"
+    *ngSwitchCase="'checkbox'"
+    [formControlName]="field.key"
+  >
+    <mat-label [attr.for]="field.key" style="float: right"
+      >{{ field.label }}
+    </mat-label>
+    <div style="display: flex; padding-top: 20px; flex-direction: row">
+      <mat-list-option
+        *ngFor="let checkbox of field.options"
+        [id]="field.key"
+        [value]="checkbox.key"
+      >
+        {{ checkbox.value }}
+      </mat-list-option>
+    </div>
+  </mat-selection-list>
+  <mat-form-field appearance="fill" *ngSwitchCase="'dropdown'">
+    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
+    <mat-select matInput [id]="field.key" [formControlName]="field.key">
+      <mat-option *ngFor="let opt of field.options" [value]="opt.key">
+        {{ opt.value }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
