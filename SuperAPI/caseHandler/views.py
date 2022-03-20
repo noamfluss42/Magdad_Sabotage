@@ -55,6 +55,10 @@ def exhibitsApi(request, bag_number=""):
         return JsonResponse(exhibits_serializer.data, safe=False)
     elif request.method == 'POST':
         exhibits_data = JSONParser().parse(request)
+        exhibits_data['exhibits_packaging'] = exhibits_data['exhibit_packaging']
+        del exhibits_data['exhibit_packaging']
+        exhibits_data['exhibits_mark'] = exhibits_data['exhibit_mark']
+        del exhibits_data['exhibit_mark']
         department_serializer = ExhibitsSerializer(data=exhibits_data)
         if department_serializer.is_valid():
             department_serializer.save()
