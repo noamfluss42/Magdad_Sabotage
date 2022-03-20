@@ -57,10 +57,8 @@ def exhibitsApi(request, bag_number=""):
         exhibits_data = JSONParser().parse(request)
         department_serializer = ExhibitsSerializer(data=exhibits_data)
         if department_serializer.is_valid():
-            print('INSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\nINSIDE\n')
             department_serializer.save()
             return JsonResponse("Added Successfully!!", safe=False)
-        print('outside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\noutside\n')
         return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
@@ -86,21 +84,3 @@ def downloadFile(request):
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
-# { this function takes a json with these parameters
-#   "labName": "",
-#   "dateCreated": "",
-#   "phoneNumber": "",
-# 	"recipient": "",
-#   "urgency": "",
-#  	"hazards": ,
-#   "exhibits": "",
-#   "unit": "",
-#   "referenceType": "",
-# 	"bagNumber": "",
-# 	"testingEssense": "",
-#   "notes": "",
-#   "senderName": "",
-#   "senderRank": "",
-#   "senderSerialNumber": "" ,
-# 	"internalNumber": ""
-#     }
