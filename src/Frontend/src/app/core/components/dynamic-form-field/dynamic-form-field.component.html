@@ -1,4 +1,9 @@
-<div class="dynamic-form" [ngSwitch]="field.controlType" [formGroup]="form">
+<div
+  class="dynamic-form"
+  [ngSwitch]="field.controlType"
+  [formGroup]="form"
+  style="height: 10em"
+>
   <mat-form-field appearance="fill" *ngSwitchCase="'textbox'">
     <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
     <input
@@ -32,12 +37,18 @@
     *ngSwitchCase="'checkbox'"
     [formControlName]="field.key"
   >
-    <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>
-      <mat-list-option *ngFor="let checkbox of field.options"
-        [id]="field.key" [value]="checkbox.value">
-          {{ checkbox.value }}
-        
+    <mat-label [attr.for]="field.key" style="float: right"
+      >{{ field.label }}
+    </mat-label>
+    <div style="display: flex; padding-top: 20px; flex-direction: row">
+      <mat-list-option
+        *ngFor="let checkbox of field.options"
+        [id]="field.key"
+        [value]="checkbox.value"
+      >
+        {{ checkbox.value }}
       </mat-list-option>
+    </div>
   </mat-selection-list>
   <mat-form-field appearance="fill" *ngSwitchCase="'dropdown'">
     <mat-label [attr.for]="field.key">{{ field.label }} </mat-label>

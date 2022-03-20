@@ -1,8 +1,11 @@
-button{
+button {
   margin: 100px;
 }
-.horizontal-mat-list-item {
+/* .horizontal-mat-list-item {
   float: right;
   display: list-item;
-  }
+} */
 
+mat-selection-list {
+  color: red;
+}
