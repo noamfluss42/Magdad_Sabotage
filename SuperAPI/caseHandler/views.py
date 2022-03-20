@@ -63,7 +63,11 @@ def exhibitsApi(request, bag_number=""):
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
-        department = Exhibits.objects.get(DepartmentId=department_data['DepartmentId'])
+        department_data['exhibits_packaging'] = department_data['exhibit_packaging']
+        del department_data['exhibit_packaging']
+        department_data['exhibits_mark'] = department_data['exhibit_mark']
+        del department_data['exhibit_mark']
+        department = Exhibits.objects.get(bag_number=department_data['bag_number'])
         department_serializer = ExhibitsSerializer(department, data=department_data)
         if department_serializer.is_valid():
             department_serializer.save()
