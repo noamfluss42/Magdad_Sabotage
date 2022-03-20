@@ -27,6 +27,7 @@ export class SharedDataService {
     this.currentData.pipe(first()).subscribe((data: any) => {
       const docxData = {
         ...data,
+        hazards: data.hazards.join(','),
         date_created: getCurrentDate(),
       };
       this.generateDocxService.downloadDocx(docxData);

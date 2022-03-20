@@ -45,8 +45,8 @@ export class LabFormService {
         label: 'סיכונים',
         options: [
           { key: 'biological', value: 'ביולוגי', checked: false },
-          { key: 'toxic', value: 'רעיל' , checked: false},
-          { key: 'sharp', value: 'חד' ,checked: false},
+          { key: 'toxic', value: 'רעיל', checked: false },
+          { key: 'sharp', value: 'חד', checked: false },
         ],
       }),
       new DropdownField({

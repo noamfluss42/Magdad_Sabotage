@@ -10,11 +10,6 @@ import type { Case } from '../utils/types';
   providedIn: 'root',
 })
 export class CasesService {
-  //get year from date
-  static getYear(date: Date): number {
-    return date.getFullYear();
-  }
-
   caseURL = `${Constants.API_URL}/case/`;
   constructor(private http: HttpClient) {}
 
@@ -57,18 +52,18 @@ export class CasesService {
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      // new DropdownField({
-      //   key: 'reference_type',
-      //   label: 'סוג סימוכין',
-      //   options: [{ key: 'פלא', value: 'פלא' }],
-      // }),
-      new TextboxField({
-        key: 'internal_number', // +year
-        label: 'מספר פנימי', // +year
-        required: true,
-        type: 'text',
-        value:'/'+CasesService.getYear(new Date()),
-
+      new DropdownField({
+        key: 'reference_type',
+        label: 'סוג סימוכין',
+        options: [{ key: 'פלא', value: 'פלא' }],
+      }),
+      new DropdownField({
+        key: 'event_type',
+        label: 'סוג אירוע',
+        options: [
+          { key: 'פלילי', value: 'פלילי' },
+          { key: 'פח"ע', value: 'פח"ע' },
+        ],
       }),
       new DropdownField({
         key: 'received_or_go',
@@ -78,42 +73,6 @@ export class CasesService {
           { key: 'קבלת אירוע', value: 'קבלת אירוע' },
         ],
       }),
-
-      new DropdownField({
-        key: 'event_type',
-        label: 'מאפיין אירוע',
-        options: [
-          { key: 'אמל"ח', value: 'אמל"ח' },
-          { key: 'מטען חבלה', value: 'מטען חבלה' },
-          { key: 'זיקוקין', value: 'זיקוקין' },
-          { key: 'בדיקות/שאילתה', value: 'בדיקות/שאילתה' },
-        ],
-
-      }),
-
-      new DropdownField({
-        key: 'case_type',
-        label: 'סוג אירוע',
-        options: [
-          { key: 'פלילי', value: 'פלילי' },
-          { key: 'פח"ע', value: 'פח"ע' },
-        ],
-      }),
-      new DatePickerField({
-        key: 'event_date',
-        label: 'תאריך אירוע',
-        required: true,
-        type: 'text',
-      }),
-
-      new DatePickerField({
-        key: 'received_date',
-        label: 'תאריך קבלה',
-        required: true,
-        type: 'text',
-      }),
-
-
 
       new DropdownField({
         key: 'district',
@@ -129,25 +88,25 @@ export class CasesService {
         ],
       }),
       // need data
-      // new DropdownField({
-      //   key: 'area',
-      //   label: 'מרחב',
-      //   options: [{ key: 'מרחב צפון', value: 'מרחב צפון' }],
-      // }),
-      // new DropdownField({
-      //   key: 'station',
-      //   label: 'תחנה',
-      //   options: [
-      //     { key: 'בין שאן', value: 'בין שאן' },
-      //     { key: 'טבריה', value: 'טבריה' },
-      //     { key: 'כנא', value: 'כנא' },
-      //     { key: 'מגדל העמק', value: 'מגדל העמק' },
-      //     { key: 'נצרת', value: 'נצרת' },
-      //     { key: ' נצרת עילית', value: 'נצרת עילית' },
-      //     { key: ' עפולה', value: 'עפולה' },
-      //     { key: ' שפרעם', value: 'שפרעם' },
-      //   ],
-      // }),
+      new DropdownField({
+        key: 'area',
+        label: 'מרחב',
+        options: [{ key: 'מרחב צפון', value: 'מרחב צפון' }],
+      }),
+      new DropdownField({
+        key: 'station',
+        label: 'תחנה',
+        options: [
+          { key: 'בין שאן', value: 'בין שאן' },
+          { key: 'טבריה', value: 'טבריה' },
+          { key: 'כנא', value: 'כנא' },
+          { key: 'מגדל העמק', value: 'מגדל העמק' },
+          { key: 'נצרת', value: 'נצרת' },
+          { key: ' נצרת עילית', value: 'נצרת עילית' },
+          { key: ' עפולה', value: 'עפולה' },
+          { key: ' שפרעם', value: 'שפרעם' },
+        ],
+      }),
       new DropdownField({
         key: 'investigating_unit',
         label: 'יחידת חקירות',
@@ -166,13 +125,18 @@ export class CasesService {
       /*
     במחוז צפון ישנם שלושה מרחבים: כינרת, עמקים וגליל. | במחוז דרום ישנם שלושה מרחבים: לכיש, נגב ואילת. | במחוז מרכז ישנם שלושה מרחבים: שרון, שפלה ונתב"ג. | במחוז ת"א ישנם ארבעה מרחבים: ירקון, דן, איילון ויפתח. | במחוז ש"י ישנם שני מרחבים: חברון ושומרון. | במחוז ירושלים ישנם שלושה מרחבים: דוד, קדם וציון. | במחוז חוף יש שני מרחבים: אשר ומנשה.
     */
-
-      // new TextboxField({
-      //   key: 'internal_number_year', // +year
-      //   label: 'מספר פנימי שנה',
-      //   required: true,
-      //   type: 'text',
-      // }),
+      new TextboxField({
+        key: 'internal_number', // +year
+        label: 'מספר פנימי',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'internal_number_year', // +year
+        label: 'מספר פנימי שנה',
+        required: true,
+        type: 'text',
+      }),
 
       new TextboxField({
         key: 'reference_number',
@@ -181,12 +145,26 @@ export class CasesService {
         type: 'text',
       }),
 
-      // new DatePickerField({
-      //   key: 'sign_date',
-      //   label: 'תאריך הזנה',
-      //   required: true,
-      //   type: 'text',
-      // }),
+      new DatePickerField({
+        key: 'event_date',
+        label: 'תאריך אירוע',
+        required: true,
+        type: 'text',
+      }),
+
+      new DatePickerField({
+        key: 'received_date',
+        label: 'תאריך קבלה',
+        required: true,
+        type: 'text',
+      }),
+
+      new DatePickerField({
+        key: 'sign_date',
+        label: 'תאריך הזנה',
+        required: true,
+        type: 'text',
+      }),
 
       new TextboxField({
         key: 'event_location',
@@ -202,44 +180,44 @@ export class CasesService {
         type: 'text',
       }),
 
-      // new TextboxField({
-      //   key: 'sender_name',
-      //   label: 'שם ',
-      //   required: true,
-      //   type: 'text',
-      // }),
+      new TextboxField({
+        key: 'sender_name',
+        label: 'שם ',
+        required: true,
+        type: 'text',
+      }),
 
-      // new TextboxField({
-      //   key: 'sender_rank',
-      //   label: 'דרגה ',
-      //   required: true,
-      //   type: 'text',
-      // }),
+      new TextboxField({
+        key: 'sender_rank',
+        label: 'דרגה ',
+        required: true,
+        type: 'text',
+      }),
 
-      // new TextboxField({
-      //   key: 'sender_serial_number',
-      //   label: "מס' אישי ",
-      //   required: true,
-      //   type: 'text',
-      // }),
+      new TextboxField({
+        key: 'sender_serial_number',
+        label: "מס' אישי ",
+        required: true,
+        type: 'text',
+      }),
 
-      // new DropdownField({
-      //   key: 'lab_name',
-      //   label: 'שם מעבדה ',
-      //   options: [
-      //     { key: 'מעבדת חבלה דרום', value: 'מעבדת חבלה דרום' },
-      //     { key: 'מעבדת חבלה ת"א', value: 'מעבדת חבלה ת"א' },
-      //     { key: 'מעבדת חבלה צפון', value: 'מעבדת חבלה צפון' },
-      //     { key: 'מעבדת חבלה ירושלים', value: 'מעבדת חבלה ירושלים' },
-      //   ],
-      // }),
+      new DropdownField({
+        key: 'lab_name',
+        label: 'שם מעבדה ',
+        options: [
+          { key: 'מעבדת חבלה דרום', value: 'מעבדת חבלה דרום' },
+          { key: 'מעבדת חבלה ת"א', value: 'מעבדת חבלה ת"א' },
+          { key: 'מעבדת חבלה צפון', value: 'מעבדת חבלה צפון' },
+          { key: 'מעבדת חבלה ירושלים', value: 'מעבדת חבלה ירושלים' },
+        ],
+      }),
 
-      // new TextboxField({
-      //   key: 'phone_number',
-      //   label: 'מספר טלפון ',
-      //   required: true,
-      //   type: 'text',
-      // }),
+      new TextboxField({
+        key: 'phone_number',
+        label: 'מספר טלפון ',
+        required: true,
+        type: 'text',
+      }),
     ];
 
     return questions.sort((a, b) => a.order - b.order);

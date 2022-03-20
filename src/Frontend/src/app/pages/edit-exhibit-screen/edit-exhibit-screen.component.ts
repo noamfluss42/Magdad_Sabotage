@@ -4,7 +4,11 @@ import { FormFieldBase } from '../../core/utils/form-field-base';
 import { ExhibitsService } from 'src/app/core/services/exhibits.service';
 import { FormGroup } from '@angular/forms';
 import { FieldControlService } from 'src/app/core/services/field-control.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 @Component({
   selector: 'app-edit-exhibit-screen',
   templateUrl: './edit-exhibit-screen.component.html',
@@ -17,28 +21,21 @@ export class EditExhibitScreenComponent implements OnInit {
   form!: FormGroup;
   constructor(
     private service: ExhibitsService,
-    private fcs: FieldControlService,
-    // public dialog: MatDialog,
-    // public dialogRef: MatDialogRef<EditExhibitScreenComponent>,
-    // @Inject(MAT_DIALOG_DATA) public dataDialog:any,
+    private fcs: FieldControlService // public dialog: MatDialog, // public dialogRef: MatDialogRef<EditExhibitScreenComponent>, // @Inject(MAT_DIALOG_DATA) public dataDialog:any,
   ) {
     this.fields$ = service.getQuestions();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
   }
 
-
-
   ngOnInit(): void {}
-
-
 
   // This function will run once the bag_number is submitted, then the forms will change
   // this can be seen in the html template.s
   onSubmit(): void {
     if (!this.form.getRawValue()?.bag_number) return;
     this.service
-      .getExhibit(this.form.getRawValue().bagNumber)
+      .getExhibit(this.form.getRawValue().bag_number)
       .subscribe((x: any) => (this.data = x));
   }
 
@@ -55,18 +52,20 @@ export class EditExhibitScreenComponent implements OnInit {
 
   // }
 
-
   // Will be called after child form initializes, will fill the form with data
   // That have been returned from the server.
   onFieldsInit = (form: FormGroup): void => {
-    form.controls['bag_number'].setValue(this.data.bag_number);
+    form.controls['bag_number'].setValue(this.data[0].bag_number);
     form.controls['bag_number'].disable();
-    form.controls['exhibit_mark'].setValue(this.data.exhibit_mark);
-    form.controls['exhibit_packaging'].setValue(this.data.exhibit_packaging);
-    form.controls['case_id'].setValue(this.data.case_id);
-    form.controls['exhibit_description'].setValue(
-      this.data.exhibit_description
+    form.controls['exhibit_mark'].setValue(this.data[0].exhibits_mark);
+    form.controls['exhibit_packaging'].setValue(
+      this.data[0].exhibits_packaging
     );
+    form.controls['case_id'].setValue(this.data[0].case_id);
+    form.controls['exhibit_description'].setValue(
+      this.data[0].exhibit_description
+    );
+    console.log(form.controls['bag_number'].value);
   };
 
   // Will be called after child form submitted
@@ -80,7 +79,4 @@ export class EditExhibitScreenComponent implements OnInit {
   // onNoClick(): void {
   //   this.dialogRef.close();
   // }
-
-
-
 }

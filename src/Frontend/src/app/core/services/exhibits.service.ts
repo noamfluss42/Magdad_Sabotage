@@ -16,6 +16,7 @@ export class ExhibitsService {
 
   /* GET: get exhibit by bag_number from the server */
   getExhibit(bag_number: string) {
+    console.log(bag_number);
     return this.http.get(`${this.exhibitsURL}/${bag_number}`, {
       responseType: 'json',
     });
