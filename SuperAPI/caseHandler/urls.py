@@ -10,6 +10,8 @@ urlpatterns=[
     url(r'^case/([0-9]+)$',views.caseApi),
     url(r'^exhibits', views.exhibitsApi),
     url(r'^exhibits/([0-9]+)$', views.exhibitsApi),
+    url(r'^user/$', views.userApi),
+    url(r'^user/([0-9]+)$', views.userApi),
     # url(r'^img/$', views.downloadFileParam),
     url(r'^img', views.downloadFile)
 

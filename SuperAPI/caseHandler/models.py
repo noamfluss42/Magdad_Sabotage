@@ -23,3 +23,10 @@ class Exhibits(models.Model):
     bag_number = models.PositiveIntegerField(primary_key=True)
     exhibits_packaging = models.CharField(max_length=256)
     exhibits_mark = models.CharField(max_length=256)
+
+class User(models.Model):
+    internal_number = models.CharField(max_length=100, primary_key=True)
+    name = models.CharField(max_length=100)
+    rank = models.CharField(max_length=100)
+
+

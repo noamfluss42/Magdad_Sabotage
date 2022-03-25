@@ -13,6 +13,9 @@ from caseHandler.serializers import CaseSerializer
 from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
 
+from caseHandler.models import User
+from caseHandler.serializers import UserSerializer
+
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
@@ -81,6 +84,36 @@ def exhibitsApi(request, bag_number=""):
     elif request.method == 'DELETE':
         department = Exhibits.objects.get(CaseName=bag_number)
         department.delete()
+        return JsonResponse("Deleted Succeffully!!", safe=False)
+
+# Create your views here.
+@csrf_exempt
+def userApi(request, user_id=""):
+    if request.method == 'GET':
+        users = User.objects.all()
+        users_serializer = UserSerializer(users, many=True)
+        return JsonResponse(users_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        user_data = JSONParser().parse(request)
+        user_serializer = CaseSerializer(data=user_data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return JsonResponse("Added Successfully!!", safe=False)
+        return JsonResponse("Failed to Add.", safe=False)
+
+    elif request.method == 'PUT':
+        user_data = JSONParser().parse(request)
+        user = Case.objects.get(internal_number=user_data['internal_number'])
+        user_serializer = CaseSerializer(user, data=user_data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return JsonResponse("Updated Successfully!!", safe=False)
+        return JsonResponse("Failed to Update.", safe=False)
+
+    elif request.method == 'DELETE':
+        user = User.objects.get(internal_number=user_id)
+        user.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 

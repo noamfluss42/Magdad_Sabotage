@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from caseHandler.models import Case
 from caseHandler.models import Exhibits
+from caseHandler.models import User
 
 class CaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +24,10 @@ class ExhibitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exhibits
         fields = ('exhibit_description', 'bag_number', 'exhibits_packaging', 'exhibits_mark', 'case_id')
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('internal_number', 'name', 'rank')
+
+
