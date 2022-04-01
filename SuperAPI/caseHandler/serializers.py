@@ -18,7 +18,17 @@ class CaseSerializer(serializers.ModelSerializer):
                    "received_date",
                    "sign_date",
                    "event_location",
-                   "event_description")
+                   "event_description",
+                   "weapon_name",
+                   "explosive_device_material",
+                   "explosive_device_means",
+                   "weapon_options",
+                   "explosive_device_operating_system",
+                   "weapon_mark",
+                   "explosive_device_spray",
+                   "weapon_color",
+                   "explosive_device_camouflage",
+                   "weapon_additional_characteristics")
 class ExhibitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exhibits

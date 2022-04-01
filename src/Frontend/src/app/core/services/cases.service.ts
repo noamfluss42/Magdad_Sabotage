@@ -218,6 +218,68 @@ export class CasesService {
         required: true,
         type: 'text',
       }),
+
+      new TextboxField({
+        key:'weapon_name',
+        label:'אמל"ח: שם הפריט',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:"explosive_device_material",
+        label: 'מט"ח: חנ"מ',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'explosive_device_means',
+        label:'מט"ח: אמצעי ייזום',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'weapon_options',
+        label:'אמל"ח: הגדרות',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'explosive_device_operating_system',
+        label:'מט"ח: מע' +"' הפעלה",
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'weapon_mark',
+        label:'אמל"ח: סימון',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'explosive_device_spray',
+        label:'מט"ח: רסס',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'weapon_color',
+        label:'אמל"ח: צבע',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'explosive_device_camouflage',
+        label:'מט"ח: הסוואה',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'weapon_additional_characteristics',
+        label:'אמל"ח: מאפיינים נוספים',
+        required: true,
+        type: 'text',
+      }),
+
     ];
 
     return questions.sort((a, b) => a.order - b.order);
