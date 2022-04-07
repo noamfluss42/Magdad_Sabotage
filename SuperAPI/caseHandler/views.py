@@ -7,7 +7,7 @@ from django.http.response import HttpResponse
 from django.http import Http404
 import os
 
-
+from datetime import datetime
 from caseHandler.models import Case
 from caseHandler.serializers import CaseSerializer
 
@@ -17,11 +17,35 @@ from caseHandler.serializers import ExhibitsSerializer
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
+
+def filterDate(case_list,query_data):
+    if "" != query_data['min_date']:
+        min_date = datetime. strptime(query_data['min_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+    else:
+        min_date = datetime.min
+    if "" != query_data['max_date']:
+        max_date = datetime. strptime(query_data['max_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+    else:
+        max_date = datetime.max
+
+    for case in Case.objects.values():
+        #create datetime objects from given dates
+        case_date = datetime. strptime(case['event_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        if not min_date <= case_date <= max_date:#if date not in range
+            case_list.exclude(event_date = case['event_date'])#remove all objects with this date
+            print("in between")
+        else:
+            print("No!")
+    #returns new case querySet object
+    return case_list
 @csrf_exempt
 def queryHandler(request):
     query_data = JSONParser().parse(request)
     cases = Case.objects.all()
-    if ""!= query_data['internal_number']:
+    if "" != query_data['min_date'] and "" != query_data['max_date']:
+        filterDate(cases,query_data)
+
+    if "" != query_data['internal_number']:
         cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['event_type']:
         cases.filter(event_type = query_data['event_type'])
@@ -63,6 +87,8 @@ def queryHandler(request):
         cases.filter(lab_name=query_data['lab_name'])
     cases_serializer = CaseSerializer(cases, many=True)
     return JsonResponse(cases_serializer.data, safe=False)
+
+
 # Create your views here.
 @csrf_exempt
 def caseApi(request, case_name=""):
