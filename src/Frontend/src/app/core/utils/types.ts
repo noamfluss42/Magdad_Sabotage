@@ -25,6 +25,8 @@ export interface Case {
   sender_rank: string;
   sender_serial_number: string;
   lab_name: string;
+}
+export interface CaseTag {
   weapon_name: string;
   explosive_device_material: string;
   explosive_device_means: string;
@@ -35,5 +37,4 @@ export interface Case {
   weapon_color: string;
   explosive_device_camouflage: string;
   weapon_additional_characteristics: string;
-
 }
