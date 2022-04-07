@@ -15,7 +15,18 @@ class Case(models.Model):
     received_date = models.CharField(max_length=100)
     sign_date = models.CharField(max_length=100)
     event_location = models.CharField(max_length=100)
-    event_description = models.CharField(max_length=100)
+    event_description = models.CharField(max_length=256)
+    
+    weapon_name = models.CharField(max_length=256)
+    explosive_device_material = models.CharField(max_length=256)
+    explosive_device_means = models.CharField(max_length=256)
+    weapon_options = models.CharField(max_length=256)
+    explosive_device_operating_system = models.CharField(max_length=256)
+    weapon_mark = models.CharField(max_length=256)
+    explosive_device_spray = models.CharField(max_length=256)
+    weapon_color = models.CharField(max_length=256)
+    explosive_device_camouflage = models.CharField(max_length=256)
+    weapon_additional_characteristics = models.CharField(max_length=256)
 
 class Exhibits(models.Model):
     exhibit_description = models.CharField(max_length=256)
@@ -23,3 +34,4 @@ class Exhibits(models.Model):
     bag_number = models.PositiveIntegerField(primary_key=True)
     exhibits_packaging = models.CharField(max_length=256)
     exhibits_mark = models.CharField(max_length=256)
+

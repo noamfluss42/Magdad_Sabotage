@@ -7,6 +7,7 @@ from django.http.response import HttpResponse
 from django.http import Http404
 import os
 
+
 from caseHandler.models import Case
 from caseHandler.serializers import CaseSerializer
 
@@ -82,7 +83,6 @@ def exhibitsApi(request, bag_number=""):
         department = Exhibits.objects.get(CaseName=bag_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
-
 
 @csrf_exempt
 def downloadFile(request):
