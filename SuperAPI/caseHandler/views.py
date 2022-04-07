@@ -17,12 +17,29 @@ from caseHandler.serializers import ExhibitsSerializer
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
+@csrf_exempt
+def queryHandler(request,):
+    query_data = JSONParser().parse(request)
+    cases = Case.objects.filter().filter(internal_number=2)
+    if ""!= query_data['internal_number']:
+        cases.filter(internal_number=query_data['internal_number'])
+    if "" != query_data['event_type']:
+        cases.filter(internal_number=query_data['event_type'])
+    if "" != query_data['event_type']:
+        cases.filter(internal_number=query_data['event_type'])
+    if "" != query_data['event_type']:
+        cases.filter(internal_number=query_data['event_type'])
+    if "" != query_data['event_type']:
+        cases.filter(internal_number=query_data['event_type'])
+    if "" != query_data['event_type']:
+        cases.filter(internal_number=query_data['event_type'])
 
+    return HttpResponse()
 # Create your views here.
 @csrf_exempt
 def caseApi(request, case_name=""):
     if request.method == 'GET':
-        cases = Case.objects.all()
+        cases = Case.objects.filter().filter(internal_number=2)
         cases_serializer = CaseSerializer(cases, many=True)
         return JsonResponse(cases_serializer.data, safe=False)
 
@@ -32,7 +49,7 @@ def caseApi(request, case_name=""):
         if department_serializer.is_valid():
             department_serializer.save()
             return JsonResponse("Added Successfully!!", safe=False)
-        return JsonResponse("Failed to Add.", safe=False)
+        return JsonResponse("Failed to Addd.", safe=False)
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
