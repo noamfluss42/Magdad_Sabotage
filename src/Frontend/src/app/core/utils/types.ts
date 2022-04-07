@@ -25,8 +25,6 @@ export interface Case {
   sender_rank: string;
   sender_serial_number: string;
   lab_name: string;
-}
-export interface CaseTag {
   weapon_name: string;
   explosive_device_material: string;
   explosive_device_means: string;
