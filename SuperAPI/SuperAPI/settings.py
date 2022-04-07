@@ -79,12 +79,13 @@ WSGI_APPLICATION = 'SuperAPI.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
+    #connect database with postgresql
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mDavid.postgresql',
-        'USER': 'migdaldavidhabala',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'PASSWORD': 'M1gD@lD@vidH@bAl@',
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
