@@ -25,6 +25,7 @@ import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-for
 import {MatDividerModule} from '@angular/material/divider';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { SearchCaseSearchComponent } from './pages/search-case-search/search-case-search.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -56,6 +57,7 @@ import { MatListModule } from '@angular/material/list';
     DynamicFormFieldComponent,
     routingComponents,
     MainScreenComponent,
+    SearchCaseSearchComponent,
   ],
   bootstrap: [AppComponent],
   providers: [SharedDataService, MatDatepickerModule, MatNativeDateModule,MatDialogModule,]})
