@@ -25,7 +25,9 @@ import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-for
 import {MatDividerModule} from '@angular/material/divider';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
-import { SearchCaseSearchComponent } from './pages/search-case-search/search-case-search.component';
+import { SearchCaseScreenComponent } from './pages/search-case-screen/search-case-screen.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ResultsScreenComponent } from './pages/results-screen/results-screen.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { SearchCaseSearchComponent } from './pages/search-case-search/search-cas
     MatStepperModule,
     MatDividerModule,
     MatDialogModule,
-    MatListModule
+    MatListModule,
+    MatAutocompleteModule
   ],
 
   declarations: [
@@ -57,7 +60,8 @@ import { SearchCaseSearchComponent } from './pages/search-case-search/search-cas
     DynamicFormFieldComponent,
     routingComponents,
     MainScreenComponent,
-    SearchCaseSearchComponent,
+    SearchCaseScreenComponent,
+    ResultsScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [SharedDataService, MatDatepickerModule, MatNativeDateModule,MatDialogModule,]})

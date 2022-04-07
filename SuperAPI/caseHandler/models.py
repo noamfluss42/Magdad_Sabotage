@@ -16,7 +16,7 @@ class Case(models.Model):
     sign_date = models.CharField(max_length=100)
     event_location = models.CharField(max_length=100)
     event_description = models.CharField(max_length=256)
-    
+
     weapon_name = models.CharField(max_length=256)
     explosive_device_material = models.CharField(max_length=256)
     explosive_device_means = models.CharField(max_length=256)
@@ -34,4 +34,5 @@ class Exhibits(models.Model):
     bag_number = models.PositiveIntegerField(primary_key=True)
     exhibits_packaging = models.CharField(max_length=256)
     exhibits_mark = models.CharField(max_length=256)
+
 
