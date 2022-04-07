@@ -20,7 +20,7 @@ from django.core.files.storage import default_storage
 @csrf_exempt
 def queryHandler(request):
     query_data = JSONParser().parse(request)
-    cases = Case.objects.filter().filter(internal_number=2)
+    cases = Case.objects.all()
     if ""!= query_data['internal_number']:
         cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['event_type']:
@@ -59,13 +59,15 @@ def queryHandler(request):
         cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
     if "" != query_data['weapon_additional_characteristics']:
         cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
+    if "" != query_data['lab_name']:
+        cases.filter(lab_name=query_data['lab_name'])
     cases_serializer = CaseSerializer(cases, many=True)
     return JsonResponse(cases_serializer.data, safe=False)
 # Create your views here.
 @csrf_exempt
 def caseApi(request, case_name=""):
     if request.method == 'GET':
-        cases = Case.objects.filter().filter(internal_number=2)
+        cases = Case.objects.all()
         cases_serializer = CaseSerializer(cases, many=True)
         return JsonResponse(cases_serializer.data, safe=False)
 
