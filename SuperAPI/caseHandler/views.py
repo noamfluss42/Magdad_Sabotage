@@ -18,23 +18,49 @@ from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
 @csrf_exempt
-def queryHandler(request,):
+def queryHandler(request):
     query_data = JSONParser().parse(request)
     cases = Case.objects.filter().filter(internal_number=2)
     if ""!= query_data['internal_number']:
         cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['event_type']:
-        cases.filter(internal_number=query_data['event_type'])
-    if "" != query_data['event_type']:
-        cases.filter(internal_number=query_data['event_type'])
-    if "" != query_data['event_type']:
-        cases.filter(internal_number=query_data['event_type'])
-    if "" != query_data['event_type']:
-        cases.filter(internal_number=query_data['event_type'])
-    if "" != query_data['event_type']:
-        cases.filter(internal_number=query_data['event_type'])
-
-    return HttpResponse()
+        cases.filter(event_type = query_data['event_type'])
+    if "" != query_data['received_date']:
+        cases.filter(received_date=query_data['received_date'])
+    if "" != query_data['district']:
+        cases.filter(district=query_data['district'])
+    if "" != query_data['event_location']:
+        cases.filter(event_location=query_data['event_location'])
+    if "" != query_data['station']:
+        cases.filter(station=query_data['station'])
+    if "" != query_data['reference_number']:
+        cases.filter(reference_number=query_data['reference_number'])
+    if "" != query_data['area']:
+        cases.filter(area=query_data['area'])
+    if "" != query_data['station']:
+        cases.filter(station=query_data['station'])
+    if "" != query_data['weapon_name']:
+        cases.filter(weapon_name=query_data['weapon_name'])
+    if "" != query_data['explosive_device_material']:
+        cases.filter(explosive_device_material=query_data['explosive_device_material'])
+    if "" != query_data['explosive_device_means']:
+        cases.filter(explosive_device_means=query_data['explosive_device_means'])
+    if "" != query_data['weapon_options']:
+        cases.filter(weapon_options=query_data['weapon_options'])
+    if "" != query_data['explosive_device_operating_system']:
+        cases.filter(explosive_device_operating_system=query_data['explosive_device_operating_system'])
+    if "" != query_data['weapon_mark']:
+        cases.filter(weapon_mark=query_data['weapon_mark'])
+    if "" != query_data['explosive_device_spray']:
+        cases.filter(explosive_device_spray=query_data['explosive_device_spray'])
+    if "" != query_data['weapon_color']:
+        cases.filter(weapon_color=query_data['weapon_color'])
+    if "" != query_data['explosive_device_camouflage']:
+        cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
+    if "" != query_data['weapon_additional_characteristics']:
+        cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
+    cases_serializer = CaseSerializer(cases, many=True)
+    return JsonResponse(cases_serializer.data, safe=False)
 # Create your views here.
 @csrf_exempt
 def caseApi(request, case_name=""):
