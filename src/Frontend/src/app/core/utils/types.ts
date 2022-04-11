@@ -36,3 +36,9 @@ export interface Case {
   explosive_device_camouflage: string;
   weapon_additional_characteristics: string;
 }
+
+export interface TableColumn {
+  name: string;
+  attribute: string;
+  sortable: boolean;
+}
