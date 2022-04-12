@@ -131,8 +131,14 @@ export class SearchCaseService {
       }),
 
       new DatePickerField({
-        key: 'event_date',
-        label: 'תאריך אירוע',
+        key: 'min_date',
+        label: 'תאריך אירוע טווח התחלה',
+        required: true,
+        type: 'text',
+      }),
+      new DatePickerField({
+        key: 'max_date',
+        label: 'תאריך אירוע טווח סוף',
         required: true,
         type: 'text',
       }),
