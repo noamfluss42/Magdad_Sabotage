@@ -22,4 +22,19 @@ class CaseSerializer(serializers.ModelSerializer):
 class ExhibitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exhibits
-        fields = ('exhibit_description', 'bag_number', 'exhibits_packaging', 'exhibits_mark', 'case_id')
+        fields = (
+            "internal_number",
+            "exhibit_number",
+            "location",
+            "description",
+            "amount",
+            "destination",
+            "explosive",
+            "explosive_weight",
+            "tnt_equivalent",
+            "received_date",
+            "handle_date",
+            "investigator_name",
+            "lab_name",
+            "result"
+        )
