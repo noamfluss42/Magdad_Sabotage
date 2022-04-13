@@ -47,39 +47,42 @@ def caseApi(request, case_name=""):
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
+
+#given a case internal number, returns all exhibits related to it
+#internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
-def exhibitsApi(request, bag_number=""):
+def exhibitQuery(request):
+    query_data = JSONParser().parse(request)
+    exhibits = Exhibits.objects.all()
+    exhibits.filter(internal_number=query_data['internal_number'])
+    exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
+    return JsonResponse(exhibits_serializer.data, safe=False)
+@csrf_exempt
+def exhibitsApi(request, exhibit_number = ""):
     if request.method == 'GET':
-        exhibits_value = Exhibits.objects.all()
-        exhibits_serializer = ExhibitsSerializer(exhibits_value, many=True)
+        exhibit = Exhibits.objects.all()
+        exhibits_serializer = ExhibitsSerializer(exhibit, many=True)
         return JsonResponse(exhibits_serializer.data, safe=False)
+
     elif request.method == 'POST':
-        exhibits_data = JSONParser().parse(request)
-        exhibits_data['exhibits_packaging'] = exhibits_data['exhibit_packaging']
-        del exhibits_data['exhibit_packaging']
-        exhibits_data['exhibits_mark'] = exhibits_data['exhibit_mark']
-        del exhibits_data['exhibit_mark']
-        department_serializer = ExhibitsSerializer(data=exhibits_data)
-        if department_serializer.is_valid():
-            department_serializer.save()
+        exhibit_data = JSONParser().parse(request)
+        exhibits_serializer = ExhibitsSerializer(data=exhibit_data)
+        if exhibits_serializer.is_valid():
+            exhibits_serializer.save()
             return JsonResponse("Added Successfully!!", safe=False)
         return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
-        department_data = JSONParser().parse(request)
-        department_data['exhibits_packaging'] = department_data['exhibit_packaging']
-        del department_data['exhibit_packaging']
-        department_data['exhibits_mark'] = department_data['exhibit_mark']
-        del department_data['exhibit_mark']
-        department = Exhibits.objects.get(bag_number=department_data['bag_number'])
-        department_serializer = ExhibitsSerializer(department, data=department_data)
-        if department_serializer.is_valid():
-            department_serializer.save()
+        exhibit_data = JSONParser().parse(request)
+        exhibit = Exhibits.objects.get(exhibit_number=exhibit_data['exhibit_number'])
+        exhibits_serializer = ExhibitsSerializer(exhibit, data=exhibit_data)
+        if exhibits_serializer.is_valid():
+            exhibits_serializer.save()
             return JsonResponse("Updated Successfully!!", safe=False)
         return JsonResponse("Failed to Update.", safe=False)
 
     elif request.method == 'DELETE':
-        department = Exhibits.objects.get(CaseName=bag_number)
+        department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
