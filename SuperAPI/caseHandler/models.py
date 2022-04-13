@@ -18,6 +18,8 @@ class Case(models.Model):
     event_description = models.CharField(max_length=100)
 
 class Exhibits(models.Model):
+    class Meta:
+        unique_together = (('internal_number', 'exhibit_number'),)
     internal_number = models.CharField(max_length=32)
     exhibit_number = models.CharField(max_length=32)
     location = models.CharField(max_length=128)

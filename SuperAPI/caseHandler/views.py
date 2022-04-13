@@ -7,6 +7,10 @@ from django.http.response import HttpResponse
 from django.http import Http404
 import os
 
+from django.utils.translation import ugettext
+from io import BytesIO
+import xlsxwriter
+
 from caseHandler.models import Case
 from caseHandler.serializers import CaseSerializer
 
@@ -47,6 +51,63 @@ def caseApi(request, case_name=""):
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
+
+def WriteToExcel(exhibit_data):
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet_s = workbook.add_worksheet("Exhibits")
+    header = workbook.add_format({
+        'bg_color': '#F7F7F7',
+        'color': 'black',
+        'align': 'center',
+        'valign': 'top',
+        'border': 1
+    })
+    #create collum names
+    worksheet_s.write(0, 0, ugettext("internal_number"), header)
+    worksheet_s.write(0, 1, ugettext("exhibit_number"), header)
+    worksheet_s.write(0, 2, ugettext("location"), header)
+    worksheet_s.write(0, 3, ugettext("description"), header)
+    worksheet_s.write(0, 4, ugettext("amount"), header)
+    worksheet_s.write(0, 5, ugettext("destination"), header)
+    worksheet_s.write(0, 6, ugettext("explosive"), header)
+    worksheet_s.write(0, 7, ugettext("explosive_weight"), header)
+    worksheet_s.write(0, 8, ugettext("tnt_equivalent"), header)
+    worksheet_s.write(0, 9, ugettext("received_date"), header)
+    worksheet_s.write(0, 10, ugettext("handle_date"), header)
+    worksheet_s.write(0, 11, ugettext("investigator_name"), header)
+    worksheet_s.write(0, 12, ugettext("lab_name"), header)
+    worksheet_s.write(0, 13, ugettext("result"), header)
+
+    #put data in table
+    for idx, data in enumerate(exhibit_data):
+        row = 1 + idx
+        worksheet_s.write_string(row, 0, data['internal_number'])
+        worksheet_s.write_string(row, 1, data['exhibit_number'])
+        worksheet_s.write_string(row, 2, data['location'])
+        worksheet_s.write_string(row, 3, data['description'])
+        worksheet_s.write_string(row, 4, data['amount'])
+        worksheet_s.write_string(row, 5, data['destination'])
+        worksheet_s.write_string(row, 6, data['explosive'])
+        worksheet_s.write_string(row, 7, data['explosive_weight'])
+        worksheet_s.write_string(row, 8, data['tnt_equivalent'])
+        worksheet_s.write_string(row, 9, data['received_date'])
+        worksheet_s.write_string(row, 10, data['handle_date'])
+        worksheet_s.write_string(row, 11, data['investigator_name'])
+        worksheet_s.write_string(row, 12, data['lab_name'])
+        worksheet_s.write_string(row, 13, data['result'])
+    workbook.close()
+    xlsx_data = output.getvalue()
+    # xlsx_data contains the Excel file
+    return xlsx_data
+
+@csrf_exempt
+def exhibitDwnld(request):
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
+    xlsx_data = WriteToExcel(Exhibits.objects.values())
+    response.write(xlsx_data)
+    return response
 
 #given a case internal number, returns all exhibits related to it
 #internal number should be sent as a Json param 'internal_number' : <value>
