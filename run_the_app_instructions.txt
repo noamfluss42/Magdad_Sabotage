@@ -1,0 +1,12 @@
+Running the app locally:
+	- start with running the server:
+	- Make sure you installed all the python packages listed in SuperAPI -> requirements.txt
+	- From the main folder go to SuperApI -> SuperAPI -> setting.py line 81. Make sure the postgerSQL database is set to the listed parameters or change them. 
+	- In the cmd, go to SuperPI, run "python manage.py migrate" this step is one-time step.
+	- run "python manage.py runserver 12580". The django server should work now.
+	- now we will run the angular app:
+	- in another cmd, go back to the main folder and then, go to the folder src -> Frontend
+	- run "npm i"
+	- if required, run "npm audit fix"
+	- run "ng serve"
+	- The app should be running in "http://localhost:4200/"
