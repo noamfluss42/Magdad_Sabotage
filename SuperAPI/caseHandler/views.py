@@ -125,6 +125,7 @@ def exhibitsApi(request, bag_number=""):
         exhibits_value = Exhibits.objects.all()
         exhibits_serializer = ExhibitsSerializer(exhibits_value, many=True)
         return JsonResponse(exhibits_serializer.data, safe=False)
+
     elif request.method == 'POST':
         exhibits_data = JSONParser().parse(request)
         exhibits_data['exhibits_packaging'] = exhibits_data['exhibit_packaging']
