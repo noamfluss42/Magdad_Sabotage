@@ -27,9 +27,10 @@ export class SearchCaseScreenComponent implements OnInit {
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     this.service.postQuery(form.value).subscribe(
       (res: any) => {
-        // this.router.navigate(['/search-case-result']);
+
         this.service.setData(res);
         console.log(res);
+        this.router.navigate(['/searchCaseResult']);
       }
     );
 

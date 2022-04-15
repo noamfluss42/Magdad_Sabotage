@@ -43,6 +43,16 @@ export interface TableColumn {
   attribute: string;
   sortable: boolean;
 }
+
+export interface ResultCaseTable {
+  case_id: string;
+  lab_name: string;
+  event_description: string;
+  internal_number: string;
+  min_date: string;
+  max_date: string;
+
+}
 export interface CaseSearch {
 
   reference_type: string;

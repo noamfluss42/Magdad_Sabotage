@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Constants } from '../constants/constants';
 import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import { Case } from '../utils/types';
+import {CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
 
 @Injectable({
   providedIn: 'root'
@@ -14,22 +14,29 @@ export class SearchCaseService {
   constructor(private http: HttpClient) { }
     // return Observable of Case[]
     getQuery() {
-      return this.http.get<Case[]>(this.queryUrl);
+      return this.http.get<CaseSearch[]>(this.queryUrl);
     }
 
     /* POST: add new Case do database */
 
     // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
-    postQuery(case_: Case): Observable<Case> {
-      return this.http.post<Case>(this.queryUrl, case_, {
+    postQuery(case_: CaseSearch): Observable<CaseSearch> {
+      return this.http.post<CaseSearch>(this.queryUrl, case_, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
       });
     }
-    //sets data for the search case result screen
+    // //sets data for the search case result screen
     setData(data: any) {
       localStorage.setItem('data', JSON.stringify(data));
+    }
+    getData(): any { // returns data from local storage and check if null
+      const data = localStorage.getItem('data');
+      if (data) {
+        return JSON.parse(data);
+      }
+      return null;
     }
     free(data: any) {
       localStorage.removeItem('data');
@@ -272,6 +279,41 @@ export class SearchCaseService {
     ];
 
     return questions.sort((a, b) => a.order - b.order);
+  }
+  getTableColumns(): TableColumn[] {
+    return [
+      {
+        name: 'מספר תיק',
+        attribute: 'case_id',
+        sortable: true,
+      },
+      {
+        name: 'מעבדה',
+        attribute: 'lab_name',
+        sortable: true,
+      },
+      {
+        name: ' תיאור אירוע',
+        attribute: 'event_description',
+        sortable: true,
+      },
+      {
+        name: "מס' פנימי",
+        attribute: 'internal_number',
+        sortable: true,
+      },
+      {
+        name: 'טווח אירוע התחלה',
+        attribute: 'min_date',
+        sortable: true,
+      },
+      {
+        name: 'טווח אירוע סוף',
+        attribute: 'max_date',
+        sortable: true,
+      },
+
+    ].reverse();
   }
 
 }
