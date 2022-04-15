@@ -5,6 +5,10 @@ import { RegisterExhibitScreenComponent } from './pages/register-exhibit-screen/
 import { GenLabFormScreenComponent } from './pages/gen-lab-form-screen/gen-lab-form-screen.component';
 import { EditExhibitScreenComponent } from './pages/edit-exhibit-screen/edit-exhibit-screen.component';
 import { MainScreenComponent } from './pages/main-screen/main-screen.component';
+import { SearchCaseScreenComponent } from './pages/search-case-screen/search-case-screen.component';
+import { ResultsScreenComponent } from './pages/results-screen/results-screen.component';
+import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/exhibits-in-case-screen.component';
+
 const routes: Routes = [
   {
     path: 'home',
@@ -19,6 +23,14 @@ const routes: Routes = [
     component: RegisterExhibitScreenComponent,
   },
   {
+    path: 'searchCase',
+    component: SearchCaseScreenComponent,
+  },
+  {
+    path: 'searchCaseResult',
+    component: ResultsScreenComponent,
+  },
+  {
     path: 'genLabForm',
     component: GenLabFormScreenComponent,
   },
@@ -26,9 +38,11 @@ const routes: Routes = [
     path: 'editExhibit',
     component: EditExhibitScreenComponent,
   },
-
+  {
+    path: 'case/:id/exhibits',
+    component: ExhibitsInCaseScreenComponent,
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
@@ -41,4 +55,5 @@ export const routingComponents = [
   RegisterExhibitScreenComponent,
   GenLabFormScreenComponent,
   EditExhibitScreenComponent,
+  ExhibitsInCaseScreenComponent,
 ];
