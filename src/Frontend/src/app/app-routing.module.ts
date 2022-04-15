@@ -5,6 +5,7 @@ import { RegisterExhibitScreenComponent } from './pages/register-exhibit-screen/
 import { GenLabFormScreenComponent } from './pages/gen-lab-form-screen/gen-lab-form-screen.component';
 import { EditExhibitScreenComponent } from './pages/edit-exhibit-screen/edit-exhibit-screen.component';
 import { MainScreenComponent } from './pages/main-screen/main-screen.component';
+import { MonthlySummaryScreenComponent } from './pages/monthly-summary-screen/monthly-summary-screen.component';
 const routes: Routes = [
   {
     path: 'home',
@@ -25,6 +26,10 @@ const routes: Routes = [
   {
     path: 'editExhibit',
     component: EditExhibitScreenComponent,
+  },
+  {
+    path: 'monthlySummary',
+    component: MonthlySummaryScreenComponent,
   },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
