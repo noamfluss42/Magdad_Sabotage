@@ -3,9 +3,10 @@
     "",
     "\\app",
     "\\app\\core",
-    "\\app\\core\\services",
-    "\\app\\pages"
+    "\\app\\pages",
+    "\\app\\pages\\monthly-summary-screen",
+    "\\app\\pages\\open-case-screen"
   ],
-  "SelectedNode": "\\app\\core\\services\\shared-data.service.ts",
+  "SelectedNode": "\\app\\pages\\register-exhibit-screen",
   "PreviewInSolutionExplorer": false
 }

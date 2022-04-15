@@ -1,54 +1,46 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import type { Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Constants } from '../constants/constants';
 import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import type { Case } from '../utils/types';
+import {CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class CasesService {
-  caseURL = `${Constants.API_URL}/case/`;
-  constructor(private http: HttpClient) {}
+export class SearchCaseService {
+  queryUrl = `${Constants.API_URL}/query`;
+  constructor(private http: HttpClient) { }
+    // return Observable of Case[]
+    getQuery() {
+      return this.http.get<CaseSearch[]>(this.queryUrl);
+    }
 
-  // return Observable of Case[]
-  getCase() {
-    return this.http.get<Case[]>(this.caseURL);
-  }
+    /* POST: add new Case do database */
 
-  /* POST: add new Case do database */
-
-  // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
-  postCase(case_: Case): Observable<Case> {
-    return this.http.post<Case>(this.caseURL+case_.internal_number, case_, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    });
-  }
-
-  /* GET case fields that contains search term */
-  searchCaseFields(term: string): Observable<Case[]> {
-    term = term.trim();
-    const options = term ? { params: new HttpParams().set('name', term) } : {};
-    return this.http.get<Case[]>(this.caseURL, options);
-  }
-
-  /* DELETE: delete case by id on the server.*/
-  deleteCase(id: number): Observable<unknown> {
-    return this.http.delete(`${this.caseURL}/${id}`);
-  }
-
-  /* UPDATE: update the case field on the server. Returns the updated case upon success. */
-  updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL, case_, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    });
-  }
+    // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
+    postQuery(case_: CaseSearch): Observable<CaseSearch> {
+      return this.http.post<CaseSearch>(this.queryUrl, case_, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      });
+    }
+    // //sets data for the search case result screen
+    setData(data: any) {
+      localStorage.setItem('data', JSON.stringify(data));
+    }
+    getData(): any { // returns data from local storage and check if null
+      const data = localStorage.getItem('data');
+      if (data) {
+        return JSON.parse(data);
+      }
+      return null;
+    }
+    free(data: any) {
+      localStorage.removeItem('data');
+    }
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
@@ -146,8 +138,14 @@ export class CasesService {
       }),
 
       new DatePickerField({
-        key: 'event_date',
-        label: 'תאריך אירוע',
+        key: 'min_date',
+        label: 'תאריך אירוע טווח התחלה',
+        required: true,
+        type: 'text',
+      }),
+      new DatePickerField({
+        key: 'max_date',
+        label: 'תאריך אירוע טווח סוף',
         required: true,
         type: 'text',
       }),
@@ -282,4 +280,40 @@ export class CasesService {
 
     return questions.sort((a, b) => a.order - b.order);
   }
+  getTableColumns(): TableColumn[] {
+    return [
+      {
+        name: 'מספר תיק',
+        attribute: 'case_id',
+        sortable: true,
+      },
+      {
+        name: 'מעבדה',
+        attribute: 'lab_name',
+        sortable: true,
+      },
+      {
+        name: ' תיאור אירוע',
+        attribute: 'event_description',
+        sortable: true,
+      },
+      {
+        name: "מס' פנימי",
+        attribute: 'internal_number',
+        sortable: true,
+      },
+      {
+        name: 'טווח אירוע התחלה',
+        attribute: 'min_date',
+        sortable: true,
+      },
+      {
+        name: 'טווח אירוע סוף',
+        attribute: 'max_date',
+        sortable: true,
+      },
+
+    ].reverse();
+  }
+
 }

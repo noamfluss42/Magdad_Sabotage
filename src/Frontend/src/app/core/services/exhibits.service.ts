@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { Constants } from '../constants/constants';
 import { TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import { Exhibit } from '../utils/types';
+import { Exhibit, TableColumn } from '../utils/types';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +39,52 @@ export class ExhibitsService {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'json',
     });
+  }
+
+  getExhibitsFromCase(case_id: string) {
+    // should later be replaced from a response from a server
+    return [
+      {
+        internal_number: '1/22',
+        mark: '2',
+        storage_location: '1',
+        description: 'רימון',
+        quantity: '1',
+        destination: 'השמדה',
+        hanap: 'V',
+        hanap_weight: '156 גרם',
+        entry_date: '1.1.22',
+        treatment_date: '1.3.22',
+        investigator_name: 'עומר',
+        lab_name: 'דרום',
+      },
+      {
+        internal_number: '1/22',
+        mark: '3',
+        storage_location: '5',
+        description: 'כפפה',
+        quantity: '2',
+        destination: 'השוואה',
+        entry_date: '1.1.22',
+        treatment_date: '2.2.22',
+        investigator_name: 'עומר',
+        lab_type: 'ביולגית',
+        test_results: 'אותר די אן איי תואם',
+        lab_name: 'דרום',
+      },
+      {
+        internal_number: '1/22',
+        mark: '4',
+        storage_location: '6',
+        description: 'טל"ס',
+        quantity: '1',
+        destination: 'אחסנה',
+        entry_date: '1.1.22',
+        investigator_name: 'עומר',
+        lab_type: 'חבלה',
+        lab_name: 'דרום',
+      },
+    ];
   }
 
   getQuestions() {
@@ -79,5 +124,85 @@ export class ExhibitsService {
       }),
     ];
     return questions.sort((a, b) => a.order - b.order);
+  }
+
+  // return the columns that will be displayed in the dynamic table
+  // name --> what will be displayed in the table
+  // attribute --> the attribute of exhibit that will be returned.
+  // sortable --> if the column is sortable ( for now doesn't work, might be replaced later with sort function)
+  // TODO: add sort when I come back from Italy
+  getTableColumns(): TableColumn[] {
+    return [
+      {
+        name: "מס' פנימי",
+        attribute: 'internal_number',
+        sortable: true,
+      },
+      {
+        name: "מס' מוצג",
+        attribute: 'mark',
+        sortable: true,
+      },
+      {
+        name: 'מיקום אחסנה',
+        attribute: 'storage_location',
+        sortable: true,
+      },
+      {
+        name: 'תיאור',
+        attribute: 'description',
+        sortable: true,
+      },
+      {
+        name: 'כמות',
+        attribute: 'quantity',
+        sortable: true,
+      },
+      {
+        name: 'ייעוד',
+        attribute: 'destination',
+        sortable: true,
+      },
+      {
+        name: 'חנ"פ',
+        attribute: 'hanap',
+        sortable: true,
+      },
+      {
+        name: 'משקל חנ"פ',
+        attribute: 'hanap_weight',
+        sortable: true,
+      },
+      {
+        name: 'תארךיך הכנסה',
+        attribute: 'entry_date',
+        sortable: true,
+      },
+      {
+        name: 'תאריך טיפול',
+        attribute: 'treatment_date',
+        sortable: true,
+      },
+      {
+        name: 'שם חוקר',
+        attribute: 'investigator_name',
+        sortable: true,
+      },
+      {
+        name: 'מעבדה',
+        attribute: 'lab_type',
+        sortable: true,
+      },
+      {
+        name: 'תוצאות בדיקה',
+        attribute: 'test_results',
+        sortable: true,
+      },
+      {
+        name: 'מעבדה חוקרת',
+        attribute: 'lab_name',
+        sortable: true,
+      },
+    ].reverse();
   }
 }
