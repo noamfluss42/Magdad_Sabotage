@@ -8,8 +8,10 @@ import { FormFieldBase } from '../utils/form-field-base';
 @Injectable({
   providedIn: 'root',
 })
-export class MonthlySummaryService {
+export class SummaryService {
+
   monthlySummaryURL = `${Constants.API_URL}/monthlySummary`;
+  yearlySummaryURL = `${Constants.API_URL}/yearlySummary`;
 
   constructor(private http: HttpClient) { }
 
@@ -19,5 +21,12 @@ export class MonthlySummaryService {
       responseType: 'json',
     });
   }
-}
 
+  /* GET: gets yearly summary from the server */
+  getYearlySummary() {
+    return this.http.get(`${this.yearlySummaryURL}`, {
+      responseType: 'json',
+    });
+  }
+
+}

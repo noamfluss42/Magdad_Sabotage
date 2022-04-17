@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { first, Observable } from 'rxjs';
 import { FormFieldBase } from '../../core/utils/form-field-base';
-import { MonthlySummaryService } from 'src/app/core/services/monthly-summary.service';
+import { SummaryService } from 'src/app/core/services/summary.service';
 import { FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import {
@@ -20,7 +20,7 @@ export class MonthlySummaryScreenComponent implements OnInit {
   data: any;
 
   constructor(
-    private service: MonthlySummaryService,
+    private service: SummaryService,
     private datePipe: DatePipe
   ) {
 
@@ -33,14 +33,14 @@ export class MonthlySummaryScreenComponent implements OnInit {
              .subscribe((res: any) => (this.data = res));
 
     this.data = {
-      "totalOpenCases": "DUDE1",
-      "monthlyOpenedCases": "DUDE2",
-      "monthlyClosedCases": "DUDE3",
-      "totalNoneAreaEvents": "DUDE4",
-      "areasTreatedBySapper": "DUDE5",
-      "totalCheckedAreas": "DUDE6",
-      "totalMonthlyEvents": "DUDE7",
-      "eventsByCategories": "DUDE8",
+      "totalOpenCases": "Data1",
+      "monthlyOpenedCases": "Data2",
+      "monthlyClosedCases": "Data3",
+      "totalNoneAreaEvents": "Data4",
+      "areasTreatedBySapper": "Data5",
+      "totalCheckedAreas": "Data6",
+      "totalMonthlyEvents": "Data7",
+      "eventsByCategories": "Data8",
     }
 
   }

@@ -7,6 +7,6 @@
     "\\app\\pages\\monthly-summary-screen",
     "\\app\\pages\\open-case-screen"
   ],
-  "SelectedNode": "\\app\\pages\\register-exhibit-screen",
+  "SelectedNode": "\\app\\app-routing.module.ts",
   "PreviewInSolutionExplorer": false
 }

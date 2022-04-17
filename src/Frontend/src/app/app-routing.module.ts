@@ -6,6 +6,7 @@ import { GenLabFormScreenComponent } from './pages/gen-lab-form-screen/gen-lab-f
 import { EditExhibitScreenComponent } from './pages/edit-exhibit-screen/edit-exhibit-screen.component';
 import { MainScreenComponent } from './pages/main-screen/main-screen.component';
 import { MonthlySummaryScreenComponent } from './pages/monthly-summary-screen/monthly-summary-screen.component';
+import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/yearly-summary-screen.component';
 import { SearchCaseScreenComponent } from './pages/search-case-screen/search-case-screen.component';
 import { ResultsScreenComponent } from './pages/results-screen/results-screen.component';
 import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/exhibits-in-case-screen.component';
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'monthlySummary',
     component: MonthlySummaryScreenComponent,
+  },
+  {
+    path: 'yearlySummary',
+    component: YearlySummaryScreenComponent,
   },
   {
     path: 'case/:id/exhibits',
