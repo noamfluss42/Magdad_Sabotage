@@ -17,7 +17,7 @@ import {
 })
 export class MonthlySummaryScreenComponent implements OnInit {
 
-  data: any;
+  monthlySummary: any;
 
   constructor(
     private service: SummaryService,
@@ -30,9 +30,9 @@ export class MonthlySummaryScreenComponent implements OnInit {
 
     let result =
       service.getMonthlySummary(`${fromDate}|${toDate}`)
-             .subscribe((res: any) => (this.data = res));
+        .subscribe((res: any) => (this.monthlySummary = res));
 
-    this.data = {
+    this.monthlySummary = {
       "totalOpenCases": "Data1",
       "monthlyOpenedCases": "Data2",
       "monthlyClosedCases": "Data3",

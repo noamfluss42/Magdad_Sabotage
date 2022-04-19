@@ -1,30 +1,46 @@
-<h1>סיכום שנתי</h1>
-<div>
-  <p>{{ data["totalOpenCases"] }} :סה"כ תיקים פתוחים</p>
-  <p>{{ data["totalOpenCasesThisYear"] }} :סה"כ תיקים בסטטוס פתוח השנה</p>
-  <p>{{ data["yearlyOpenedCases"] }} :תיקים שנפתחו השנה</p>
-  <p>{{ data["yearlyClosedCases"] }} :תיקים שנסגרו השנה</p>
-  <p>{{ data["totalNoneAreaEvents"] }} :סה"כ אירוים ללא זירות</p>
-  <p>{{ data["areasTreatedBySapper"] }} :זירות שטופלו ע"י חבלן</p>
-  <p>{{ data["totalCheckedAreas"] }} :סה"כ יציאה לזירות אירוע</p>
-  <p>{{ data["totalYearlyEvents"] }} :סה"כ אירועים השנה</p>
-  <p>{{ data["eventsByCategories"] }} :פירוט אירועים עפ"י קטגוריות</p>
+<h1>{{ months[month] }}</h1>
+
+<div *ngIf="month == 0">
+  <!-- Yearly summary -->
+  <p>{{ yearlySummary["totalOpenCases"] }} :סה"כ תיקים פתוחים</p>
+  <p>{{ yearlySummary["totalOpenCasesThisYear"] }} :סה"כ תיקים בסטטוס פתוח השנה</p>
+  <p>{{ yearlySummary["yearlyOpenedCases"] }} :תיקים שנפתחו השנה</p>
+  <p>{{ yearlySummary["yearlyClosedCases"] }} :תיקים שנסגרו השנה</p>
+  <p>{{ yearlySummary["totalNoneAreaEvents"] }} :סה"כ אירוים ללא זירות</p>
+  <p>{{ yearlySummary["areasTreatedBySapper"] }} :זירות שטופלו ע"י חבלן</p>
+  <p>{{ yearlySummary["totalCheckedAreas"] }} :סה"כ יציאה לזירות אירוע</p>
+  <p>{{ yearlySummary["totalYearlyEvents"] }} :סה"כ אירועים השנה</p>
+  <p>{{ yearlySummary["eventsByCategories"] }} :פירוט אירועים עפ"י קטגוריות</p>
 </div>
+
+<div *ngIf="month != 0">
+  <!-- Monthly summary -->
+  <p>{{ monthlySummary["totalOpenCases"] }} :סה"כ תיקים פתוחים</p>
+  <p>{{ monthlySummary["monthlyOpenedCases"] }} :תיקים שנפתחו החודש</p>
+  <p>{{ monthlySummary["monthlyClosedCases"] }} :תיקים שנסגרו החודש</p>
+  <p>{{ monthlySummary["totalNoneAreaEvents"] }} :סה"כ אירוים ללא זירות</p>
+  <p>{{ monthlySummary["areasTreatedBySapper"] }} :זירות שטופלו ע"י חבלן</p>
+  <p>{{ monthlySummary["totalCheckedAreas"] }} :סה"כ יציאה לזירות אירוע</p>
+  <p>{{ monthlySummary["totalMonthlyEvents"] }} :סה"כ אירועים החודש</p>
+  <p>{{ monthlySummary["eventsByCategories"] }} :פירוט אירועים עפ"י קטגוריות</p>
+  <br/>
+</div>
+
 <div>
   <div class="row">
-    <p class="month">ינואר</p>
-    <p class="month">פברואר</p>
-    <p class="month">מרץ</p>
-    <p class="month">אפריל</p>
-    <p class="month">מאי</p>
-    <p class="month">יוני</p>
+    <p class="month" (click)="getMonthlySummary(6)">יוני</p>
+    <p class="month" (click)="getMonthlySummary(5)">מאי</p>
+    <p class="month" (click)="getMonthlySummary(4)">אפריל</p>
+    <p class="month" (click)="getMonthlySummary(3)">מרץ</p>
+    <p class="month" (click)="getMonthlySummary(2)">פברואר</p>
+    <p class="month" (click)="getMonthlySummary(1)">ינואר</p>
   </div>
   <div class="row">
-    <p class="month">יולי</p>
-    <p class="month">אוגוסט</p>
-    <p class="month">ספטמבר</p>
-    <p class="month">אוקטובר</p>
-    <p class="month">נובמבר</p>
-    <p class="month">דצמבר</p>
+    <p class="month" (click)="getMonthlySummary(12)">דצמבר</p>
+    <p class="month" (click)="getMonthlySummary(11)">נובמבר</p>
+    <p class="month" (click)="getMonthlySummary(10)">אוקטובר</p>
+    <p class="month" (click)="getMonthlySummary(9)">ספטמבר</p>
+    <p class="month" (click)="getMonthlySummary(8)">אוגוסט</p>
+    <p class="month" (click)="getMonthlySummary(7)">יולי</p>
   </div>
 </div>
