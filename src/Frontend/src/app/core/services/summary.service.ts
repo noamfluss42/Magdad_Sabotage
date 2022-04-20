@@ -23,8 +23,8 @@ export class SummaryService {
   }
 
   /* GET: gets yearly summary from the server */
-  getYearlySummary() {
-    return this.http.get(`${this.yearlySummaryURL}`, {
+  getYearlySummary(currentDate: string) {
+    return this.http.get(`${this.yearlySummaryURL}/${currentDate}`, {
       responseType: 'json',
     });
   }

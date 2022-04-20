@@ -4,9 +4,7 @@
     "\\app",
     "\\app\\core",
     "\\app\\pages",
-    "\\app\\pages\\monthly-summary-screen",
-    "\\app\\pages\\open-case-screen"
+    "\\app\\styles"
   ],
-  "SelectedNode": "\\app\\app-routing.module.ts",
   "PreviewInSolutionExplorer": false
 }

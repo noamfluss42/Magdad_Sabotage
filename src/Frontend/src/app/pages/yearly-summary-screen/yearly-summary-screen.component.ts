@@ -20,6 +20,7 @@ export class YearlySummaryScreenComponent implements OnInit {
   yearlySummary: any;
   monthlySummary: any;
   month: number;
+  range: string;
 
   months: Array<string> = [
     "סיכום שנתי",
@@ -43,8 +44,11 @@ export class YearlySummaryScreenComponent implements OnInit {
   ) {
 
     this.month = 0;
+    this.range = "";
+
+    let currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy')
     let result =
-      service.getYearlySummary()
+      service.getYearlySummary(`${currentDate}`)
         .subscribe((res: any) => (this.yearlySummary = res));
 
     this.yearlySummary = {
@@ -66,11 +70,13 @@ export class YearlySummaryScreenComponent implements OnInit {
 
   getMonthlySummary(month: number) {
 
-    let currentDate = new Date()
-    let monthRange = `0${month}-${this.datePipe.transform(currentDate, 'yyyy')}`
+    var lastMonthDay = new Date(new Date().getFullYear(), month, 0);
+
+    let fromDate = `01-${this.datePipe.transform(lastMonthDay, 'MM-yyyy')}`
+    let toDate = this.datePipe.transform(lastMonthDay, 'dd-MM-yyyy')
 
     let result =
-      this.service.getMonthlySummary(monthRange)
+      this.service.getMonthlySummary(`${fromDate}|${toDate}`)
         .subscribe((res: any) => (this.monthlySummary = res));
 
     this.monthlySummary = {
@@ -85,6 +91,7 @@ export class YearlySummaryScreenComponent implements OnInit {
     }
 
     this.month = month
+    this.range = `01.${this.datePipe.transform(lastMonthDay, 'MM.yy')} - ${this.datePipe.transform(lastMonthDay, 'dd.MM.yy')}`
 
   }
 
