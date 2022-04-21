@@ -3,7 +3,7 @@
     font-family: Arial, Helvetica, sans-serif;
   }
   h1 {
-  
+
     color: #264D73;
     font-size: 2.5rem;
     text-align:center;
@@ -53,7 +53,7 @@
     color: #aaa;
     cursor: auto;
   }
-  
+
   /* Navigation link styles */
   nav a {
     padding: 5px 10px;
@@ -65,7 +65,7 @@
     color: #3d3d3d;
     border-radius: 4px;
   }
-  
+
   nav a:hover {
     color: white;
     background-color:  #42545C;
@@ -77,5 +77,14 @@
   hr {
     margin: 1.5rem 0;
   }
-  
-  
+
+  .onSave
+  {
+    border-radius: 4px;
+    padding: 2rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: -6.5rem;
+
+
+  }

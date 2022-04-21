@@ -45,6 +45,7 @@ export class ExhibitsService {
     // should later be replaced from a response from a server
     return [
       {
+        index:1,
         internal_number: '1/22',
         mark: '2',
         storage_location: '1',
@@ -59,6 +60,7 @@ export class ExhibitsService {
         lab_name: 'דרום',
       },
       {
+        index:2,
         internal_number: '1/22',
         mark: '3',
         storage_location: '5',
@@ -73,6 +75,7 @@ export class ExhibitsService {
         lab_name: 'דרום',
       },
       {
+        index:3,
         internal_number: '1/22',
         mark: '4',
         storage_location: '6',
@@ -133,6 +136,13 @@ export class ExhibitsService {
   // TODO: add sort when I come back from Italy
   getTableColumns(): TableColumn[] {
     return [
+      {
+        name: 'מספר ',
+        // setting attribute to index to get the index of the exhibit in the array
+        attribute: 'index',
+        sortable: true,
+        // set value to index
+      },
       {
         name: "מס' פנימי",
         attribute: 'internal_number',

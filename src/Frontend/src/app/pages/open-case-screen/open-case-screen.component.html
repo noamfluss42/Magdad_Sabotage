@@ -2,7 +2,16 @@
   <h1>פתיחת תיק</h1>
   <app-dynamic-form
     [fields]="fields$"
+    buttonText="שמור"
+    [onSubmit]="onSave"
+  ></app-dynamic-form>
+  <!-- material ui seperator  -->
+  <mat-divider></mat-divider>
+  <h1>תיוגים</h1>
+  <app-dynamic-form
+    [fields]="tags$"
     buttonText="הבא"
     [onSubmit]="onSubmit"
   ></app-dynamic-form>
+
 </div>

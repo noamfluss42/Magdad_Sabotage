@@ -15,3 +15,6 @@ export class DropdownField extends FormFieldBase<string> {
 export class TextboxField extends FormFieldBase<string> {
   override controlType = 'textbox';
 }
+export class SeparatorField extends FormFieldBase<string> {
+  override controlType = 'separator';
+}

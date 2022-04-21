@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class OpenCaseScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
+  tags$ : FormFieldBase<any>[];
 
   constructor(
     private service: CasesService,
@@ -18,6 +19,8 @@ export class OpenCaseScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = service.getQuestions();
+    this.tags$ = service.getTags();
+
   }
 
   ngOnInit(): void {
@@ -36,4 +39,10 @@ export class OpenCaseScreenComponent implements OnInit {
     this.sharedData.addToData(formRawValue);
     this.router.navigate(['/registerExhibit']);
   };
+  onSave = (form: FormGroup, cb: (res: string) => void): void => {
+    const formRawValue = form.getRawValue();
+    this.service.postCase(formRawValue).subscribe((res: any) => {
+      cb(res);
+    });
+  }
 }

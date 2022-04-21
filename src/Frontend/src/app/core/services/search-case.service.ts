@@ -283,9 +283,16 @@ export class SearchCaseService {
   getTableColumns(): TableColumn[] {
     return [
       {
+        name: 'מספר ',
+        attribute: 'index',
+        sortable: true,
+        // set value to index
+      },
+      {
         name: 'מספר תיק',
         attribute: 'case_id',
         sortable: true,
+
       },
       {
         name: 'מעבדה',

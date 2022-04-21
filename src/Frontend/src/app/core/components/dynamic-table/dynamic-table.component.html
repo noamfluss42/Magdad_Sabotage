@@ -1,5 +1,6 @@
 <mat-table [dataSource]="tableData">
   <ng-container *ngFor="let column of columns">
+    <!-- Position Column -->
     <ng-container matColumnDef="{{ column.name }}">
       <mat-header-cell *matHeaderCellDef>{{ column.name }}</mat-header-cell>
       <mat-cell *matCellDef="let row">{{ row[column.attribute] }}</mat-cell>
