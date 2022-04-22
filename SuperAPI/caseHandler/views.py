@@ -13,6 +13,9 @@ from caseHandler.serializers import CaseSerializer
 from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
 
+from caseHandler.models import Samples
+from caseHandler.serializers import SamplesSerializer
+
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
@@ -82,6 +85,35 @@ def exhibitsApi(request, bag_number=""):
         department = Exhibits.objects.get(CaseName=bag_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+
+@csrf_exempt
+def samplessApi(request, sample_id=""):
+    if request.method == 'GET':
+        samples_value = Samples.objects.all()
+        samples_serializer = SamplesSerializer(samples_value, many=True)
+        return JsonResponse(samples_serializer.data, safe=False)
+    elif request.method == 'POST':
+            samples_data = JSONParser().parse(request)
+            department_serializer = SamplesSerializer(data=samples_data)
+            if department_serializer.is_valid():
+                department_serializer.save()
+                return JsonResponse("Added Successfully!!", safe=False)
+            return JsonResponse("Failed to Add.", safe=False)
+
+    elif request.method == 'PUT':
+        department_data = JSONParser().parse(request)
+        department = Samples.objects.get(sample_id=department_data['sample_id'])
+        department_serializer = SamplesSerializer(department, data=department_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse("Updated Successfully!!", safe=False)
+        return JsonResponse("Failed to Update.", safe=False)
+
+    elif request.method == 'DELETE':
+        department = Samples.objects.get(SampleName=sample_id)
+        department.delete()
+        return JsonResponse("Deleted Succeffully!!", safe=False)
+
 
 
 @csrf_exempt
