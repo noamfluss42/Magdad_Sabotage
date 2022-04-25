@@ -19,6 +19,15 @@ export class MonthlySummaryScreenComponent implements OnInit {
 
   monthlySummary: any;
 
+  totalOpenCases: number = 0;
+  monthlyOpenedCases: number = 1;
+  monthlyClosedCases: number = 2;
+  totalNoneAreaEvents: number = 3;
+  areasTreatedBySapper: number = 4;
+  totalCheckedAreas: number = 5;
+  totalMonthlyEvents: number = 6;
+  eventsByCategories: number = 7;
+
   constructor(
     private service: SummaryService,
     private datePipe: DatePipe
@@ -32,16 +41,16 @@ export class MonthlySummaryScreenComponent implements OnInit {
       service.getMonthlySummary(`${fromDate}|${toDate}`)
         .subscribe((res: any) => (this.monthlySummary = res));
 
-    this.monthlySummary = {
-      "totalOpenCases": "Data1",
-      "monthlyOpenedCases": "Data2",
-      "monthlyClosedCases": "Data3",
-      "totalNoneAreaEvents": "Data4",
-      "areasTreatedBySapper": "Data5",
-      "totalCheckedAreas": "Data6",
-      "totalMonthlyEvents": "Data7",
-      "eventsByCategories": "Data8",
-    }
+    this.monthlySummary = [
+      "Data1",
+      "Data2",
+      "Data3",
+      "Data4",
+      "Data5",
+      "Data6",
+      "Data7",
+      "Data8",
+    ]
 
   }
 

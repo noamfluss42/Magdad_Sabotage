@@ -22,6 +22,25 @@ export class YearlySummaryScreenComponent implements OnInit {
   month: number;
   range: string;
 
+  totalOpenCases: number = 0;
+  monthlyOpenedCases: number = 1;
+  monthlyClosedCases: number = 2;
+  totalNoneAreaEvents: number = 3;
+  areasTreatedBySapper: number = 4;
+  totalCheckedAreas: number = 5;
+  totalMonthlyEvents: number = 6;
+  eventsByCategories: number = 7;
+
+  totalYealryOpenCases: number = 0;
+  totalOpenCasesThisYear: number = 1;
+  yearlyOpenedCases: number = 2;
+  yearlyClosedCases: number = 3;
+  totalYearlyNoneAreaEvents: number = 4;
+  areasTreatedBySapperYearly: number = 5;
+  totalYearlyCheckedAreas: number = 6;
+  totalYearlyEvents: number = 7;
+  eventsByCategoriesYearly: number = 8;
+
   months: Array<string> = [
     "סיכום שנתי",
     "סיכום חודש ינואר",
@@ -51,17 +70,17 @@ export class YearlySummaryScreenComponent implements OnInit {
       service.getYearlySummary(`${currentDate}`)
         .subscribe((res: any) => (this.yearlySummary = res));
 
-    this.yearlySummary = {
-      "totalOpenCases": "Data1",
-      "totalOpenCasesThisYear": "Data2",
-      "yearlyOpenedCases": "Data3",
-      "yearlyClosedCases": "Data4",
-      "totalNoneAreaEvents": "Data5",
-      "areasTreatedBySapper": "Data6",
-      "totalCheckedAreas": "Data7",
-      "totalYearlyEvents": "Data8",
-      "eventsByCategories": "Data9",
-    }
+    this.yearlySummary = [
+      "Data1",
+      "Data2",
+      "Data3",
+      "Data4",
+      "Data5",
+      "Data6",
+      "Data7",
+      "Data8",
+      "Data9",
+    ]
 
   }
 
@@ -79,16 +98,16 @@ export class YearlySummaryScreenComponent implements OnInit {
       this.service.getMonthlySummary(`${fromDate}|${toDate}`)
         .subscribe((res: any) => (this.monthlySummary = res));
 
-    this.monthlySummary = {
-      "totalOpenCases": "Data1",
-      "monthlyOpenedCases": "Data2",
-      "monthlyClosedCases": "Data3",
-      "totalNoneAreaEvents": "Data4",
-      "areasTreatedBySapper": "Data5",
-      "totalCheckedAreas": "Data6",
-      "totalMonthlyEvents": "Data7",
-      "eventsByCategories": "Data8",
-    }
+    this.monthlySummary = [
+      "Data1",
+      "Data2",
+      "Data3",
+      "Data4",
+      "Data5",
+      "Data6",
+      "Data7",
+      "Data8",
+    ]
 
     this.month = month
     this.range = `01.${this.datePipe.transform(lastMonthDay, 'MM.yy')} - ${this.datePipe.transform(lastMonthDay, 'dd.MM.yy')}`

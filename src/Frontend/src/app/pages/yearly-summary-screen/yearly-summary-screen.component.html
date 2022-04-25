@@ -3,27 +3,27 @@
 
 <div *ngIf="month == 0">
   <!-- Yearly summary -->
-  <p>{{ yearlySummary["totalOpenCases"] }} :סה"כ תיקים פתוחים</p>
-  <p>{{ yearlySummary["totalOpenCasesThisYear"] }} :סה"כ תיקים בסטטוס פתוח השנה</p>
-  <p>{{ yearlySummary["yearlyOpenedCases"] }} :תיקים שנפתחו השנה</p>
-  <p>{{ yearlySummary["yearlyClosedCases"] }} :תיקים שנסגרו השנה</p>
-  <p>{{ yearlySummary["totalNoneAreaEvents"] }} :סה"כ אירוים ללא זירות</p>
-  <p>{{ yearlySummary["areasTreatedBySapper"] }} :זירות שטופלו ע"י חבלן</p>
-  <p>{{ yearlySummary["totalCheckedAreas"] }} :סה"כ יציאה לזירות אירוע</p>
-  <p>{{ yearlySummary["totalYearlyEvents"] }} :סה"כ אירועים השנה</p>
-  <p>{{ yearlySummary["eventsByCategories"] }} :פירוט אירועים עפ"י קטגוריות</p>
+  <p>{{ yearlySummary[totalYealryOpenCases] }} :סה"כ תיקים פתוחים</p>
+  <p>{{ yearlySummary[totalOpenCasesThisYear] }} :סה"כ תיקים בסטטוס פתוח השנה</p>
+  <p>{{ yearlySummary[yearlyOpenedCases] }} :תיקים שנפתחו השנה</p>
+  <p>{{ yearlySummary[yearlyClosedCases] }} :תיקים שנסגרו השנה</p>
+  <p>{{ yearlySummary[totalYearlyNoneAreaEvents] }} :סה"כ אירוים ללא זירות</p>
+  <p>{{ yearlySummary[areasTreatedBySapperYearly] }} :זירות שטופלו ע"י חבלן</p>
+  <p>{{ yearlySummary[totalYearlyCheckedAreas] }} :סה"כ יציאה לזירות אירוע</p>
+  <p>{{ yearlySummary[totalYearlyEvents] }} :סה"כ אירועים השנה</p>
+  <p>{{ yearlySummary[eventsByCategoriesYearly] }} :פירוט אירועים עפ"י קטגוריות</p>
 </div>
 
 <div *ngIf="month != 0">
   <!-- Monthly summary -->
-  <p>{{ monthlySummary["totalOpenCases"] }} :סה"כ תיקים פתוחים</p>
-  <p>{{ monthlySummary["monthlyOpenedCases"] }} :תיקים שנפתחו החודש</p>
-  <p>{{ monthlySummary["monthlyClosedCases"] }} :תיקים שנסגרו החודש</p>
-  <p>{{ monthlySummary["totalNoneAreaEvents"] }} :סה"כ אירוים ללא זירות</p>
-  <p>{{ monthlySummary["areasTreatedBySapper"] }} :זירות שטופלו ע"י חבלן</p>
-  <p>{{ monthlySummary["totalCheckedAreas"] }} :סה"כ יציאה לזירות אירוע</p>
-  <p>{{ monthlySummary["totalMonthlyEvents"] }} :סה"כ אירועים החודש</p>
-  <p>{{ monthlySummary["eventsByCategories"] }} :פירוט אירועים עפ"י קטגוריות</p>
+  <p>{{ monthlySummary[totalOpenCases] }} :סה"כ תיקים פתוחים</p>
+  <p>{{ monthlySummary[monthlyOpenedCases] }} :תיקים שנפתחו החודש</p>
+  <p>{{ monthlySummary[monthlyClosedCases] }} :תיקים שנסגרו החודש</p>
+  <p>{{ monthlySummary[totalNoneAreaEvents] }} :סה"כ אירוים ללא זירות</p>
+  <p>{{ monthlySummary[areasTreatedBySapper] }} :זירות שטופלו ע"י חבלן</p>
+  <p>{{ monthlySummary[totalCheckedAreas] }} :סה"כ יציאה לזירות אירוע</p>
+  <p>{{ monthlySummary[totalMonthlyEvents] }} :סה"כ אירועים החודש</p>
+  <p>{{ monthlySummary[eventsByCategories] }} :פירוט אירועים עפ"י קטגוריות</p>
 </div>
 
 <div>
