@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': '1',
-        'HOST': '132.64.143.246', # this is my personal IP, you should change it to yours.
+        'HOST': '132.64.143.35', # this is my personal IP, you should change it to yours.
         'PORT': '5432',
     }
 }

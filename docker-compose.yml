@@ -2,14 +2,14 @@ version: "3.3"
 services:
     app-backend:
         build: ./SuperAPI/
-        image: backv1
+        image: barsheffer/backv1
         container_name: backend
         restart: always
         ports:
             - "12580:12580"
     app-frontend:
         build: ./src\Frontend/
-        image: frontv1
+        image: barsheffer/frontv1
         container_name: frontend
         restart: always
         ports:
