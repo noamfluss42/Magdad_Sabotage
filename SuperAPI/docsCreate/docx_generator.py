@@ -14,6 +14,19 @@ import os
 
 CHECKBOX_PATH = './w:fldChar/w:ffData/w:checkBox' # the XPath for the checkbox
 
+from docxtpl import DocxTemplate
+
+def generate_transfer_doc(args):
+    doc = DocxTemplate("lab_transfer_template.docx")
+    context = {
+        'lab_name':args['lab_name'],
+        'date': args['date'],
+         'internal_number':args['internal_number'],
+               }
+    doc.render(context)
+    doc.tables[0].rows[0].cells[0].paragraphs[0].runs[0]._r.xpath(CHECKBOX_PATH)[0]#.insert(2,
+                                                                                 #          OxmlElement('w:checked'))
+    doc.save("generated_doc.docx")
 
 def generate_docx(args):
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -72,3 +85,17 @@ def generate_docx(args):
     doc.save(buffer)
     buffer.seek(0) 
     return buffer
+
+
+def main():
+    args = {
+        'lab_name':"LAB_NAME",
+        'date':"1/1/2022",
+        'internal_number':"123"
+
+    }
+    generate_transfer_doc(args)
+
+
+if __name__ == "__main__":
+    main()

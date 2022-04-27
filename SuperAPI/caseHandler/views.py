@@ -11,11 +11,14 @@ from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
 
+from django.db.models import Value
+
 from caseHandler.models import Case
 from caseHandler.serializers import CaseSerializer
 
 from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
+from caseHandler.serializers import ExhibitsSerializerI
 
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
@@ -122,7 +125,16 @@ def exhibitQuery(request):
 def exhibitsApi(request, exhibit_number = ""):
     if request.method == 'GET':
         exhibit = Exhibits.objects.all()
-        exhibits_serializer = ExhibitsSerializer(exhibit, many=True)
+        print(exhibit.values())
+        exhibit.annotate(index = Value(''))
+        for row_num, exh in enumerate(exhibit):
+            #new_field = exh.index(row_num)
+            exh.index = row_num
+            print(exh)
+            #do_something(row_num, exh)
+            print("--------------------")
+        print(exhibit.values())
+        exhibits_serializer = ExhibitsSerializerI(exhibit, many=True)
         return JsonResponse(exhibits_serializer.data, safe=False)
 
     elif request.method == 'POST':
