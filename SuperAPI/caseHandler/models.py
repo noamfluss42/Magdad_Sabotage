@@ -39,7 +39,7 @@ class Samples(models.model):
 
     case_id = models.IntegerField(Required=True)
     exhibit_id = models.IntegerField(Required=True)
-    sample_id = models.IntegerField(primary_key=True, Required=True)
+    sample_id = models.IntegerField(Required=True)
     what_sampled = models.CharField(max_length=256)
     where_sampled = models.CharField(max_length=256)
     transferred_to_lab = models.CharField(max_length=5,choices=LABRATORIES,) #OPTION TO ADD "default=TLV,"
