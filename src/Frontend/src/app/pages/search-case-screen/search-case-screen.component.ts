@@ -13,12 +13,14 @@ import { FormFieldBase } from 'src/app/core/utils/form-field-base';
 export class SearchCaseScreenComponent implements OnInit {
 
   fields$: FormFieldBase<any>[];
+  tags$: FormFieldBase<any>[];
 
   constructor(
     private service: SearchCaseService,
     private router: Router
   ) {
     this.fields$ = service.getQuestions();
+    this.tags$ = service.getTags();
    }
 
   ngOnInit(): void {

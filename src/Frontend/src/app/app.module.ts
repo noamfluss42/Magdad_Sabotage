@@ -35,6 +35,7 @@ import { ResultsScreenComponent } from './pages/results-screen/results-screen.co
 import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/exhibits-in-case-screen.component';
 import { DynamicTableComponent } from './core/components/dynamic-table/dynamic-table.component';
 import { MatTableModule } from '@angular/material/table';
+import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -72,6 +73,7 @@ import { MatTableModule } from '@angular/material/table';
     ResultsScreenComponent,
     ExhibitsInCaseScreenComponent,
     DynamicTableComponent,
+    ExhibitsNavigatorScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

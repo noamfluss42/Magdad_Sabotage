@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import type { Observable } from 'rxjs';
 import { Constants } from '../constants/constants';
-import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
+import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
 
@@ -11,7 +12,7 @@ import type { Case } from '../utils/types';
 })
 export class CasesService {
   caseURL = `${Constants.API_URL}/case/`;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router: Router) {}
 
   // return Observable of Case[]
   getCase() {
@@ -210,6 +211,12 @@ export class CasesService {
         required: true,
         type: 'text',
       }),
+      new ButtonField({
+        label: 'תנועת מוצגים',
+        type: 'redirect',
+        onClick: () => {
+          this.router.navigate(['/exhibitNavigator']);
+      }}),
 
       // new TextboxField({
       //   key: 'sender_rank',
@@ -297,6 +304,7 @@ export class CasesService {
         required: true,
         type: 'text',
       }),
+
     ];
     return tags;
   }

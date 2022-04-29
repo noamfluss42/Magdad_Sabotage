@@ -33,6 +33,7 @@ export class OpenCaseScreenComponent implements OnInit {
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+
     this.service.postCase(formRawValue).subscribe((res: any) => {
       cb(res);
     });
@@ -41,6 +42,7 @@ export class OpenCaseScreenComponent implements OnInit {
   };
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+
     this.service.postCase(formRawValue).subscribe((res: any) => {
       cb(res);
     });

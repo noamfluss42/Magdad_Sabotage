@@ -3,7 +3,15 @@
     <!-- Position Column -->
     <ng-container matColumnDef="{{ column.name }}">
       <mat-header-cell *matHeaderCellDef>{{ column.name }}</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{ row[column.attribute] }}</mat-cell>
+      <mat-cell *matCellDef="let row">{{ row[column.attribute] }}
+        <!-- only at last column -->
+        <div *ngIf="column.name == 'עריכה' ">
+          <button mat-icon-button  (click)="column.onClick()" matTooltip="Edit"> 
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </mat-cell>
+
     </ng-container>
   </ng-container>
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
