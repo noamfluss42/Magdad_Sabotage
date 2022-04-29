@@ -95,7 +95,10 @@ def queryHandler(request):
 def caseApi(request, case_name=""):
     if request.method == 'GET':
         cases = Case.objects.all()
-        cases_serializer = CaseSerializer(cases, many=True)
+        cases.annotate(index=Value(''))
+        for row_num, case in enumerate(cases):
+            case.index = row_num
+        cases_serializer = CaseSerializerI(cases, many=True)
         return JsonResponse(cases_serializer.data, safe=False)
 
     elif request.method == 'POST':
