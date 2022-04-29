@@ -3,13 +3,14 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from django.http.response import FileResponse
+from django.db.models import Value
 from django.http.response import HttpResponse
 from django.http import Http404
-import os
 
 from datetime import datetime
 from caseHandler.models import Case
 from caseHandler.serializers import CaseSerializer
+from caseHandler.serializers import CaseSerializerI
 
 from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
