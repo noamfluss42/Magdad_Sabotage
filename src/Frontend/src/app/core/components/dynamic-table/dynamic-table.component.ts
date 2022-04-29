@@ -12,9 +12,16 @@ export class DynamicTableComponent implements OnInit {
   // this variable is needed for displaying the collumns, was taken from the documentation
   public columnsToDisplay: string[] = [];
 
+
+
   constructor() {}
 
   ngOnInit(): void {
     this.columnsToDisplay = this.columns.map((column) => column.name);
+
   }
+
+
+
+
 }

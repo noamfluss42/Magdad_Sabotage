@@ -8,6 +8,7 @@ import { MainScreenComponent } from './pages/main-screen/main-screen.component';
 import { SearchCaseScreenComponent } from './pages/search-case-screen/search-case-screen.component';
 import { ResultsScreenComponent } from './pages/results-screen/results-screen.component';
 import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/exhibits-in-case-screen.component';
+import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: 'case/:id/exhibits',
     component: ExhibitsInCaseScreenComponent,
+  },
+  {
+    path:'exhibitNavigator',
+    component: ExhibitsNavigatorScreenComponent,
+
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];

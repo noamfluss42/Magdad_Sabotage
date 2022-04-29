@@ -18,3 +18,6 @@ export class TextboxField extends FormFieldBase<string> {
 export class SeparatorField extends FormFieldBase<string> {
   override controlType = 'separator';
 }
+export class ButtonField extends FormFieldBase<string> {
+  override controlType = 'button';
+}

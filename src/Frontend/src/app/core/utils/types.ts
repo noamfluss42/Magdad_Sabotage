@@ -69,8 +69,9 @@ export interface Case {
 
 export interface TableColumn {
   name: string;
-  attribute: string;
+  attribute: any;
   sortable: boolean;
+  onClick?: any;
 }
 
 export interface ResultCaseTable {

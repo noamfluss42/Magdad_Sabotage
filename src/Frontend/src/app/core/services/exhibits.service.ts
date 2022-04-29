@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Constants } from '../constants/constants';
-import { TextboxField } from '../utils/fields';
+import { ButtonField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 import { Exhibit, TableColumn } from '../utils/types';
 
@@ -11,7 +12,7 @@ import { Exhibit, TableColumn } from '../utils/types';
 export class ExhibitsService {
   exhibitsURL = `${Constants.API_URL}/exhibits`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   /* GET: get exhibit by bag_number from the server */
   getExhibit(bag_number: string) {
@@ -45,7 +46,7 @@ export class ExhibitsService {
     // should later be replaced from a response from a server
     return [
       {
-        index:1,
+        index: 1,
         internal_number: '1/22',
         mark: '2',
         storage_location: '1',
@@ -60,7 +61,7 @@ export class ExhibitsService {
         lab_name: 'דרום',
       },
       {
-        index:2,
+        index: 2,
         internal_number: '1/22',
         mark: '3',
         storage_location: '5',
@@ -75,7 +76,7 @@ export class ExhibitsService {
         lab_name: 'דרום',
       },
       {
-        index:3,
+        index: 3,
         internal_number: '1/22',
         mark: '4',
         storage_location: '6',
@@ -125,6 +126,12 @@ export class ExhibitsService {
         required: true,
         type: 'text',
       }),
+      new ButtonField({
+        key: 'test',
+        label: 'תנועת דגימות',
+        required: true,
+        type: 'button',
+      }),
     ];
     return questions.sort((a, b) => a.order - b.order);
   }
@@ -150,12 +157,12 @@ export class ExhibitsService {
       },
       {
         name: "מס' מוצג",
-        attribute: 'mark',
+        attribute: 'exhibit_number',
         sortable: true,
       },
       {
         name: 'מיקום אחסנה',
-        attribute: 'storage_location',
+        attribute: 'location',
         sortable: true,
       },
       {
@@ -165,7 +172,7 @@ export class ExhibitsService {
       },
       {
         name: 'כמות',
-        attribute: 'quantity',
+        attribute: 'amount',
         sortable: true,
       },
       {
@@ -175,22 +182,27 @@ export class ExhibitsService {
       },
       {
         name: 'חנ"פ',
-        attribute: 'hanap',
+        attribute: 'explosive',
         sortable: true,
       },
       {
         name: 'משקל חנ"פ',
-        attribute: 'hanap_weight',
+        attribute: 'explosive_weight',
+        sortable: true,
+      },
+      {
+        name: 'TNTאקווילנט ל',
+        attribute: 'tnt_equivalent',
         sortable: true,
       },
       {
         name: 'תארךיך הכנסה',
-        attribute: 'entry_date',
+        attribute: 'received_date',
         sortable: true,
       },
       {
         name: 'תאריך טיפול',
-        attribute: 'treatment_date',
+        attribute: 'handled_date',
         sortable: true,
       },
       {
@@ -199,19 +211,23 @@ export class ExhibitsService {
         sortable: true,
       },
       {
-        name: 'מעבדה',
-        attribute: 'lab_type',
+        name: 'מעבדה חוקרת',
+        attribute: 'lab_name',
         sortable: true,
       },
       {
         name: 'תוצאות בדיקה',
-        attribute: 'test_results',
+        attribute: 'results',
         sortable: true,
       },
       {
-        name: 'מעבדה חוקרת',
-        attribute: 'lab_name',
+        name: 'עריכה',
+        attribute: 'עריכה',
         sortable: true,
+        onClick: () => {
+          this.router.navigate(['/home']);
+      },
+
       },
     ].reverse();
   }
