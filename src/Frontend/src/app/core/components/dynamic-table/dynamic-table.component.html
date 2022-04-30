@@ -6,7 +6,7 @@
       <mat-cell *matCellDef="let row">{{ row[column.attribute] }}
         <!-- only at last column -->
         <div *ngIf="column.name == 'עריכה' ">
-          <button mat-icon-button  (click)="column.onClick()" matTooltip="Edit"> 
+          <button mat-icon-button  (click)="column.onClick(row)" matTooltip="Edit">
             <mat-icon>edit</mat-icon>
           </button>
         </div>

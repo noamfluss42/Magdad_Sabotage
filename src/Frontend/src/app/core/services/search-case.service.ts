@@ -41,6 +41,7 @@ export class SearchCaseService {
     free(data: any) {
       localStorage.removeItem('data');
     }
+    //TODO CHECK QUERY
     getTags() {
       const tags: FormFieldBase<string>[] = [
         new TextboxField({

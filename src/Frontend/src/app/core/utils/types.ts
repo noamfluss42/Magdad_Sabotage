@@ -1,9 +1,18 @@
 export interface Exhibit {
-  bag_number: string;
   case_id: string;
-  exhibit_description: string;
-  exhibit_packaging: string;
-  exhibit_mark: string;
+  exhibit_number: string;
+  location: string;
+  description: string;
+  amount: string;
+  destination: string;
+  explosive: string;
+  explosive_weight: string;
+  tnt_equivalent: string;
+  received_date: string;
+  handled_date: string;
+  investigator_name: string;
+  lab_name: string;
+  result: string;
 }
 
 // export interface Case {

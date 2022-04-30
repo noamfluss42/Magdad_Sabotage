@@ -15,9 +15,9 @@ export class ExhibitsService {
   constructor(private http: HttpClient, private router: Router) {}
 
   /* GET: get exhibit by bag_number from the server */
-  getExhibit(bag_number: string) {
-    console.log(bag_number);
-    return this.http.get(`${this.exhibitsURL}/${bag_number}`, {
+  getExhibit(exhibit_number: string) {
+    console.log(exhibit_number);
+    return this.http.get(`${this.exhibitsURL}/${exhibit_number}`, {
       responseType: 'json',
     });
   }
@@ -25,7 +25,7 @@ export class ExhibitsService {
   /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
     return this.http.put<any>(
-      `${this.exhibitsURL}/${exhibit.bag_number}`,
+      `${this.exhibitsURL}/${exhibit.exhibit_number}`,
       exhibit,
       {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -101,31 +101,88 @@ export class ExhibitsService {
         // value:OpenCaseFieldsService.getQuestions().key['internalNumber'], //! impleament method to get case id from open case service to exhibit register.
       }),
       new TextboxField({
-        key: 'bag_number', // +year
-        label: '  מספר שקית',
+        key: 'exhibit_number', // +year
+        label: "מס' מוצג",
         required: true,
         type: 'text',
       }),
       new TextboxField({
-        key: 'exhibit_description', // +year
+        key: 'location',
+        label: 'מיקום',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'description', // +year
         label: 'תיאור המוצג',
         required: true,
         type: 'text',
       }),
 
       new TextboxField({
-        key: 'exhibit_packaging',
-        label: 'אריזה',
+        key: 'amount',
+        label: 'כמות',
         required: true,
         type: 'text',
+      }),
+      new TextboxField({
+        key: 'destination',
+        label: 'ייעוד',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key:'explosive',
+        label:'חנ"פ',
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:'explosive_weight',
+        label:'משקל חנ"פ',
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:"tnt_equivalent",
+        label:"TNT אקוויולנט ל ",
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:"received_date",
+        label:"תאריך הכנסה",
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:"handled_date",
+        label:"תאריך טיפול",
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:"investigator_name",
+        label:"שם חוקר",
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:"lab_name",
+        label:"מעבדה",
+        required:true,
+        type:'text',
+      }),
+      new TextboxField({
+        key:"result",
+        label:"תוצאות בדיקה",
+        required:true,
+        type:'text',
       }),
 
-      new TextboxField({
-        key: 'exhibit_mark',
-        label: 'סימון',
-        required: true,
-        type: 'text',
-      }),
+
+
+
       new ButtonField({
         key: 'test',
         label: 'תנועת דגימות',
@@ -224,11 +281,11 @@ export class ExhibitsService {
         name: 'עריכה',
         attribute: 'עריכה',
         sortable: true,
-        onClick: () => {
-          this.router.navigate(['/home']);
+        onClick: (exhibit: Exhibit) => {
+          this.getExhibit(exhibit.exhibit_number); //TODO implement edit exhibit
+        },
       },
 
-      },
     ].reverse();
   }
 }

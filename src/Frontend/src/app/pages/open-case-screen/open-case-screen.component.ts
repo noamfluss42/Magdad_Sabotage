@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class OpenCaseScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
   tags$ : FormFieldBase<any>[];
+  form = new FormGroup({});
 
   constructor(
     private service: CasesService,
@@ -24,14 +25,13 @@ export class OpenCaseScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe(params => {
-    //   this.fields$ = params['fields'];
-    // });
-  }
 
-  // Function must be defined as arrow function otherwise 'this' keyword will refer to
-  // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
+
+  }
+  //TODO: add a method to combine tags and form data together to send to the server
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
+    // merge from.getRawValue data with tags
+    const data = { ...form.getRawValue(), ...this.tags$ };
     const formRawValue = form.getRawValue();
 
     this.service.postCase(formRawValue).subscribe((res: any) => {
