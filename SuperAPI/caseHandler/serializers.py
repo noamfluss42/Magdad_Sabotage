@@ -2,7 +2,7 @@ from rest_framework import serializers
 from caseHandler.models import Case
 from caseHandler.models import CaseI
 from caseHandler.models import Exhibits
-
+from caseHandler.models import ExhibitsI
 
 class CaseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -66,5 +66,40 @@ class CaseSerializerI(serializers.ModelSerializer):
 class ExhibitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exhibits
-        fields = ('exhibit_description', 'bag_number',
-                  'exhibits_packaging', 'exhibits_mark', 'case_id')
+        fields = (
+            "internal_number",
+            "exhibit_number",
+            "location",
+            "description",
+            "amount",
+            "destination",
+            "explosive",
+            "explosive_weight",
+            "tnt_equivalent",
+            "received_date",
+            "handle_date",
+            "investigator_name",
+            "lab_name",
+            "result"
+        )
+class ExhibitsSerializerI(serializers.ModelSerializer):
+    class Meta:
+        model = ExhibitsI
+        fields = (
+            "internal_number",
+            "exhibit_number",
+            "location",
+            "description",
+            "amount",
+            "destination",
+            "explosive",
+            "explosive_weight",
+            "tnt_equivalent",
+            "received_date",
+            "handle_date",
+            "investigator_name",
+            "lab_name",
+            "result",
+            "index"
+        )
+

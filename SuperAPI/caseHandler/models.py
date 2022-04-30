@@ -64,7 +64,39 @@ class CaseI(models.Model):
 
 
 class Exhibits(models.Model):
-    exhibit_description = models.CharField(max_length=256)
-    case_id = models.IntegerField()
-    bag_number = models.PositiveIntegerField(primary_key=True)
-    exhibits_packaging = models.CharField(max_length=256)
+    class Meta:
+        unique_together = (('internal_number', 'exhibit_number'),)
+    internal_number = models.CharField(max_length=32)
+    exhibit_number = models.CharField(max_length=32)
+    location = models.CharField(max_length=128)
+    description = models.CharField(max_length=256)
+    amount = models.CharField(max_length=32)
+    destination = models.CharField(max_length=128)
+    explosive = models.CharField(max_length=32)
+    explosive_weight = models.CharField(max_length=32)
+    tnt_equivalent = models.CharField(max_length=32)
+    received_date = models.CharField(max_length=32)
+    handle_date = models.CharField(max_length=32)
+    investigator_name = models.CharField(max_length=128)
+    lab_name = models.CharField(max_length=128)
+    result = models.CharField(max_length=128)
+
+class ExhibitsI(models.Model):
+    class Meta:
+        unique_together = (('internal_number', 'exhibit_number'),)
+    internal_number = models.CharField(max_length=32)
+    exhibit_number = models.CharField(max_length=32)
+    location = models.CharField(max_length=128)
+    description = models.CharField(max_length=256)
+    amount = models.CharField(max_length=32)
+    destination = models.CharField(max_length=128)
+    explosive = models.CharField(max_length=32)
+    explosive_weight = models.CharField(max_length=32)
+    tnt_equivalent = models.CharField(max_length=32)
+    received_date = models.CharField(max_length=32)
+    handle_date = models.CharField(max_length=32)
+    investigator_name = models.CharField(max_length=128)
+    lab_name = models.CharField(max_length=128)
+    result = models.CharField(max_length=128)
+    index = models.IntegerField()
+
