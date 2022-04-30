@@ -1,65 +1,113 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import type { Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Constants } from '../constants/constants';
-import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../utils/fields';
+import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import type { Case } from '../utils/types';
+import {CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class CasesService {
-  caseURL = `${Constants.API_URL}/case/`;
-  constructor(private http: HttpClient,private router: Router) {}
+export class SearchCaseService {
+  queryUrl = `${Constants.API_URL}/query`;
+  constructor(private http: HttpClient) { }
+    // return Observable of Case[]
+    getQuery() {
+      return this.http.get<CaseSearch[]>(this.queryUrl);
+    }
 
-  // return Observable of Case[]
-  getCase() {
-    return this.http.get<Case[]>(this.caseURL);
-  }
+    /* POST: add new Case do database */
 
-  /* POST: add new Case do database */
+    // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
+    postQuery(case_: CaseSearch): Observable<CaseSearch> {
+      return this.http.post<CaseSearch>(this.queryUrl, case_, {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      });
+    }
+    // //sets data for the search case result screen
+    setData(data: any) {
+      localStorage.setItem('data', JSON.stringify(data));
+    }
+    getData(): any { // returns data from local storage and check if null
+      const data = localStorage.getItem('data');
+      if (data) {
+        return JSON.parse(data);
+      }
+      return null;
+    }
+    free(data: any) {
+      localStorage.removeItem('data');
+    }
+    //TODO CHECK QUERY
+    getTags() {
+      const tags: FormFieldBase<string>[] = [
+        new TextboxField({
+          key: 'weapon_name',
+          label: 'אמל"ח: שם הפריט',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'explosive_device_material',
+          label: 'מט"ח: חנ"מ',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'explosive_device_means',
+          label: 'מט"ח: אמצעי ייזום',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'weapon_options',
+          label: 'אמל"ח: הגדרות',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'explosive_device_operating_system',
+          label: 'מט"ח: מע' + "' הפעלה",
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'weapon_mark',
+          label: 'אמל"ח: סימון',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'explosive_device_spray',
+          label: 'מט"ח: רסס',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'weapon_color',
+          label: 'אמל"ח: צבע',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'explosive_device_camouflage',
+          label: 'מט"ח: הסוואה',
+          required: true,
+          type: 'text',
+        }),
+        new TextboxField({
+          key: 'weapon_additional_characteristics',
+          label: 'אמל"ח: מאפיינים נוספים',
+          required: true,
+          type: 'text',
+        }),
 
-  // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
-  postCase(case_: Case): Observable<Case> {
-    return this.http.post<Case>(this.caseURL + case_.internal_number, case_, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    });
-  }
-
-  /* GET case fields that contains search term */
-  searchCaseFields(term: string): Observable<Case[]> {
-    term = term.trim();
-    const options = term ? { params: new HttpParams().set('name', term) } : {};
-    return this.http.get<Case[]>(this.caseURL, options);
-  }
-
-  /* DELETE: delete case by id on the server.*/
-  deleteCase(id: number): Observable<unknown> {
-    return this.http.delete(`${this.caseURL}/${id}`);
-  }
-
-  /* UPDATE: update the case field on the server. Returns the updated case upon success. */
-  updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL, case_, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-    });
-  }
-
-  // get this year
-  getFullYear(): number {
-    const date = new Date();
-    return date.getFullYear();
-  }
-  getShortYear(): number {
-    return this.getFullYear() - 2000;
-  }
-
+      ];
+      return tags;
+    }
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
@@ -67,7 +115,6 @@ export class CasesService {
         label: 'מספר פנימי',
         required: true,
         type: 'text',
-        value: '' + '/' + this.getShortYear().toString(),
       }),
       new DropdownField({
         key: 'received_or_go',
@@ -124,7 +171,6 @@ export class CasesService {
         key: 'pele_number',
         label: "'מס" + ' פלא',
         type: 'text',
-        value: '' + '/' + this.getFullYear().toString(),
       }),
 
       new DropdownField({
@@ -211,101 +257,53 @@ export class CasesService {
         required: true,
         type: 'text',
       }),
-      new ButtonField({
-        label: 'תנועת מוצגים',
-        type: 'redirect',
-        onClick: () => {
-          this.router.navigate(['/exhibitNavigator']);
-      }}),
-
-      // new TextboxField({
-      //   key: 'sender_rank',
-      //   label: 'דרגה ',
-      //   required: true,
-      //   type: 'text',
-      // }),
-
-      // new TextboxField({
-      //   key: 'sender_serial_number',
-      //   label: "מס' אישי ",
-      //   required: true,
-      //   type: 'text',
-      // }),
-
-      // new TextboxField({
-      //   key: 'phone_number',
-      //   label: 'מספר טלפון ',
-      //   required: true,
-      //   type: 'text',
-      // }),
-    ];
-    return questions;
-  }
-
-  getTags() {
-    const tags: FormFieldBase<string>[] = [
-      new TextboxField({
-        key: 'weapon_name',
-        label: 'אמל"ח: שם הפריט',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'explosive_device_material',
-        label: 'מט"ח: חנ"מ',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'explosive_device_means',
-        label: 'מט"ח: אמצעי ייזום',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'weapon_options',
-        label: 'אמל"ח: הגדרות',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'explosive_device_operating_system',
-        label: 'מט"ח: מע' + "' הפעלה",
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'weapon_mark',
-        label: 'אמל"ח: סימון',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'explosive_device_spray',
-        label: 'מט"ח: רסס',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'weapon_color',
-        label: 'אמל"ח: צבע',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'explosive_device_camouflage',
-        label: 'מט"ח: הסוואה',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'weapon_additional_characteristics',
-        label: 'אמל"ח: מאפיינים נוספים',
-        required: true,
-        type: 'text',
-      }),
 
     ];
-    return tags;
+
+    return questions.sort((a, b) => a.order - b.order);
   }
+  getTableColumns(): TableColumn[] {
+    return [
+      {
+        name: 'מספר ',
+        attribute: 'index',
+        sortable: true,
+        // set value to index
+      },
+      {
+        name: 'מספר תיק',
+        attribute: 'case_id',
+        sortable: true,
+
+      },
+      {
+        name: 'מעבדה',
+        attribute: 'lab_name',
+        sortable: true,
+      },
+      {
+        name: ' תיאור אירוע',
+        attribute: 'event_description',
+        sortable: true,
+      },
+      {
+        name: "מס' פנימי",
+        attribute: 'internal_number',
+        sortable: true,
+      },
+      {
+        name: 'טווח אירוע התחלה',
+        attribute: 'min_date',
+        sortable: true,
+      },
+      {
+        name: 'טווח אירוע סוף',
+        attribute: 'max_date',
+        sortable: true,
+      },
+
+
+    ].reverse();
+  }
+
 }
