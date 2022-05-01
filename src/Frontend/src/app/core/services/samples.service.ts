@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from '../constants/constants';
-import { TextboxField } from '../utils/fields';
+import { DropdownField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 //import { Exhibit, TableColumn } from '../utils/types';
 
@@ -16,61 +16,102 @@ export class SamplesService {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
         key: 'case_id',
-        label: 'מספר מוצג',
+        label: 'מספר תיק',
         required: true,
-        type: 'text',
+        type: 'number',
       }),
       new TextboxField({
-        key: 'bag_number',
+        key: 'exhibit_id',
+        label: 'מספר מוצג',
+        required: true,
+        type: 'number',
+      }),
+      new TextboxField({
+        key: 'sample_id',
+        label: 'מספר דגימה',
+        required: true,
+        type: 'number',
+      }),
+      new TextboxField({
+        key: 'what_sampled',
         label: 'מה נדגם',
         required: true,
         type: 'text',
       }),
       new TextboxField({
-        key: 'exhibit_description',
+        key: 'where_sampled',
         label: 'מאיפה נדגם',
         required: true,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'exhibit_packaging',
-        label: 'אריזה',
+      new DropdownField({
+        key: 'transferred_to_lab',
+        label: 'שם מעבדה',
         required: true,
-        type: 'text',
+        options: [
+          { key: "south", value: "דרום" },
+          { key: "tel_aviv", value: "תל אביב" },
+          { key: "north", value: "צפון" },
+          { key: "metar", value: "מתא\"ר" },
+        ]
       }),
       new TextboxField({
-        key: 'exhibit_mark',
-        label: 'סימון',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'exhibit_mark',
-        label: 'הועבר למעבדה',
-        required: true,
-        type: 'text',
-      }),
-      new TextboxField({
-        key: 'exhibit_mark',
-        label: 'תאריך שליטה',
+        key: 'sending_date',
+        label: 'תאריך שליחה',
         required: true,
         type: 'date',
       }),
       new TextboxField({
-        key: 'exhibit_mark',
+        key: 'receiving_date',
         label: 'תאריך קבלה',
         required: true,
         type: 'date',
       }),
       new TextboxField({
-        key: 'exhibit_mark',
+        key: 'packaging',
+        label: 'אריזה',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'results',
         label: 'תוצאות',
         required: true,
         type: 'text',
       }),
       new TextboxField({
-        key: 'exhibit_mark',
+        key: 'notes',
         label: 'הערות',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'date',
+        label: 'תאריך',
+        required: true,
+        type: 'date',
+      }),
+      new TextboxField({
+        key: 'unit_name',
+        label: 'שם יחידה',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'reference',
+        label: 'סימוכין',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'investigator_name',
+        label: 'שם חוקר',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'phone_num',
+        label: 'מספר טלפון',
         required: true,
         type: 'text',
       }),
