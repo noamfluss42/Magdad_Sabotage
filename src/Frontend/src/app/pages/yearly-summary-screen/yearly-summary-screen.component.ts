@@ -17,6 +17,8 @@ import {
 })
 export class YearlySummaryScreenComponent implements OnInit {
 
+  fields$: FormFieldBase<any>[];
+
   yearlySummary: any;
   monthlySummary: any;
   month: number;
@@ -61,6 +63,12 @@ export class YearlySummaryScreenComponent implements OnInit {
     private service: SummaryService,
     private datePipe: DatePipe
   ) {
+
+    this.fields$ = this.service.getQuestions();
+    var values = Array.from(this.fields$.values())
+    for (let i = 0; i < values.length; i++) {
+      values[i]["onClick"] = () => { this.getMonthlySummary(i + 1) }
+    }
 
     this.month = 0;
     this.range = "";

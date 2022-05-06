@@ -26,21 +26,4 @@
   <p>{{ monthlySummary[eventsByCategories] }} :פירוט אירועים עפ"י קטגוריות</p>
 </div>
 
-<div>
-  <div class="row">
-    <p class="month" (click)="getMonthlySummary(6)">יוני</p>
-    <p class="month" (click)="getMonthlySummary(5)">מאי</p>
-    <p class="month" (click)="getMonthlySummary(4)">אפריל</p>
-    <p class="month" (click)="getMonthlySummary(3)">מרץ</p>
-    <p class="month" (click)="getMonthlySummary(2)">פברואר</p>
-    <p class="month" (click)="getMonthlySummary(1)">ינואר</p>
-  </div>
-  <div class="row">
-    <p class="month" (click)="getMonthlySummary(12)">דצמבר</p>
-    <p class="month" (click)="getMonthlySummary(11)">נובמבר</p>
-    <p class="month" (click)="getMonthlySummary(10)">אוקטובר</p>
-    <p class="month" (click)="getMonthlySummary(9)">ספטמבר</p>
-    <p class="month" (click)="getMonthlySummary(8)">אוגוסט</p>
-    <p class="month" (click)="getMonthlySummary(7)">יולי</p>
-  </div>
-</div>
+<app-dynamic-form [fields]="fields$"></app-dynamic-form>
