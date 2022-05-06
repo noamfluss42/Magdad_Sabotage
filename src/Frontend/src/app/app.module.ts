@@ -29,6 +29,7 @@ import { DynamicFormComponent } from './core/components/dynamic-form/dynamic-for
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MonthlySummaryScreenComponent } from './pages/monthly-summary-screen/monthly-summary-screen.component';
 import { SearchCaseScreenComponent } from './pages/search-case-screen/search-case-screen.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ResultsScreenComponent } from './pages/results-screen/results-screen.component';
@@ -37,6 +38,7 @@ import { DynamicTableComponent } from './core/components/dynamic-table/dynamic-t
 import { MatTableModule } from '@angular/material/table';
 import { SamplesScreenComponent } from './pages/samples-screen/samples-screen.component';
 import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
+import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/yearly-summary-screen.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -70,12 +72,14 @@ import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-scr
     DynamicFormFieldComponent,
     routingComponents,
     MainScreenComponent,
+    MonthlySummaryScreenComponent,
     SearchCaseScreenComponent,
     ResultsScreenComponent,
     ExhibitsInCaseScreenComponent,
     DynamicTableComponent,
     SamplesScreenComponent,
     ExhibitsNavigatorScreenComponent,
+    YearlySummaryScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
