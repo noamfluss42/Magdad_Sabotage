@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\pages",
+    "\\app\\pages\\register-exhibit-screen",
+    "\\app\\pages\\samples-screen"
+  ],
+    "\\app\\core",
+    "\\app\\pages",
+    "\\app\\pages\\monthly-summary-screen",
+    "\\app\\pages\\yearly-summary-screen",
+    "\\app\\styles"
+  ],
+  "SelectedNode": "\\app\\pages\\monthly-summary-screen\\monthly-summary-screen.component.ts",
+  "PreviewInSolutionExplorer": false
+}

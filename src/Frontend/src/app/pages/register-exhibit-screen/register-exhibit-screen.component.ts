@@ -19,6 +19,10 @@ export class RegisterExhibitScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
+
+    //var values = Array.from(this.fields$.values())
+    //values[values.length - 1]["onClick"] = this.a
+
   }
 
   ngOnInit(): void {}
@@ -33,4 +37,5 @@ export class RegisterExhibitScreenComponent implements OnInit {
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);
   };
+
 }
