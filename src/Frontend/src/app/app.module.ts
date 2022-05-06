@@ -36,6 +36,7 @@ import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/e
 import { DynamicTableComponent } from './core/components/dynamic-table/dynamic-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
+
 @NgModule({
   imports: [
     BrowserModule,

@@ -14,6 +14,7 @@ export class OpenCaseScreenComponent implements OnInit {
   tags$ : FormFieldBase<any>[];
   form = new FormGroup({});
 
+
   constructor(
     private service: CasesService,
     private sharedData: SharedDataService,
@@ -22,29 +23,36 @@ export class OpenCaseScreenComponent implements OnInit {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
 
+
   }
 
   ngOnInit(): void {
 
 
   }
-  //TODO: add a method to combine tags and form data together to send to the server
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
+    const savedCase =JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
-    const data = { ...form.getRawValue(), ...this.tags$ };
-    const formRawValue = form.getRawValue();
-
-    this.service.postCase(formRawValue).subscribe((res: any) => {
+    const data = {...savedCase, ...form.getRawValue()};
+    console.log(data);
+    this.service.postCase(data).subscribe((res: any) => {
       cb(res);
     });
-    this.sharedData.addToData(formRawValue);
-    this.router.navigate(['/registerExhibit']);
+    this.sharedData.addToData(data);
+    localStorage.setItem('case', JSON.stringify(data));
+
+    // this.router.navigate(['/registerExhibit']);
   };
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
+    // sort form value by interface keys
     const formRawValue = form.getRawValue();
+    if (formRawValue[formRawValue.length - 1] === '')
+    {
+      formRawValue.pop();
+    }
 
-    this.service.postCase(formRawValue).subscribe((res: any) => {
-      cb(res);
-    });
+    //sort formRawValue by  order of Case interface
+    localStorage.setItem('case', JSON.stringify(formRawValue));
+    console.log(formRawValue);
   }
 }
