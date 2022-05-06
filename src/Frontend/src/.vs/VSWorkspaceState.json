@@ -2,6 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\app",
+    "\\app\\pages",
+    "\\app\\pages\\register-exhibit-screen",
+    "\\app\\pages\\samples-screen"
+  ],
     "\\app\\core",
     "\\app\\pages",
     "\\app\\pages\\monthly-summary-screen",
