@@ -6,6 +6,7 @@ import { Constants } from '../constants/constants';
 import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class CasesService {
 
   // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
   postCase(case_: Case): Observable<Case> {
-    return this.http.post<Case>(this.caseURL + case_.internal_number, case_, {
+    return this.http.post<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -50,6 +51,9 @@ export class CasesService {
       }),
     });
   }
+  cacheCaseOnReturn(case_: Case) {
+    localStorage.setItem('case', JSON.stringify(case_));
+  }
 
   // get this year
   getFullYear(): number {
@@ -67,11 +71,12 @@ export class CasesService {
         label: 'מספר פנימי',
         required: true,
         type: 'text',
-        value: '' + '/' + this.getShortYear().toString(),
+        value: '' + '.' + this.getShortYear().toString(),
       }),
       new DropdownField({
         key: 'received_or_go',
         label: 'יציאה/קבלה',
+        required: true,
         options: [
           { key: 'יציאה לאירוע', value: 'יציאה לאירוע' },
           { key: 'קבלת אירוע', value: 'קבלת אירוע' },
@@ -103,6 +108,10 @@ export class CasesService {
         key: 'event_date',
         label: 'תאריך אירוע',
         type: 'text',
+        required: true,
+
+
+
       }),
       new DatePickerField({
         key: 'received_date',
@@ -114,6 +123,7 @@ export class CasesService {
       new DropdownField({
         key: 'event_type',
         label: 'סוג אירוע',
+        required: false,
         options: [
           { key: 'פלילי', value: 'פלילי' },
           { key: 'פח"ע', value: 'פח"ע' },
@@ -122,14 +132,16 @@ export class CasesService {
 
       new TextboxField({
         key: 'pele_number',
+        required: false,
         label: "'מס" + ' פלא',
         type: 'text',
-        value: '' + '/' + this.getFullYear().toString(),
+        value: '' + '.' + this.getFullYear().toString(),
       }),
 
       new DropdownField({
         key: 'district',
         label: 'מחוז',
+        required: true,
         options: [
           { key: 'צפון', value: 'צפון' },
           { key: 'מטא"ר', value: 'מטא"ר' },
@@ -140,6 +152,7 @@ export class CasesService {
       new DropdownField({
         key: 'investigating_unit',
         label: 'יחידת חקירות',
+        required: true,
         options: [
           { key: 'בין שאן', value: 'בין שאן' },
           { key: 'טבריה', value: 'טבריה' },
@@ -164,36 +177,35 @@ export class CasesService {
       new TextboxField({
         key: 'reference_number',
         label: 'סימוכין',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
       new DropdownField({
         key: 'status',
         label: 'סטטוס',
+        required: true,
         options: [
           { key: 'פתוח', value: 'פתוח' },
           { key: ' סגור לללא חווד', value: ' סגור לללא חווד' },
           { key: 'סגור חווד', value: 'סגור חווד' },
         ],
       }),
-
       new TextboxField({
-        key: 'catch_report',
-        label: 'דוח תפיסה',
+        key: 'sender_name',
+        label: 'שם המומחה',
+        required: true,
         type: 'text',
       }),
-
-      // new DatePickerField({
-      //   key: 'sign_date',
-      //   label: 'תאריך הזנה',
-      //   required: true,
-      //   type: 'text',
-      // }),
-
       new TextboxField({
         key: 'event_location',
         label: 'מקום האירוע',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'catch_report',
+        label: 'דוח תפיסה',
         required: true,
         type: 'text',
       }),
@@ -205,15 +217,11 @@ export class CasesService {
         type: 'text',
       }),
 
-      new TextboxField({
-        key: 'sender_name',
-        label: 'שם המומחה',
-        required: true,
-        type: 'text',
-      }),
+
       new ButtonField({
         label: 'תנועת מוצגים',
         type: 'redirect',
+        required: false,
         onClick: () => {
           this.router.navigate(['/exhibitNavigator']);
       }}),

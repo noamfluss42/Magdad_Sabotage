@@ -35,7 +35,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
       cb(res);
     });
     this.sharedData.addToData(formRawValue);
-    this.router.navigate(['/genLabForm']);
+    // this.router.navigate(['/genLabForm']);
   };
 
 }

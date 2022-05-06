@@ -39,6 +39,7 @@ import { MatTableModule } from '@angular/material/table';
 import { SamplesScreenComponent } from './pages/samples-screen/samples-screen.component';
 import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/yearly-summary-screen.component';
+
 @NgModule({
   imports: [
     BrowserModule,

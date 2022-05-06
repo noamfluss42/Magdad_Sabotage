@@ -36,59 +36,23 @@ export class ExhibitsService {
 
   /* POST: add new exhibit to the server */
   postExhibit(exhibit: Exhibit) {
+    console.log(exhibit);
     return this.http.post<any>(`${Constants.API_URL}/exhibits`, exhibit, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'json',
     });
   }
 
-  getExhibitsFromCase(case_id: string) {
-    // should later be replaced from a response from a server
-    return [
-      {
-        index: 1,
-        internal_number: '1/22',
-        mark: '2',
-        storage_location: '1',
-        description: 'רימון',
-        quantity: '1',
-        destination: 'השמדה',
-        hanap: 'V',
-        hanap_weight: '156 גרם',
-        entry_date: '1.1.22',
-        treatment_date: '1.3.22',
-        investigator_name: 'עומר',
-        lab_name: 'דרום',
-      },
-      {
-        index: 2,
-        internal_number: '1/22',
-        mark: '3',
-        storage_location: '5',
-        description: 'כפפה',
-        quantity: '2',
-        destination: 'השוואה',
-        entry_date: '1.1.22',
-        treatment_date: '2.2.22',
-        investigator_name: 'עומר',
-        lab_type: 'ביולגית',
-        test_results: 'אותר די אן איי תואם',
-        lab_name: 'דרום',
-      },
-      {
-        index: 3,
-        internal_number: '1/22',
-        mark: '4',
-        storage_location: '6',
-        description: 'טל"ס',
-        quantity: '1',
-        destination: 'אחסנה',
-        entry_date: '1.1.22',
-        investigator_name: 'עומר',
-        lab_type: 'חבלה',
-        lab_name: 'דרום',
-      },
-    ];
+  // getCaseExhibits(case_id: string) {
+  //   return this.http.get<any>(`${this.exhibitsURL}/query/{exhibit_number}`, {
+  //     responseType: 'json',
+  //   });
+  // }
+
+  getExhibitsFromCase(case_internal_number: string) {
+    return this.http.get<Exhibit>(`${this.exhibitsURL}/query/${case_internal_number}`, {
+      responseType: 'json',
+    });
   }
 
   getQuestions() {
@@ -190,7 +154,7 @@ export class ExhibitsService {
         type: 'button',
       }),
     ];
-    return questions.sort((a, b) => a.order - b.order);
+    return questions;
   }
 
   // return the columns that will be displayed in the dynamic table
@@ -286,6 +250,6 @@ export class ExhibitsService {
         },
       },
 
-    ].reverse();
+    ];
   }
 }
