@@ -49,7 +49,6 @@ export class EditExhibitScreenComponent implements OnInit {
   //     result = this.form.getRawValue()?.bag_number;
   //     this.onSubmit();
   //   });
-
   // }
 
   // Will be called after child form initializes, will fill the form with data

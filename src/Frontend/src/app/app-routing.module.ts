@@ -9,6 +9,7 @@ import { SearchCaseScreenComponent } from './pages/search-case-screen/search-cas
 import { ResultsScreenComponent } from './pages/results-screen/results-screen.component';
 import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/exhibits-in-case-screen.component';
 import { SamplesScreenComponent } from './pages/samples-screen/samples-screen.component';
+import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 
 const routes: Routes = [
   {
@@ -44,8 +45,8 @@ const routes: Routes = [
     component: ExhibitsInCaseScreenComponent,
   },
   {
-    path: 'samples',
-    component: SamplesScreenComponent,
+    path:'exhibitNavigator',
+    component: ExhibitsNavigatorScreenComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
