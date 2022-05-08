@@ -12,6 +12,10 @@ import io
 from docx.oxml.shared import OxmlElement
 import os
 
+from docxtpl import DocxTemplate
+from jewishcalendar import absdate_to_hebrew
+from jewishcalendar import gregorian_to_absdate
+
 CHECKBOX_PATH = './w:fldChar/w:ffData/w:checkBox' # the XPath for the checkbox
 
 
@@ -71,4 +75,21 @@ def generate_docx(args):
     buffer = io.BytesIO() 
     doc.save(buffer)
     buffer.seek(0) 
+    return buffer
+
+
+def gen_case_summary(args):
+    doc = DocxTemplate("caseTemplate.docx")
+    date = args['event_date'].split('/')
+    context = {'district': args['district'],
+               'phone_number': args['phone_number'],
+               'date': args['event_date'],
+               'hebrew_date': absdate_to_hebrew(gregorian_to_absdate(date[2],date[1],date[0])),
+               'internal_number': args['internal_number'],
+               'pele_number': args['pele_number']
+            }
+    doc.render(context)
+    # save the file to a buffer that will be sent to the frontend.
+    buffer = io.BytesIO()
+    doc.save(buffer)
     return buffer

@@ -15,6 +15,8 @@ from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
 
 from docsCreate.docx_generator import generate_docx
+from docsCreate.docx_generator import gen_case_summary
+
 from django.core.files.storage import default_storage
 
 
@@ -162,4 +164,17 @@ def downloadFile(request):
         file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
+    return Http404("Not Get Request")
+
+
+# recieves json with:
+# { internal_number : '',
+#   phone_number : '' }
+def genCaseFile(request):
+    if request.method == 'GET':
+        docx_data = Case.objects.filter(request.GET.dict()['internal_number'])
+        docx_data['phone_number'] = request.GET.dict()['phone_number']
+        file = gen_case_summary(docx_data)  # create file binary stream
+        return FileResponse(file, as_attachment=True, filename='יומן-תיק.docx')  # create return resp with file
+
     return Http404("Not Get Request")
