@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 })
 export class OpenCaseScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
+  tags$ : FormFieldBase<any>[];
+
 
   constructor(
     private service: CasesService,
@@ -18,22 +20,35 @@ export class OpenCaseScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = service.getQuestions();
+    this.tags$ = service.getTags();
+
   }
 
   ngOnInit(): void {
-    // this.route.queryParams.subscribe(params => {
-    //   this.fields$ = params['fields'];
-    // });
-  }
 
-  // Function must be defined as arrow function otherwise 'this' keyword will refer to
-  // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
+
+  }
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
-    const formRawValue = form.getRawValue();
-    this.service.postCase(formRawValue).subscribe((res: any) => {
+    const savedCase =JSON.parse(localStorage.getItem('case') || '[]');
+    // merge from.getRawValue data with tags
+    const data = {...savedCase, ...form.getRawValue()};
+    console.log(data);
+    this.service.postCase(data).subscribe((res: any) => {
       cb(res);
     });
-    this.sharedData.addToData(formRawValue);
-    this.router.navigate(['/registerExhibit']);
+    this.sharedData.addToData(data);
+    localStorage.setItem('case', JSON.stringify(data));
+
+    // this.router.navigate(['/registerExhibit']);
   };
+  onSave = (form: FormGroup, cb: (res: string) => void): void => {
+    // sort form value by interface keys
+    const formRawValue = form.getRawValue();
+    delete formRawValue.navigator;
+    
+
+    //sort formRawValue by  order of Case interface
+    localStorage.setItem('case', JSON.stringify(formRawValue));
+    console.log(formRawValue);
+  }
 }
