@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 export class OpenCaseScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
   tags$ : FormFieldBase<any>[];
-  form = new FormGroup({});
 
 
   constructor(
@@ -22,7 +21,6 @@ export class OpenCaseScreenComponent implements OnInit {
   ) {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
-
 
   }
 
@@ -46,10 +44,8 @@ export class OpenCaseScreenComponent implements OnInit {
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
     // sort form value by interface keys
     const formRawValue = form.getRawValue();
-    if (formRawValue[formRawValue.length - 1] === '')
-    {
-      formRawValue.pop();
-    }
+    delete formRawValue.navigator;
+    
 
     //sort formRawValue by  order of Case interface
     localStorage.setItem('case', JSON.stringify(formRawValue));

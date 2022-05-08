@@ -39,6 +39,8 @@ import { MatTableModule } from '@angular/material/table';
 import { SamplesScreenComponent } from './pages/samples-screen/samples-screen.component';
 import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/yearly-summary-screen.component';
+import { SamplesNavigatorScreenComponent } from './pages/samples-navigator-screen/samples-navigator-screen.component';
+import { SamplesInCaseScreenComponent } from './pages/samples-in-case-screen/samples-in-case-screen.component';
 
 @NgModule({
   imports: [
@@ -81,6 +83,8 @@ import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/year
     SamplesScreenComponent,
     ExhibitsNavigatorScreenComponent,
     YearlySummaryScreenComponent,
+    SamplesNavigatorScreenComponent,
+    SamplesInCaseScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

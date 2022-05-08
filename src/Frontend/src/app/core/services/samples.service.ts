@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from '../constants/constants';
-import { DropdownField, TextboxField } from '../utils/fields';
+import { DatePickerField, DropdownField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 //import { Exhibit, TableColumn } from '../utils/types';
 
@@ -18,19 +18,19 @@ export class SamplesService {
         key: 'case_id',
         label: 'מספר תיק',
         required: true,
-        type: 'number',
+        type: 'text',
       }),
       new TextboxField({
         key: 'exhibit_id',
         label: 'מספר מוצג',
         required: true,
-        type: 'number',
+        type: 'text',
       }),
       new TextboxField({
         key: 'sample_id',
         label: 'מספר דגימה',
         required: true,
-        type: 'number',
+        type: 'text',
       }),
       new TextboxField({
         key: 'what_sampled',
@@ -55,13 +55,13 @@ export class SamplesService {
           { key: "metar", value: "מתא\"ר" },
         ]
       }),
-      new TextboxField({
+      new DatePickerField({
         key: 'sending_date',
         label: 'תאריך שליחה',
         required: true,
         type: 'date',
       }),
-      new TextboxField({
+      new DatePickerField({
         key: 'receiving_date',
         label: 'תאריך קבלה',
         required: true,
@@ -85,7 +85,7 @@ export class SamplesService {
         required: true,
         type: 'text',
       }),
-      new TextboxField({
+      new DatePickerField({
         key: 'date',
         label: 'תאריך',
         required: true,

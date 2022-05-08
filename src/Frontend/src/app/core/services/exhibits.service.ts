@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constants } from '../constants/constants';
-import { ButtonField, TextboxField } from '../utils/fields';
+import { ButtonField, DatePickerField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 import { Exhibit, TableColumn } from '../utils/types';
 
@@ -24,7 +24,7 @@ export class ExhibitsService {
 
   /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
-    return this.http.put<any>(
+    return this.http.put<Exhibit>(
       `${this.exhibitsURL}/${exhibit.exhibit_number}`,
       exhibit,
       {
@@ -37,7 +37,7 @@ export class ExhibitsService {
   /* POST: add new exhibit to the server */
   postExhibit(exhibit: Exhibit) {
     console.log(exhibit);
-    return this.http.post<any>(`${Constants.API_URL}/exhibits`, exhibit, {
+    return this.http.post<any>(this.exhibitsURL, exhibit, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'json',
     });
@@ -113,17 +113,15 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
-      new TextboxField({
+      new DatePickerField({
         key:"received_date",
         label:"תאריך הכנסה",
         required:true,
-        type:'text',
       }),
-      new TextboxField({
+      new DatePickerField({
         key:"handled_date",
         label:"תאריך טיפול",
         required:true,
-        type:'text',
       }),
       new TextboxField({
         key:"investigator_name",
@@ -148,11 +146,14 @@ export class ExhibitsService {
 
 
       new ButtonField({
-        key: 'test',
+        key: 'sample_navigation',
         label: 'תנועת דגימות',
         required: true,
         type: 'button',
-      }),
+        onClick: () => {
+          this.router.navigate(['/sampleNavigator']);
+      }}),
+
     ];
     return questions;
   }
@@ -246,7 +247,10 @@ export class ExhibitsService {
         attribute: 'עריכה',
         sortable: true,
         onClick: (exhibit: Exhibit) => {
-          this.getExhibit(exhibit.exhibit_number); //TODO implement edit exhibit
+          console.log(exhibit);
+          // local storage exhibit
+          localStorage.setItem("exhibit",JSON.stringify(exhibit));
+          this.router.navigate(['/editExhibit']);
         },
       },
 

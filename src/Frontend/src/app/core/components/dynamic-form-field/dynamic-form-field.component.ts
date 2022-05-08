@@ -5,29 +5,48 @@ import {
   MAT_CHECKBOX_DEFAULT_OPTIONS,
 } from '@angular/material/checkbox';
 import { formatDate } from '@angular/common';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { FormFieldBase } from '../../utils/form-field-base';
 import { useDebugValue } from 'react';
-
+import {
+  MomentDateModule,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
+import * as _moment from 'moment';
+import { Moment } from 'moment';
+import { default as _rollupMoment } from 'moment';
+const moment = _rollupMoment || _moment;
 export const DATE_FORMAT = {
   parse: {
-    dateInput: 'd/m/YYYY',
-
+    dateInput: 'dd/MM/y',
   },
   display: {
     dateInput: 'DD/MM/YYYY',
     monthYearLabel: 'MMMM YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
+    monthYearA11yLabel: 'MM YYYY',
   },
 };
-
 
 @Component({
   selector: 'app-dynamic-form-field',
   templateUrl: './dynamic-form-field.component.html',
   styleUrls: ['../../../styles/dynamic-form-field.component.css'],
-  providers: [{provide: MAT_DATE_FORMATS,useValue: DATE_FORMAT}],
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+
+    },
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT },
+  ],
 })
 export class DynamicFormFieldComponent {
   /*
