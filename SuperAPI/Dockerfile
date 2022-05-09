@@ -1,4 +1,4 @@
-FROM bitnami/python:3.8.12-debian-10-r156
+FROM bitnami/python:3.8.13-debian-10-r42
 WORKDIR /app
 ENV PYTHONUNBUFFERED 1
 
