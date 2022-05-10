@@ -58,6 +58,10 @@ const routes: Routes = [
     path:'exhibitNavigator',
     component: ExhibitsNavigatorScreenComponent,
   },
+  {
+    path: 'samples',
+    component: SamplesScreenComponent,
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 @NgModule({
