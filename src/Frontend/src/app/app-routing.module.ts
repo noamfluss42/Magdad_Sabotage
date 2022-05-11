@@ -59,7 +59,7 @@ const routes: Routes = [
     component: ExhibitsNavigatorScreenComponent,
   },
   {
-    path: 'samples',
+    path: 'sampleNavigator',
     component: SamplesScreenComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

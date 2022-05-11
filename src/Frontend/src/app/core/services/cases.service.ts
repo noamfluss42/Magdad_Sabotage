@@ -22,7 +22,7 @@ export class CasesService {
 
   /* POST: add new Case do database */
 
-  // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
+  // In Typescript 'case' is an illegal parameter name, therefore we use 'case_'
   postCase(case_: Case): Observable<Case> {
     return this.http.post<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
       headers: new HttpHeaders({
@@ -110,14 +110,13 @@ export class CasesService {
         type: 'text',
         required: true,
 
-
-
       }),
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
         required: true,
         type: 'text',
+
       }),
 
       new DropdownField({
@@ -219,6 +218,7 @@ export class CasesService {
 
 
       new ButtonField({
+        key:'navigator',
         label: 'תנועת מוצגים',
         type: 'redirect',
         required: false,

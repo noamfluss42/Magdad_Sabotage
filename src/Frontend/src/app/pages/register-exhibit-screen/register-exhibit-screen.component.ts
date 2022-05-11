@@ -40,6 +40,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+    delete formRawValue.sample_navigation;
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
     });

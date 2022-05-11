@@ -14,7 +14,7 @@ export class SearchCaseService {
   constructor(private http: HttpClient) { }
     // return Observable of Case[]
     getQuery() {
-      return this.http.get<CaseSearch[]>(this.queryUrl);
+      return this.http.get<CaseSearch>(this.queryUrl);
     }
 
     /* POST: add new Case do database */
@@ -256,6 +256,21 @@ export class SearchCaseService {
         label: 'שם המומחה',
         required: true,
         type: 'text',
+      }),
+
+      new DatePickerField({
+        key: 'min_date',
+        label: 'טווח תאריך התחלה',
+        type: 'text',
+       
+
+      }),
+      new DatePickerField({
+        key: 'max_date',
+        label: 'טווח תאריך סוף',
+        type: 'text',
+      
+
       }),
 
     ];

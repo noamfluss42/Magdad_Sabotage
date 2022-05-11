@@ -20,8 +20,8 @@ export class ExhibitsInCaseScreenComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.caseId = this.route.snapshot.paramMap.get('id') as string;
     this.case= localStorage.getItem('case')
+
     if (this.case) {
       this.internal_number = JSON.parse(this.case).internal_number.split('.')[0];
     }
