@@ -1,17 +1,18 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Constants } from '../constants/constants';
 import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import {CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
+import {Case, CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchCaseService {
   queryUrl = `${Constants.API_URL}/query/`;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private router: Router) { }
     // return Observable of Case[]
     getQuery() {
       return this.http.get<CaseSearch>(this.queryUrl);
@@ -317,6 +318,18 @@ export class SearchCaseService {
         attribute: 'max_date',
         sortable: true,
       },
+      {
+        name: 'עריכה',
+        attribute: 'עריכה',
+        sortable: true,
+        onClick: (_case : Case) => {
+          console.log(_case);
+          // local storage exhibit
+          localStorage.setItem("caseQ",JSON.stringify(_case));
+          this.router.navigate(['/editCaseScreen']);
+        },
+      },
+
 
 
     ].reverse();

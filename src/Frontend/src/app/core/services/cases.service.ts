@@ -44,7 +44,7 @@ export class CasesService {
 
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL, case_, {
+    return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
