@@ -18,7 +18,6 @@ export class CasesService {
   getCase() {
     return this.http.get<Case[]>(this.caseURL);
   }
-
   /* POST: add new Case do database */
 
   // In Typescript 'case' is an illegal parameter name, therefore we use 'case_'
@@ -108,6 +107,7 @@ export class CasesService {
         label: 'תאריך אירוע',
         type: 'text',
         required: true,
+        
       }),
       new DatePickerField({
         key: 'received_date',
