@@ -10,7 +10,7 @@ from django.http import Http404
 from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
-import datetime
+from datetime import datetime
 
 from django.db.models import Value
 
@@ -28,17 +28,17 @@ from django.core.files.storage import default_storage
 
 def filterDate(case_list,query_data):
     if "" != query_data['min_date']:
-        min_date = datetime.strptime(query_data['min_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        min_date = datetime.strptime(query_data['min_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
     else:
         min_date = datetime.min
     if "" != query_data['max_date']:
-        max_date = datetime.strptime(query_data['max_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        max_date = datetime.strptime(query_data['max_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
     else:
         max_date = datetime.max
 
     for case in Case.objects.values():
         #create datetime objects from given dates
-        case_date = datetime.strptime(case['event_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
         if not min_date <= case_date <= max_date:#if date not in range
             case_list.exclude(event_date = case['event_date'])#remove all objects with this date
             print("in between")
@@ -46,6 +46,7 @@ def filterDate(case_list,query_data):
             print("No!")
     #returns new case querySet object
     return case_list
+
 
 def monthly_sum(dates):#more updates will come
     case_list = []

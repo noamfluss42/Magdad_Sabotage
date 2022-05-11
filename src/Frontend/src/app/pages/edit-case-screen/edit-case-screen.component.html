@@ -1,0 +1,17 @@
+<div>
+  <h1 mat-dialog-title> עריכת תיק</h1>
+    <app-dynamic-form
+      [fields]="fields$"
+      buttonText="עריכת תיק"
+      [onSubmit]="onSave"
+      [onInit]="onFieldsInit"
+    ></app-dynamic-form>
+    <mat-divider></mat-divider>
+    <h1>עריכת תיוגים </h1>
+    <!-- <app-dynamic-form
+      [fields]="tags$"
+      buttonText="שמירה"
+      [onSubmit]="onSubmit"
+      [onInit]="onTagsInit"
+    ></app-dynamic-form> -->
+</div>
