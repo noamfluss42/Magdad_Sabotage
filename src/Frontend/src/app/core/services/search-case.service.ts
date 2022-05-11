@@ -10,7 +10,7 @@ import {CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
   providedIn: 'root'
 })
 export class SearchCaseService {
-  queryUrl = `${Constants.API_URL}/query`;
+  queryUrl = `${Constants.API_URL}/query/`;
   constructor(private http: HttpClient) { }
     // return Observable of Case[]
     getQuery() {
@@ -21,6 +21,7 @@ export class SearchCaseService {
 
     // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
     postQuery(case_: CaseSearch): Observable<CaseSearch> {
+      console.log(case_);
       return this.http.post<CaseSearch>(this.queryUrl, case_, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
