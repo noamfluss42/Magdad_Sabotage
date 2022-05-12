@@ -31,13 +31,14 @@ def generate_transfer_doc(args):
 def generate_docx(args):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     doc = docx.Document(dir_path+'/template.docx') #get  directory of template docx
-    doc.paragraphs[0].runs[0].text = args["lab_name"]
-    doc.paragraphs[1].runs[0].text = args["date_created"].split('/')[2]
+
+    doc.paragraphs[0].runs[0].text = 'מעבדת חבלה ' + args["lab_name"]
+    doc.paragraphs[1].runs[0].text = '         תאריך: ' + args["date_created"].split('/')[2]
     doc.paragraphs[1].runs[4].text = args["date_created"].split('/')[1]
     doc.paragraphs[1].runs[8].text = args["date_created"].split('/')[0]
+
     doc.paragraphs[2].runs[2].text = args["phone_number"]
-    doc.paragraphs[3].runs[3].text = args["internal_number_year"]
-    doc.paragraphs[3].runs[7].text = args["internal_number"]
+    doc.paragraphs[3].runs[3].text = args["internal_number"]
     doc.paragraphs[5].runs[1].text = args["recipient"]
     # This segement handle the checkboxes
     if args["urgency"] == 'normal':
@@ -83,18 +84,38 @@ def generate_docx(args):
     # save the file to a buffer that will be sent to the frontend.
     buffer = io.BytesIO() 
     doc.save(buffer)
+    doc.save("generated_doc.docx")
     buffer.seek(0) 
     return buffer
 
 
 def main():
     args = {
-        'lab_name':"LAB_NAME",
-        'date':"1/1/2022",
-        'internal_number':"123"
+        'lab_name':"LAB",
+        'date_created':"08/08/2005",
+        'phone_number':"PHONE",
+        'internal_number_year': "INYEAR",
+        'internal_number': "IN",
+        'recipient': "RECEPEINT",
+        'urgency': "urgent",
+        'hazards': "sharp",
+        'exhibits': "",
 
+        "investigating_unit": "sharp",
+        "reference_type": "sharp",
+        "reference_number": "sharp",
+        "bag_number": "sharp",
+        "exhibit_description": "sharp",
+        "exhibit_packaging": "sharp",
+        "exhibit_mark": "sharp",
+        "event_description": "sharp",
+        "testing_essence": "sharp",
+        "notes": "sharp",
+        "sender_name": "sharp",
+        "sender_rank": "sharp",
+        "sender_serial_number": "sharp"
     }
-    generate_transfer_doc(args)
+    generate_docx(args)
 
 
 if __name__ == "__main__":
