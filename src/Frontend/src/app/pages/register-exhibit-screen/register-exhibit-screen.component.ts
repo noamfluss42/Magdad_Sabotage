@@ -19,6 +19,10 @@ export class RegisterExhibitScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
+
+    //var values = Array.from(this.fields$.values())
+    //values[values.length - 1]["onClick"] = this.a
+
   }
 
   ngOnInit(): void {}
@@ -27,10 +31,12 @@ export class RegisterExhibitScreenComponent implements OnInit {
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+    delete formRawValue.sample_navigation;
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
     });
     this.sharedData.addToData(formRawValue);
-    this.router.navigate(['/genLabForm']);
+    // this.router.navigate(['/genLabForm']);
   };
+
 }
