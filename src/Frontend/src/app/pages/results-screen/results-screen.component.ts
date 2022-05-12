@@ -11,8 +11,11 @@ export class ResultsScreenComponent implements OnInit {
   private caseId: string = '';
   public resultCaseTableColumns: TableColumn[] = [];
   public tableData: CaseSearch[] = [];
+  public searchResults:number = this.service.getData().length;
+  
+  
   constructor(private route: ActivatedRoute,private service: SearchCaseService) {
-    
+console.log(this.searchResults);
   }
 
 
