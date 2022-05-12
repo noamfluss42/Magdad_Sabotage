@@ -12,7 +12,7 @@ export class ResultsScreenComponent implements OnInit {
   public resultCaseTableColumns: TableColumn[] = [];
   public tableData: CaseSearch[] = [];
   constructor(private route: ActivatedRoute,private service: SearchCaseService) {
-
+    
   }
 
 

@@ -25,12 +25,12 @@ export class SearchCaseScreenComponent implements OnInit {
     console.log(data);
     localStorage.setItem("query",JSON.stringify(data));
   }
-  
+
   //posts data to the server and gets back a list of json objects with the cases. save them and navigate to the search-case-result-screen and pass the data to it
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const savedQuery =JSON.parse(localStorage.getItem('query') || '[]');
     const data = {...savedQuery,...form.getRawValue()};
-    this.service.postQuery(form.value).subscribe((res: any) => {
+    this.service.postQuery(data).subscribe((res: any) => {
       this.service.setData(res);
       console.log(res);
     });

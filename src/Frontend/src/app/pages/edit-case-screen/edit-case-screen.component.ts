@@ -21,7 +21,7 @@ export class EditCaseScreenComponent implements OnInit {
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
-    
+
     this.splitAt("weapon_name",this.caseData);
     //split caseData to get only tags
   }
@@ -43,7 +43,7 @@ export class EditCaseScreenComponent implements OnInit {
       console.log(a,b);
       localStorage.setItem('caseQdata', JSON.stringify(a));
       localStorage.setItem('caseQTags', JSON.stringify(b));
-    
+
   }
 
   ngOnInit(): void {}
@@ -67,21 +67,21 @@ export class EditCaseScreenComponent implements OnInit {
     // go ovewr JSON object and set the value of the form
     console.log(value);
   //   var value= this.caseData[0];
-    
+
     for (let key in value) {
       if (form.controls[key]) {
         form.controls[key].setValue(value[key]);
       }
   }
   };
-  // onTagsInit = (form: FormGroup): void => {
-  //   var value = JSON.parse(localStorage.getItem('caseQTags')||'[]');
-  //   for (let key in value) {
-  //     if (form.controls[key]) {
-  //       form.controls[key].setValue(value[key]);
-  //     }
-  //   }
-  // };
+  onTagsInit = (form: FormGroup): void => {
+    var value = JSON.parse(localStorage.getItem('caseQTags')||'[]');
+    for (let key in value) {
+      if (form.controls[key]) {
+        form.controls[key].setValue(value[key]);
+      }
+    }
+  };
 
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
