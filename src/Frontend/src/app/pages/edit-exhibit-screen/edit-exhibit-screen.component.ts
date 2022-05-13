@@ -29,7 +29,7 @@ export class EditExhibitScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   // This function will run once the bag_number is submitted, then the forms will change
@@ -40,7 +40,7 @@ export class EditExhibitScreenComponent implements OnInit {
         console.log(res);
       }
       );
-    
+
     // var exhibit : string = JSON.parse(localStorage.getItem('exhibit')).exhibit_number;
     // this.service.getExhibit().subscribe((x: any) => (this.data = x));
   }
@@ -80,5 +80,7 @@ export class EditExhibitScreenComponent implements OnInit {
       console.log(res);
     }
     );
+    localStorage.removeItem('exhibit');
   }
+
 }

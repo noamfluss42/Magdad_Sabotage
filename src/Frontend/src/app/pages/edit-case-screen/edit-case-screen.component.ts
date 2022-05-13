@@ -55,6 +55,7 @@ export class EditCaseScreenComponent implements OnInit {
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
+    localStorage.removeItem('caseQ');
   };
 
   // sort form value by interface keys
