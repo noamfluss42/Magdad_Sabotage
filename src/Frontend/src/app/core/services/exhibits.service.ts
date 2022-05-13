@@ -158,7 +158,7 @@ export class ExhibitsService {
         type: 'button',
         onClick: () => {
           this.router.navigate(['/sampleNavigator']);
-      }}),
+      }}), //TODO! implement sample navigator
 
     ];
     return questions;
