@@ -141,6 +141,12 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
+      //new ButtonField({
+      //  key: 'test',
+      //  label: 'תנועת דגימות',
+      //  required: true,
+      //  type: 'button',
+      //}),
 
 
 

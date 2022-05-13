@@ -60,7 +60,7 @@ const routes: Routes = [
     component: ExhibitsNavigatorScreenComponent,
   },
   {
-    path:'sampleNavigator',
+    path: 'sampleNavigator',
     component: SamplesScreenComponent,
   },
   {

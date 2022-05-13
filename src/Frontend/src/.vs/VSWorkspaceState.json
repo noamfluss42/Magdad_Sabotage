@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\core",
+    "\\app\\core\\utils",
+    "\\app\\pages",
+    "\\app\\pages\\register-exhibit-screen",
+    "\\app\\pages\\samples-screen"
+  ],
+  "SelectedNode": "\\app\\core\\utils\\types.ts",
+  "PreviewInSolutionExplorer": false
+}
