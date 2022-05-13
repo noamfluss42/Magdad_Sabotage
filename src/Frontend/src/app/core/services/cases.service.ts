@@ -7,7 +7,6 @@ import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../ut
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
 import { formatDate } from '@angular/common';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +18,6 @@ export class CasesService {
   getCase() {
     return this.http.get<Case[]>(this.caseURL);
   }
-
   /* POST: add new Case do database */
 
   // In Typescript 'case' is an illegal parameter name, therefore we use 'case_'
@@ -45,7 +43,7 @@ export class CasesService {
 
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL, case_, {
+    return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -109,7 +107,7 @@ export class CasesService {
         label: 'תאריך אירוע',
         type: 'text',
         required: true,
-
+        
       }),
       new DatePickerField({
         key: 'received_date',
