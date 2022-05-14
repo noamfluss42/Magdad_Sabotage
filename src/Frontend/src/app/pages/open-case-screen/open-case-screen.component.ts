@@ -24,10 +24,8 @@ export class OpenCaseScreenComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
 
-
-  }
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const savedCase =JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
