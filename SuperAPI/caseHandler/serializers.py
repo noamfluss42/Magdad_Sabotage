@@ -110,3 +110,23 @@ class ExhibitsSerializerI(serializers.ModelSerializer):
             "result",
             "index"
         )
+        
+class SamplesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Samples
+        fields = ('case_id',
+        'exhibit_id',
+        'sample_id',
+        'what_sampled',
+        'where_sampled',
+        'transferred_to_lab',
+        'sending_date',
+        'receiving_date',
+        'packaging',
+        'results',
+        'notes',
+        'date',
+        'unit_name', 
+        'reference',
+        'investigator_name',
+        'phone_num',)
