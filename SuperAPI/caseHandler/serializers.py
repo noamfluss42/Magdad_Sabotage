@@ -1,29 +1,116 @@
 from rest_framework import serializers
 from caseHandler.models import Case
+from caseHandler.models import CaseI
 from caseHandler.models import Exhibits
+from caseHandler.models import ExhibitsI
+
 
 class CaseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Case
-        fields = ( "reference_type",
-                   "event_type",
-                   "district",
-                   "area",
-                   "station",
-                   "investigating_unit",
-                   "internal_number",
-                   "internal_number_year",
-                   "reference_number",
-                   "event_date",
-                   "received_date",
-                   "sign_date",
-                   "event_location",
-                   "event_description")
+        fields = (
+            "internal_number",
+            "received_or_go",
+            "lab_name",
+            "event_characteristic",
+            "event_date",
+            "received_date",
+            "event_type",
+            "pele_number",
+            "district",
+            "investigating_unit",
+            "explosion_or_disarm",
+            "reference_number",
+            "status",
+            "sender_name",
+            "event_location",
+            "event_description",
+            "weapon_name",
+            "explosive_device_material",
+            "explosive_device_means",
+            "weapon_options",
+            "explosive_device_operating_system",
+            "weapon_mark",
+            "explosive_device_spray",
+            "weapon_color",
+            "explosive_device_camouflage",
+            "weapon_additional_characteristics")
+
+
+class CaseSerializerI(serializers.ModelSerializer):
+    class Meta:
+        model = CaseI
+        fields = ("internal_number",
+                  "received_or_go",
+                  "lab_name",
+                  "event_characteristic",
+                  "event_date",
+                  "received_date",
+                  "event_type",
+                  "pele_number",
+                  "district",
+                  "investigating_unit",
+                  "explosion_or_disarm",
+                  "reference_number",
+                  "status",
+                  "sender_name",
+                  "event_location",
+                  "event_description",
+                  "weapon_name",
+                  "explosive_device_material",
+                  "explosive_device_means",
+                  "weapon_options",
+                  "explosive_device_operating_system",
+                  "weapon_mark",
+                  "explosive_device_spray",
+                  "weapon_color",
+                  "explosive_device_camouflage",
+                  "weapon_additional_characteristics",
+                  "index")
+
+
 class ExhibitsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exhibits
-        fields = ('exhibit_description', 'bag_number', 'exhibits_packaging', 'exhibits_mark', 'case_id')
+        fields = (
+            "internal_number",
+            "exhibit_number",
+            "location",
+            "description",
+            "amount",
+            "destination",
+            "explosive",
+            "explosive_weight",
+            "tnt_equivalent",
+            "received_date",
+            "handle_date",
+            "investigator_name",
+            "lab_name",
+            "result"
+        )
 
+
+class ExhibitsSerializerI(serializers.ModelSerializer):
+    class Meta:
+        model = ExhibitsI
+        fields = (
+            "internal_number",
+            "exhibit_number",
+            "location",
+            "description",
+            "amount",
+            "destination",
+            "explosive",
+            "explosive_weight",
+            "tnt_equivalent",
+            "received_date",
+            "handle_date",
+            "investigator_name",
+            "lab_name",
+            "result",
+            "index"
+        )
+        
 class SamplesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Samples

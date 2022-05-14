@@ -13,6 +13,7 @@ export class DynamicFormComponent implements OnInit {
   //the fields of the form used to create the form.
   @Input() fields: FormFieldBase<string>[] | null = [];
   @Input() buttonText: string = '';
+
   // input from parent component, and is called after form submitation.
   @Input() onSubmit: (form: FormGroup, cb: (res: string) => void) => void =
     () => {};

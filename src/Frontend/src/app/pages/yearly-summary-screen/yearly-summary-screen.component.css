@@ -1,0 +1,38 @@
+
+h1 {
+  color: #264D73;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+h2 {
+  color: #264D73;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+div {
+  margin: 20px;
+}
+
+p {
+  text-align: right;
+  font-size: 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.month {
+  background: #6496F0;
+  width: 100px;
+  height: 20px;
+  margin: 10px auto;
+  text-align: center;
+  border: 2px solid darkblue;
+  border-radius: 10px;
+  padding: 10px 0;
+}

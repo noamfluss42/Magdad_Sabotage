@@ -3,7 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExhibitsService } from 'src/app/core/services/exhibits.service';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
+import { SamplesService } from 'src/app/core/services/samples.service';
 import { FormFieldBase } from '../../core/utils/form-field-base';
+
+enum Mode { Exhibits, RegisterSamples, EditSamples }
 
 @Component({
   selector: 'app-register-exhibit-screen',
@@ -12,13 +15,23 @@ import { FormFieldBase } from '../../core/utils/form-field-base';
 })
 export class RegisterExhibitScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
+  samplesFields$: FormFieldBase<any>[];
+
+  mode$: Mode;
 
   constructor(
     private service: ExhibitsService,
     private sharedData: SharedDataService,
+    private samplesService: SamplesService,
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
+    this.samplesFields$ = this.samplesService.getQuestions();
+    this.mode$ = Mode.Exhibits
+
+    //var values = Array.from(this.fields$.values())
+    //values[values.length - 1]["onClick"] = this.a
+
   }
 
   ngOnInit(): void {}
@@ -27,10 +40,20 @@ export class RegisterExhibitScreenComponent implements OnInit {
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+    delete formRawValue.sample_navigation;
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
     });
     this.sharedData.addToData(formRawValue);
-    this.router.navigate(['/genLabForm']);
+    // this.router.navigate(['/genLabForm']);
   };
+
+  openNewSample() {
+    this.mode$ = Mode.RegisterSamples
+  }
+
+  registerNewSample() {
+    this.mode$ = Mode.Exhibits
+  }
+
 }
