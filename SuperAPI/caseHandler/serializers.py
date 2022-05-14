@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from caseHandler.models import Samples
 from caseHandler.models import Case
 from caseHandler.models import CaseI
 from caseHandler.models import Exhibits

@@ -80,7 +80,7 @@ class Exhibits(models.Model):
     lab_name = models.CharField(max_length=128)
     result = models.CharField(max_length=128)
 
-class Samples(models.model):
+class Samples(models.Model):
 
     SOUTH = 'S'
     TEL_AVIV = 'TLV'
@@ -93,12 +93,12 @@ class Samples(models.model):
         (MATE_ARTZI, 'מטא"ר'),
     ]
 
-    case_id = models.IntegerField(Required=True)
-    exhibit_id = models.IntegerField(Required=True)
-    sample_id = models.IntegerField(Required=True)
+    case_id = models.CharField(max_length=32)
+    exhibit_id = models.CharField(max_length=32)
+    sample_id = models.CharField(max_length=32)
     what_sampled = models.CharField(max_length=256)
     where_sampled = models.CharField(max_length=256)
-    transferred_to_lab = models.CharField(max_length=5,choices=LABRATORIES,) #OPTION TO ADD "default=TLV,"
+    transferred_to_lab = models.CharField(max_length=5,choices=LABRATORIES) #OPTION TO ADD "default=TLV,"
     sending_date = models.CharField(max_length=16)
     receiving_date = models.CharField(max_length=16)
     packaging = models.CharField(max_length=64)
