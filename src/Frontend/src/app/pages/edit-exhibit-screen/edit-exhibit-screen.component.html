@@ -1,25 +1,9 @@
 <div>
   <h1 mat-dialog-title>  עריכת מוצג</h1>
-  <div *ngIf="data; then editExhibit; else getExhibit"></div>
-  <ng-template #editExhibit>
     <app-dynamic-form
       [fields]="fields$"
       buttonText="ערוך"
-      [onSubmit]="onChildSubmit"
+      [onSubmit]="onSubmit"
       [onInit]="onFieldsInit"
     ></app-dynamic-form>
-  </ng-template>
-
-  <ng-template #getExhibit>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
-      <app-dynamic-form-field
-        [field]="field$"
-        [form]="form"
-      ></app-dynamic-form-field>
-      <div mat-dialog-actions class="form-row">
-        <button  mat-button type="submit"  [disabled]="!form.valid" cdkFocusInitial>ערוך מוצג</button>
-        <button  mat-dialog-close type="submit" [disabled]="!form.valid">ביטול</button>
-      </div>
-    </form>
-  </ng-template>
 </div>
