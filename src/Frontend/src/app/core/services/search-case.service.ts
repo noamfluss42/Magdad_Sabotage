@@ -264,14 +264,14 @@ export class SearchCaseService {
         key: 'min_date',
         label: 'טווח תאריך התחלה',
         type: 'text',
-       
+
 
       }),
       new DatePickerField({
         key: 'max_date',
         label: 'טווח תאריך סוף',
         type: 'text',
-      
+
 
       }),
 
@@ -282,14 +282,8 @@ export class SearchCaseService {
   getTableColumns(): TableColumn[] {
     return [
       {
-        name: 'מספר ',
-        attribute: 'index',
-        sortable: true,
-        // set value to index
-      },
-      {
-        name: 'מספר תיק',
-        attribute: 'case_id',
+        name: 'תאריך קבלה',
+        attribute: 'received_date',
         sortable: true,
 
       },
@@ -306,16 +300,6 @@ export class SearchCaseService {
       {
         name: "מס' פנימי",
         attribute: 'internal_number',
-        sortable: true,
-      },
-      {
-        name: 'טווח אירוע התחלה',
-        attribute: 'min_date',
-        sortable: true,
-      },
-      {
-        name: 'טווח אירוע סוף',
-        attribute: 'max_date',
         sortable: true,
       },
       {

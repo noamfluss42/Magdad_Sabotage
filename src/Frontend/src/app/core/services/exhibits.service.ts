@@ -141,6 +141,12 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
+      //new ButtonField({
+      //  key: 'test',
+      //  label: 'תנועת דגימות',
+      //  required: true,
+      //  type: 'button',
+      //}),
 
 
 
@@ -152,7 +158,7 @@ export class ExhibitsService {
         type: 'button',
         onClick: () => {
           this.router.navigate(['/sampleNavigator']);
-      }}),
+      }}), //TODO! implement sample navigator
 
     ];
     return questions;
