@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { sample } from 'rxjs';
 import { Constants } from '../constants/constants';
 import { DatePickerField, DropdownField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
+import { Exhibit, Sample, TableColumn } from '../utils/types';
 //import { Exhibit, TableColumn } from '../utils/types';
 
 @Injectable({
@@ -23,8 +25,8 @@ export class SamplesService {
       responseType: 'json',
     });
   }
-  editSample(sample: any) {
-    return this.http.put(
+  editSample(sample: Sample) {
+    return this.http.put<Sample>(
       `${Constants.API_URL}/samples/${sample.sample_id}`,
       sample,
       {
@@ -33,9 +35,16 @@ export class SamplesService {
       }
     );
   }
-  postSample(sample: any) {
+  postSample(sample: Sample) {
+    console.log(sample);
     return this.http.post(`${Constants.API_URL}/samples`, sample, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      responseType: 'json',
+    });
+  }
+
+  getSamplesFromExhibit(exhibit: Exhibit) {
+    return this.http.get(`${Constants.API_URL}/samples/query/${exhibit.exhibit_number}`,{
       responseType: 'json',
     });
   }
@@ -77,12 +86,12 @@ export class SamplesService {
         label: 'מעבדה',
         required: true,
         options: [
-          { key: "hanam", value: "חנ\"מ" },
-          { key: "ta", value: "ט\"א" },
-          { key: "biologically", value: "ביולוגית" },
-          { key: "arsons", value: "הצתות" },
-          { key: "signsAndMaterials", value: "סימנים וחומרים" },
-        ]
+          { key: 'hanam', value: 'חנ"מ' },
+          { key: 'ta', value: 'ט"א' },
+          { key: 'biologically', value: 'ביולוגית' },
+          { key: 'arsons', value: 'הצתות' },
+          { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
+        ],
       }),
       new DatePickerField({
         key: 'sending_date',
@@ -146,5 +155,103 @@ export class SamplesService {
       }),
     ];
     return questions.sort((a, b) => a.order - b.order);
+  }
+
+  getTableColumns(): TableColumn[] {
+    return [
+      {
+        name: 'מס תיק',
+        attribute: 'case_id',
+        sortable: true,
+      },
+      {
+        name: 'מס מוצג',
+        attribute: 'exhibit_id',
+        sortable: true,
+      },
+
+      {
+        name: 'מס דגימה',
+        attribute: 'sample_id',
+        sortable: true,
+      },
+      {
+        name: 'מה נדגם',
+        attribute: 'what_sampled',
+        sortable: true,
+      },
+      {
+        name: 'מאיפה נדגם',
+        attribute: 'where_sampled',
+        sortable: true,
+      },
+      {
+        name: 'הועבר למעבדה',
+        attribute: 'transferred_to_lab',
+        sortable: true,
+      },
+      {
+        name: 'תאריך שליחה',
+        attribute: 'sending_date',
+        sortable: true,
+      },
+      {
+        name: 'תאריך קבלה',
+        attribute: 'receiving_date',
+        sortable: true,
+      },
+      {
+        name: 'אריזה',
+        attribute: 'packaging',
+        sortable: true,
+      },
+      {
+        name: 'תוצאות',
+        attribute: 'results',
+        sortable: true,
+      },
+      {
+        name: 'הערות',
+        attribute: 'notes',
+        sortable: true,
+      },
+      {
+        name: 'תאריך',
+        attribute: 'date',
+        sortable: true,
+      },
+      {
+        name: 'שם יחידה',
+        attribute: 'unit_name',
+        sortable: true,
+      },
+      {
+        name: 'סימוכין',
+        attribute: 'reference',
+        sortable: true,
+      },
+      {
+        name: 'שם חוקר',
+        attribute: 'investigator_name',
+        sortable: true,
+      },
+      {
+        name: 'מספר טלפון',
+        attribute: 'phone_num',
+        sortable: true,
+      },
+
+      {
+        name: 'עריכה',
+        attribute: 'עריכה',
+        sortable: true,
+        onClick: (sample: Sample) => {
+          console.log(sample);
+          // local storage exhibit
+          localStorage.setItem("sample",JSON.stringify(sample));
+          this.router.navigate(['/editSampleScreen']);
+        },
+      },
+    ];
   }
 }

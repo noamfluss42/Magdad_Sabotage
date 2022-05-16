@@ -362,6 +362,13 @@ def exhibitsApi(request, exhibit_number = ""):
         department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+@csrf_exempt
+def sampleQuery(request):
+    query_data = JSONParser().parse(request)
+    samples = Samples.objects.all()
+    samples.filter(exhibit_id=query_data['exhibit_id'])
+    samples_serializer = SamplesSerializer(samples, many=True)
+    return JsonResponse(samples_serializer.data, safe=False)
 
 @csrf_exempt
 def samplesApi(request, sample_id=""):

@@ -82,33 +82,33 @@ class Exhibits(models.Model):
 
 class Samples(models.Model):
 
-    SOUTH = 'S'
-    TEL_AVIV = 'TLV'
-    NORTH = 'N'
-    MATE_ARTZI = 'MATAR'
-    LABRATORIES = [
-        (SOUTH, 'דרום'),
-        (TEL_AVIV, 'תל אביב'),
-        (NORTH, 'צפון'),
-        (MATE_ARTZI, 'מטא"ר'),
-    ]
+    # SOUTH = 'S'
+    # TEL_AVIV = 'TLV'
+    # NORTH = 'N'
+    # MATE_ARTZI = 'MATAR'
+    # LABRATORIES = [
+    #     (SOUTH, 'דרום'),
+    #     (TEL_AVIV, 'תל אביב'),
+    #     (NORTH, 'צפון'),
+    #     (MATE_ARTZI, 'מטא"ר'),
+    # ]
 
     case_id = models.CharField(max_length=32)
     exhibit_id = models.CharField(max_length=32)
     sample_id = models.CharField(max_length=32)
     what_sampled = models.CharField(max_length=256)
     where_sampled = models.CharField(max_length=256)
-    transferred_to_lab = models.CharField(max_length=5,choices=LABRATORIES) #OPTION TO ADD "default=TLV,"
-    sending_date = models.CharField(max_length=16)
-    receiving_date = models.CharField(max_length=16)
-    packaging = models.CharField(max_length=64)
-    results = models.CharField(max_length=512)
-    notes = models.CharField(max_length=512)
-    date = models.CharField(max_length=16)
-    unit_name = models.CharField(max_length=32) 
+    transferred_to_lab = models.CharField(max_length=256) #OPTION TO ADD "default=TLV,"
+    sending_date = models.CharField(max_length=100)
+    receiving_date = models.CharField(max_length=100)
+    packaging = models.CharField(max_length=256)
+    results = models.CharField(max_length=256)
+    notes = models.CharField(max_length=256)
+    date = models.CharField(max_length=100)
+    unit_name = models.CharField(max_length=256) 
     reference = models.CharField(max_length=256)
-    investigator_name = models.CharField(max_length=32)
-    phone_num = models.CharField(max_length=32)
+    investigator_name = models.CharField(max_length=256)
+    phone_num = models.CharField(max_length=256)
 
 
 

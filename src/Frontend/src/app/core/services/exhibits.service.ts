@@ -24,8 +24,8 @@ export class ExhibitsService {
 
   /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
-    return this.http.put<Exhibit>(
-      `${this.exhibitsURL}/${exhibit.exhibit_number}`,
+    console.log(exhibit);
+    return this.http.put<Exhibit>(`${this.exhibitsURL}/${exhibit.exhibit_number}`,
       exhibit,
       {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -181,7 +181,10 @@ export class ExhibitsService {
         label: 'תנועת דגימות',
         required: true,
         type: 'button',
-        onClick: () => {
+        onClick: (exhibit:Exhibit) => {
+          console.log(exhibit);
+          // local storage exhibit
+          localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
           this.router.navigate(['/sampleNavigator']);
       }}), //TODO! implement sample navigator
 

@@ -107,7 +107,7 @@ export class CasesService {
         label: 'תאריך אירוע',
         type: 'text',
         required: true,
-        
+
       }),
       new DatePickerField({
         key: 'received_date',
@@ -221,6 +221,7 @@ export class CasesService {
         type: 'redirect',
         required: false,
         onClick: () => {
+          
           this.router.navigate(['/exhibitNavigator']);
       }}),
 
