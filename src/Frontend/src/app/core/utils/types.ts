@@ -1,5 +1,5 @@
 export interface Exhibit {
-  case_id: string;
+  internal_number: string;
   exhibit_number: string;
   location: string;
   description: string;

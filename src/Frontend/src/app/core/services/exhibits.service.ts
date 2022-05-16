@@ -58,7 +58,7 @@ export class ExhibitsService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
-        key: 'case_id', // +year
+        key: 'internal_number', // +year
         label: 'מספר תיק',
         required: true,
         type: 'text',
@@ -144,7 +144,7 @@ export class ExhibitsService {
         required:true,
       }),
       new DatePickerField({
-        key:"handled_date",
+        key:"handle_date",
         label:"תאריך טיפול",
         required:true,
       }),

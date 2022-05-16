@@ -26,6 +26,7 @@ export class EditExhibitScreenComponent implements OnInit {
     this.fields$ = service.getQuestions();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
+
   }
 
   ngOnInit(): void {
@@ -74,7 +75,9 @@ export class EditExhibitScreenComponent implements OnInit {
   //   this.dialogRef.close();
   // }
   onEditSubmit= (form: FormGroup): void => {
-    this.service.editExhibit(form.getRawValue()).subscribe((res: any) => {
+    const formRawValue = form.getRawValue();
+    delete formRawValue.sample_navigation;
+    this.service.editExhibit(formRawValue).subscribe((res: any) => {
       console.log(res);
     }
     );
