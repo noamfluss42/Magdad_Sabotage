@@ -10,7 +10,7 @@ from django.http import Http404
 from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
-import datetime
+from datetime import datetime
 
 from django.db.models import Value
 
@@ -22,23 +22,26 @@ from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
 from caseHandler.serializers import ExhibitsSerializerI
 
+from caseHandler.models import Samples
+from caseHandler.serializers import SamplesSerializer
+
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
 
 def filterDate(case_list,query_data):
     if "" != query_data['min_date']:
-        min_date = datetime.strptime(query_data['min_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        min_date = datetime.strptime(query_data['min_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
     else:
         min_date = datetime.min
     if "" != query_data['max_date']:
-        max_date = datetime.strptime(query_data['max_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        max_date = datetime.strptime(query_data['max_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
     else:
         max_date = datetime.max
 
     for case in Case.objects.values():
         #create datetime objects from given dates
-        case_date = datetime.strptime(case['event_date']+" 00:00:00", '%d/%m/%y'+' %H:%M:%S')
+        case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
         if not min_date <= case_date <= max_date:#if date not in range
             case_list.exclude(event_date = case['event_date'])#remove all objects with this date
             print("in between")
@@ -46,6 +49,7 @@ def filterDate(case_list,query_data):
             print("No!")
     #returns new case querySet object
     return case_list
+
 
 def monthly_sum(dates):#more updates will come
     case_list = []
@@ -170,22 +174,37 @@ def queryHandler(request):
 
     if "" != query_data['internal_number']:
         cases.filter(internal_number=query_data['internal_number'])
-    if "" != query_data['event_type']:
-        cases.filter(event_type = query_data['event_type'])
+    if "" != query_data['received_or_go']:
+        cases.filter(received_or_go=query_data['received_or_go'])
+    if "" != query_data['lab_name']:
+        cases.filter(lab_name=query_data['lab_name'])
+    if "" != query_data['event_characteristic']:
+        cases.filter(event_characteristic=query_data['event_characteristic'])
+    if "" != query_data['event_date']:
+        cases.filter(event_date=query_data['event_date'])
     if "" != query_data['received_date']:
         cases.filter(received_date=query_data['received_date'])
+    if "" != query_data['event_type']:
+        cases.filter(event_type=query_data['event_type'])
+    if "" != query_data['pele_number']:
+        cases.filter(pele_number=query_data['pele_number'])
     if "" != query_data['district']:
         cases.filter(district=query_data['district'])
-    if "" != query_data['event_location']:
-        cases.filter(event_location=query_data['event_location'])
-    if "" != query_data['station']:
-        cases.filter(station=query_data['station'])
+    if "" != query_data['investigating_unit']:
+        cases.filter(investigating_unit=query_data['investigating_unit'])
+    if "" != query_data['explosion_or_disarm']:
+        cases.filter(explosion_or_disarm=query_data['explosion_or_disarm'])
     if "" != query_data['reference_number']:
         cases.filter(reference_number=query_data['reference_number'])
-    if "" != query_data['area']:
-        cases.filter(area=query_data['area'])
-    if "" != query_data['station']:
-        cases.filter(station=query_data['station'])
+    if "" != query_data['status']:
+        cases.filter(status=query_data['status'])
+    if "" != query_data['event_location']:
+        cases.filter(event_location=query_data['event_location'])
+    if "" != query_data['event_description']:
+        cases.filter(event_description=query_data['event_description'])
+    if "" != query_data['sender_name']:
+        cases.filter(sender_name=query_data['sender_name'])
+
     if "" != query_data['weapon_name']:
         cases.filter(weapon_name=query_data['weapon_name'])
     if "" != query_data['explosive_device_material']:
@@ -206,8 +225,8 @@ def queryHandler(request):
         cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
     if "" != query_data['weapon_additional_characteristics']:
         cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
-    if "" != query_data['lab_name']:
-        cases.filter(lab_name=query_data['lab_name'])
+
+
     cases_serializer = CaseSerializer(cases, many=True)
     return JsonResponse(cases_serializer.data, safe=False)
 
@@ -343,6 +362,35 @@ def exhibitsApi(request, exhibit_number = ""):
         department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+
+@csrf_exempt
+def samplessApi(request, sample_id=""):
+    if request.method == 'GET':
+        samples_value = Samples.objects.all()
+        samples_serializer = SamplesSerializer(samples_value, many=True)
+        return JsonResponse(samples_serializer.data, safe=False)
+    elif request.method == 'POST':
+            samples_data = JSONParser().parse(request)
+            department_serializer = SamplesSerializer(data=samples_data)
+            if department_serializer.is_valid():
+                department_serializer.save()
+                return JsonResponse("Added Successfully!!", safe=False)
+            return JsonResponse("Failed to Add.", safe=False)
+
+    elif request.method == 'PUT':
+        department_data = JSONParser().parse(request)
+        department = Samples.objects.get(sample_id=department_data['sample_id'])
+        department_serializer = SamplesSerializer(department, data=department_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse("Updated Successfully!!", safe=False)
+        return JsonResponse("Failed to Update.", safe=False)
+
+    elif request.method == 'DELETE':
+        department = Samples.objects.get(SampleName=sample_id)
+        department.delete()
+        return JsonResponse("Deleted Succeffully!!", safe=False)
+
 
 @csrf_exempt
 def downloadFile(request):

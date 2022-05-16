@@ -10,14 +10,14 @@ export class DownloadExhibitsService {
 
   constructor(private http: HttpClient) { }
 
-  // Sends GET request to backend for downloading exhibits. 
+  // Sends GET request to backend for downloading exhibits.
   downloadExhibits() {
     this.http
       .request('GET', `${Constants.API_URL}/exhibits/Dwnld`, {
         responseType: 'blob',
       })
       .subscribe((data: any) => {
-        saveAs(data, 'exhibits.excel');
+        saveAs(data, 'exhibits.csv'); //TODO Fix file extension
       });
   }
 

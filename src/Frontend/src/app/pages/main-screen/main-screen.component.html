@@ -19,8 +19,8 @@
       <button mat-raised-button routerLink="/searchCase" color="primary">שאילתות</button>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-raised-button type="submit" color="primary">
-        ניהול בורות/מוצגים
+      <button mat-raised-button (click)="downloadExhibits()" type="submit" color="primary">
+        הורדת מוצגים
       </button>
     </mat-grid-tile>
   </mat-grid-list>

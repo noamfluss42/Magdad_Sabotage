@@ -41,6 +41,7 @@ import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-scr
 import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/yearly-summary-screen.component';
 import { SamplesNavigatorScreenComponent } from './pages/samples-navigator-screen/samples-navigator-screen.component';
 import { SamplesInCaseScreenComponent } from './pages/samples-in-case-screen/samples-in-case-screen.component';
+import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-screen.component';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { SamplesInCaseScreenComponent } from './pages/samples-in-case-screen/sam
     YearlySummaryScreenComponent,
     SamplesNavigatorScreenComponent,
     SamplesInCaseScreenComponent,
+    EditCaseScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
