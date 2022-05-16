@@ -8,21 +8,20 @@ import { FormFieldBase } from '../../core/utils/form-field-base';
 @Component({
   selector: 'app-samples-screen',
   templateUrl: './samples-screen.component.html',
-  styleUrls: ['./samples-screen.component.css']
+  styleUrls: ['./samples-screen.component.css'],
 })
 export class SamplesScreenComponent implements OnInit {
-
   fields$: FormFieldBase<any>[];
 
   constructor(private service: SamplesService) {
     this.fields$ = this.service.getQuestions();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
-    alert('sub')
+    this.service.postSample(form.value).subscribe((res: any) => {
+      cb(res);
+    });
   };
-
 }

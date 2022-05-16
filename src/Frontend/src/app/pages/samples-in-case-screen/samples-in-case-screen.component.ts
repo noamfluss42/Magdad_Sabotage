@@ -16,5 +16,6 @@ export class SamplesInCaseScreenComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
 
 }

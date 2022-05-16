@@ -1,16 +1,44 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Constants } from '../constants/constants';
 import { DatePickerField, DropdownField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 //import { Exhibit, TableColumn } from '../utils/types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SamplesService {
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor() { }
+  getSample(sample_id: string) {
+    return this.http.get(`${Constants.API_URL}/samples/${sample_id}`, {
+      responseType: 'json',
+    });
+  }
+
+  deleteSample(case_id: string) {
+    return this.http.delete(`${Constants.API_URL}/samples/${case_id}`, {
+      responseType: 'json',
+    });
+  }
+  editSample(sample: any) {
+    return this.http.put(
+      `${Constants.API_URL}/samples/${sample.sample_id}`,
+      sample,
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        responseType: 'json',
+      }
+    );
+  }
+  postSample(sample: any) {
+    return this.http.post(`${Constants.API_URL}/samples`, sample, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      responseType: 'json',
+    });
+  }
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
@@ -119,5 +147,4 @@ export class SamplesService {
     ];
     return questions.sort((a, b) => a.order - b.order);
   }
-
 }

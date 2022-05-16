@@ -364,7 +364,7 @@ def exhibitsApi(request, exhibit_number = ""):
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 @csrf_exempt
-def samplessApi(request, sample_id=""):
+def samplesApi(request, sample_id=""):
     if request.method == 'GET':
         samples_value = Samples.objects.all()
         samples_serializer = SamplesSerializer(samples_value, many=True)
