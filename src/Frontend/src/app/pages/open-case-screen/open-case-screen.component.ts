@@ -24,10 +24,8 @@ export class OpenCaseScreenComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
 
-
-  }
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const savedCase =JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
@@ -45,7 +43,7 @@ export class OpenCaseScreenComponent implements OnInit {
     // sort form value by interface keys
     const formRawValue = form.getRawValue();
     delete formRawValue.navigator;
-    
+
 
     //sort formRawValue by  order of Case interface
     localStorage.setItem('case', JSON.stringify(formRawValue));

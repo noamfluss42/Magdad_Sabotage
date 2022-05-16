@@ -32,18 +32,18 @@ export class EditExhibitScreenComponent implements OnInit {
 
   }
 
-  // This function will run once the bag_number is submitted, then the forms will change
-  // this can be seen in the html template.s
-  onSubmit(): void {
-    // this.service.getExhibit(this.form.getRawValue().bag_number).subscribe((res: any) => {
-      this.service.editExhibit(this.form.getRawValue()).subscribe((res: any) => {
-        console.log(res);
-      }
-      );
+  // // This function will run once the bag_number is submitted, then the forms will change
+  // // this can be seen in the html template.s
+  // onSubmit(): void {
+  //   // this.service.getExhibit(this.form.getRawValue().bag_number).subscribe((res: any) => {
+  //     this.service.editExhibit(this.form.getRawValue()).subscribe((res: any) => {
+  //       console.log(res);
+  //     }
+  //     );
 
-    // var exhibit : string = JSON.parse(localStorage.getItem('exhibit')).exhibit_number;
-    // this.service.getExhibit().subscribe((x: any) => (this.data = x));
-  }
+  //   // var exhibit : string = JSON.parse(localStorage.getItem('exhibit')).exhibit_number;
+  //   // this.service.getExhibit().subscribe((x: any) => (this.data = x));
+  // }
 
 
 
@@ -60,8 +60,6 @@ export class EditExhibitScreenComponent implements OnInit {
         form.controls[key].setValue(this.data[key]);
       }
     }
-
-
   };
 
   // // Will be called after child form submitted
@@ -75,12 +73,11 @@ export class EditExhibitScreenComponent implements OnInit {
   // onNoClick(): void {
   //   this.dialogRef.close();
   // }
-  onEditSubmit(): void {
-    this.service.editExhibit(this.form.getRawValue()).subscribe((res: any) => {
+  onEditSubmit= (form: FormGroup): void => {
+    this.service.editExhibit(form.getRawValue()).subscribe((res: any) => {
       console.log(res);
     }
     );
-    localStorage.removeItem('exhibit');
   }
 
 }

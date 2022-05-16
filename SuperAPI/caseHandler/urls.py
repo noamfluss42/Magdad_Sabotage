@@ -12,6 +12,9 @@ urlpatterns=[
     url(r'^exhibits/dwnld/$', views.exhibitDwnld),
     url(r'^exhibits', views.exhibitsApi),
     url(r'^exhibits/([0-9]+)$', views.exhibitsApi),
+    url(r'^samples/query/$', views.sampleQuery),
+    url(r'^samples', views.samplesApi),
+    url(r'^samples/([0-9]+)$', views.samplesApi),
     # url(r'^img/$', views.downloadFileParam),
     url(r'^img', views.downloadFile),
     url(r'^query', views.queryHandler)

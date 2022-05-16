@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constants } from '../constants/constants';
-import { ButtonField, DatePickerField, TextboxField } from '../utils/fields';
+import { ButtonField, DatePickerField, DropdownField, TextboxField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 import { Exhibit, TableColumn } from '../utils/types';
 
@@ -24,8 +24,8 @@ export class ExhibitsService {
 
   /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
-    return this.http.put<Exhibit>(
-      `${this.exhibitsURL}/${exhibit.exhibit_number}`,
+    console.log(exhibit);
+    return this.http.put<Exhibit>(`${this.exhibitsURL}/${exhibit.exhibit_number}`,
       exhibit,
       {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -95,11 +95,14 @@ export class ExhibitsService {
         required: true,
         type: 'text',
       }),
-      new TextboxField({
+      new DropdownField({
         key:'explosive',
         label:'חנ"פ',
-        required:true,
-        type:'text',
+        required: true,
+        options: [
+          { key: "yes", value: "כן" },
+          { key: "no", value: "לא" },
+        ]
       }),
       new TextboxField({
         key:'explosive_weight',
@@ -107,11 +110,33 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
-      new TextboxField({
+      new DropdownField({
         key:"tnt_equivalent",
-        label:"TNT אקוויולנט ל ",
+        label:"סוג חומר נפץ",
         required:true,
-        type:'text',
+        options: [
+          { key: "RDX", value: "RDX" },
+          { key: "TNT", value: "TNT" },
+          { key: "COMP-B", value: "COMP-B" },
+          { key: "HMX", value: "HMX" },
+          { key: "SMTEX", value: "סמטקס" },
+          { key: "Tn", value: "טן" },
+          { key: "TATP", value: "TATP" },
+          { key: "Nitroglycerin", value: "ניטרו גליצירין" },
+          { key: "spear", value: "חנית" },
+          { key: "ANFO", value: "ANFO" },
+          { key: "C-4", value: "C-4" },
+          { key: "A-5", value: "A-5" },
+          { key: "Octol", value: "אוקטול" },
+          { key: "Urea-nitrate", value: "אוריאה ניטראט" },
+          { key: "Data-sailing", value: "דטה שיט" },
+          { key: "Mercury-roars", value: "כספית רועמת" },
+          { key: "A-5", value: "A-5" },
+          { key: "A-3", value: "A-3" },
+          { key: "VH-10", value: "VH-10" },
+          { key: "PX", value: "PX" },
+          { key: "Nitrocellulose", value: "ניטרוצלולוז" },
+        ]
       }),
       new DatePickerField({
         key:"received_date",
@@ -156,7 +181,10 @@ export class ExhibitsService {
         label: 'תנועת דגימות',
         required: true,
         type: 'button',
-        onClick: () => {
+        onClick: (exhibit:Exhibit) => {
+          console.log(exhibit);
+          // local storage exhibit
+          localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
           this.router.navigate(['/sampleNavigator']);
       }}), //TODO! implement sample navigator
 

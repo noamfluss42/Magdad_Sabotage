@@ -22,6 +22,9 @@ from caseHandler.models import Exhibits
 from caseHandler.serializers import ExhibitsSerializer
 from caseHandler.serializers import ExhibitsSerializerI
 
+from caseHandler.models import Samples
+from caseHandler.serializers import SamplesSerializer
+
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
@@ -359,6 +362,42 @@ def exhibitsApi(request, exhibit_number = ""):
         department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+@csrf_exempt
+def sampleQuery(request):
+    query_data = JSONParser().parse(request)
+    samples = Samples.objects.all()
+    samples.filter(exhibit_id=query_data['exhibit_id'])
+    samples_serializer = SamplesSerializer(samples, many=True)
+    return JsonResponse(samples_serializer.data, safe=False)
+
+@csrf_exempt
+def samplesApi(request, sample_id=""):
+    if request.method == 'GET':
+        samples_value = Samples.objects.all()
+        samples_serializer = SamplesSerializer(samples_value, many=True)
+        return JsonResponse(samples_serializer.data, safe=False)
+    elif request.method == 'POST':
+            samples_data = JSONParser().parse(request)
+            department_serializer = SamplesSerializer(data=samples_data)
+            if department_serializer.is_valid():
+                department_serializer.save()
+                return JsonResponse("Added Successfully!!", safe=False)
+            return JsonResponse("Failed to Add.", safe=False)
+
+    elif request.method == 'PUT':
+        department_data = JSONParser().parse(request)
+        department = Samples.objects.get(sample_id=department_data['sample_id'])
+        department_serializer = SamplesSerializer(department, data=department_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse("Updated Successfully!!", safe=False)
+        return JsonResponse("Failed to Update.", safe=False)
+
+    elif request.method == 'DELETE':
+        department = Samples.objects.get(SampleName=sample_id)
+        department.delete()
+        return JsonResponse("Deleted Succeffully!!", safe=False)
+
 
 @csrf_exempt
 def downloadFile(request):

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { SamplesService } from 'src/app/core/services/samples.service';
 import { TableColumn } from 'src/app/core/utils/types';
 
 @Component({
@@ -8,13 +10,26 @@ import { TableColumn } from 'src/app/core/utils/types';
 })
 export class SamplesInCaseScreenComponent implements OnInit {
   private caseId: string = '';
-  private internal_number: any;
-  private case: any;
+  private exhibit_id: any;
+  private exhibit_number: any;
   public tableColumns: TableColumn[] = [];
   public tableData: any = [];
-  constructor() { }
+  constructor(
+    private service: SamplesService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    this.tableColumns = this.service.getTableColumns();
+    this.exhibit_number =localStorage.getItem('exhibit_number')
+    console.log(this.exhibit_number);
+    if (this.exhibit_number) {
+      this.tableData = this.service.getSamplesFromExhibit(this.exhibit_number);
+    }
+
+
+
   }
+
 
 }
