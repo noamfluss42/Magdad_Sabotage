@@ -9,12 +9,12 @@ export class LabFormService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
-        key: 'recipient',
+        key: 'internal_number',
         required: true,
         label: 'מספר תיק',
       }),
       new DropdownField({
-        key: 'lab_name',
+        key: 'recipient',
         label: 'אל מעבדה',
         required: true,
         options: [
@@ -24,6 +24,17 @@ export class LabFormService {
           { key: 'הצתות', value: 'הצתות' },
           { key: 'סימנים', value: 'סימנים' },
           { key: 'חומרים', value: 'חומרים' },
+        ],
+      }),
+      new DropdownField({
+        key: 'lab_name',
+        label: 'מעבדה שולחת',
+        required: true,
+        options: [
+          { key: 'דרום', value: 'דרום' },
+          { key: 'תל אביב', value: 'תל אביב' },
+          { key: 'צפון', value: 'צפון' },
+          { key: 'מטא"ר', value: 'מטא"ר' },
         ],
       }),
       new DropdownField({
@@ -81,6 +92,12 @@ export class LabFormService {
       new TextboxField({
         key: 'person_id',
         label: 'מספר אישי',
+        required: false,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'phone_number',
+        label: 'מספר טלפון',
         required: false,
         type: 'text',
       })

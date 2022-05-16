@@ -11,6 +11,7 @@ from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
 from datetime import datetime
+from datetime import date
 
 from django.db.models import Value
 
@@ -360,10 +361,24 @@ def exhibitsApi(request, exhibit_number = ""):
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
+"""
+return list 
+"""
+def getSampleList(internal_num):
+    samples = ""
+    list = ""
+    for sample in enumerate(samples):
+        list+=""
+    return "1.TEMP\n2.sample\n3.LIST"
+
 @csrf_exempt
 def downloadFile(request):
     if request.method == 'GET':
         docx_data = request.GET.dict()
+        docx_data['exhibits'] = getSampleList(docx_data['internal_number'])
+        docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
+        docx_data['exhibit_description'] = "TEMP SAMPLE DESC"
+        docx_data.update(Case.objects.filter(internal_number = docx_data['internal_number']).values("reference_type","reference_number","event_description"))
         file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp

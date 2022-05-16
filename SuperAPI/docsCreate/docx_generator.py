@@ -68,19 +68,19 @@ def generate_docx(args):
     if args["exhibits"] == 'returning':
         doc.tables[0].rows[0].cells[2].paragraphs[3].runs[0]._r.xpath(CHECKBOX_PATH)[0].insert(2,
                                                                                                OxmlElement('w:checked'))
-    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[2].text = args["investigating_unit"]
+    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[2].text = "יחדיהההה"
     doc.tables[0].rows[1].cells[0].paragraphs[0].runs[4].text = args["reference_type"]
     doc.tables[0].rows[1].cells[0].paragraphs[0].runs[7].text = args["reference_number"]
-    doc.tables[0].rows[1].cells[0].paragraphs[1].runs[1].text = args["bag_number"]
-    doc.tables[0].rows[1].cells[0].paragraphs[3].runs[0].text = args["exhibit_description"]
-    doc.tables[0].rows[1].cells[0].paragraphs[5].runs[0].text = args["exhibit_packaging"]
-    doc.tables[0].rows[1].cells[0].paragraphs[7].runs[0].text = args["exhibit_mark"]
-    doc.tables[0].rows[1].cells[0].paragraphs[9].runs[0].text = args["event_description"]
-    doc.tables[0].rows[1].cells[0].paragraphs[11].runs[0].text = args["testing_essence"]
-    doc.tables[0].rows[1].cells[0].paragraphs[13].runs[0].text = args["notes"]
-    doc.tables[0].rows[1].cells[0].paragraphs[14].runs[1].text = args["sender_name"]
-    doc.tables[0].rows[1].cells[0].paragraphs[14].runs[3].text = args["sender_rank"]
-    doc.tables[0].rows[1].cells[0].paragraphs[14].runs[5].text = args["sender_serial_number"]
+    #doc.tables[0].rows[1].cells[0].paragraphs[1].runs[1].text = "tempBAgNum"
+    doc.tables[0].rows[1].cells[0].paragraphs[2].runs[0].text = args["exhibit_description"]
+    #doc.tables[0].rows[1].cells[0].paragraphs[5].runs[0].text = args["exhibit_packaging"]
+    #doc.tables[0].rows[1].cells[0].paragraphs[7].runs[0].text = args["exhibit_mark"]
+    doc.tables[0].rows[1].cells[0].paragraphs[4].runs[0].text = args["event_description"]
+    doc.tables[0].rows[1].cells[0].paragraphs[6].runs[0].text = args["testing_essence"]
+    doc.tables[0].rows[1].cells[0].paragraphs[8].runs[0].text = args["notes"]
+    doc.tables[0].rows[1].cells[0].paragraphs[9].runs[1].text = args["name"]
+    doc.tables[0].rows[1].cells[0].paragraphs[9].runs[3].text = args["rank"]
+    doc.tables[0].rows[1].cells[0].paragraphs[9].runs[5].text = args["person_id"]
     # save the file to a buffer that will be sent to the frontend.
     buffer = io.BytesIO() 
     doc.save(buffer)
@@ -91,31 +91,28 @@ def generate_docx(args):
 
 def main():
     args = {
-        'lab_name':"LAB",
-        'date_created':"08/08/2005",
-        'phone_number':"PHONE",
-        'internal_number_year': "INYEAR",
-        'internal_number': "IN",
-        'recipient': "RECEPEINT",
-        'urgency': "urgent",
-        'hazards': "sharp",
-        'exhibits': "",
+        'lab_name':"LAB",#
+        'phone_number':"PHONE",#
+        'internal_number': "IN",#
+        'recipient': "RECEPEINT",#
+        'urgency': "urgent",#
+        'hazards': "sharp",#
+        'exhibits': "exhibits",#
+        "testing_essence": "testing_essence",  #
+        "notes": "notes",  #
+        "name": "name",  #
+        "rank": "rank",  #
+        "person_id": "person_id",#
+        "reference_type": "reference_type",
+        "reference_number": "פלאא",
+        "exhibit_description": "exhibit_description",
+        "event_description": "event_description",
+        'date_created': "08/08/2005"
 
-        "investigating_unit": "sharp",
-        "reference_type": "sharp",
-        "reference_number": "sharp",
-        "bag_number": "sharp",
-        "exhibit_description": "sharp",
-        "exhibit_packaging": "sharp",
-        "exhibit_mark": "sharp",
-        "event_description": "sharp",
-        "testing_essence": "sharp",
-        "notes": "sharp",
-        "sender_name": "sharp",
-        "sender_rank": "sharp",
-        "sender_serial_number": "sharp"
+
+
     }
-    generate_docx(args)
+    #generate_docx(args)
 
 
 if __name__ == "__main__":
