@@ -1,5 +1,11 @@
 <div>
-  <div *ngIf="mode$ == 0">
+  <h1>רישום מוצג</h1>
+  <app-dynamic-form
+    [fields]="fields$"
+    buttonText="שמור מוצג"
+    [onSubmit]="onSubmit"
+  ></app-dynamic-form>
+<!--   <div *ngIf="mode$ == 0">
     <h1>רישום מוצג</h1>
     <app-dynamic-form [fields]="fields$"
                       buttonText="הבא"
@@ -14,5 +20,5 @@
     <button mat-raised-button color="primary" (click)="registerNewSample()">
       הבא
     </button>
-  </div>
+  </div> -->
 </div>

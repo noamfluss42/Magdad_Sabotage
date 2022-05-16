@@ -46,13 +46,14 @@ export class SamplesService {
       }),
       new DropdownField({
         key: 'transferred_to_lab',
-        label: 'שם מעבדה',
+        label: 'מעבדה',
         required: true,
         options: [
-          { key: "south", value: "דרום" },
-          { key: "tel_aviv", value: "תל אביב" },
-          { key: "north", value: "צפון" },
-          { key: "metar", value: "מתא\"ר" },
+          { key: "hanam", value: "חנ\"מ" },
+          { key: "ta", value: "ט\"א" },
+          { key: "biologically", value: "ביולוגית" },
+          { key: "arsons", value: "הצתות" },
+          { key: "signsAndMaterials", value: "סימנים וחומרים" },
         ]
       }),
       new DatePickerField({
