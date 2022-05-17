@@ -1,0 +1,8 @@
+To create the container:
+    - first make sure you can run the app locally (if not possible, just set the correct database parameters as explained in "run_the_app_instructions.txt")
+    - From the main folder go to src->Frontend
+    - run "ng build"
+    - run "docker compose build"
+    - run "docker compose up"
+    - the app should be running now in "http://localhost:12581/"
+    - to delete the container run "docker compose down"

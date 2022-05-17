@@ -1,0 +1,20 @@
+version: "3.3"
+services:
+    app-backend:
+        build: ./SuperAPI/
+        image: barsheffer/backv1
+        container_name: backend2
+        restart: always
+        ports:
+            - "12580:12580"
+        env_file:
+            - SuperAPI\env_variables.env
+    app-frontend:
+        build: ./src\Frontend/
+        image: barsheffer/frontv1
+        container_name: frontend2
+        restart: always
+        ports:
+            - "12581:12581"
+        links:
+            - app-backend   
