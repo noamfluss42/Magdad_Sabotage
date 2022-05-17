@@ -7,6 +7,7 @@ import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../ut
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
 import { formatDate } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
