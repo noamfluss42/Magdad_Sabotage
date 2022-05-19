@@ -20,8 +20,9 @@ export class RegisterExhibitScreenComponent implements OnInit {
   ) {
     this.fields$ = this.service.getQuestions();
 
-    //var values = Array.from(this.fields$.values())
-    //values[values.length - 1]["onClick"] = this.a
+    const localCase = JSON.parse(localStorage.getItem('case') || '[]');
+    var values = Array.from(this.fields$.values())
+    values[0]["value"] = localCase.internal_number
 
   }
 
