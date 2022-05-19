@@ -42,6 +42,7 @@ import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/year
 import { SamplesNavigatorScreenComponent } from './pages/samples-navigator-screen/samples-navigator-screen.component';
 import { SamplesInCaseScreenComponent } from './pages/samples-in-case-screen/samples-in-case-screen.component';
 import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-screen.component';
+import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-samples-screen.component';
 
 @NgModule({
   imports: [
@@ -87,6 +88,7 @@ import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-scre
     SamplesNavigatorScreenComponent,
     SamplesInCaseScreenComponent,
     EditCaseScreenComponent,
+    EditSamplesScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
