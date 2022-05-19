@@ -412,7 +412,7 @@ def getSampleList(internal_num):
     samples = Samples.objects.filter(case_id = internal_num).values()
     list = ""
     for index,sample in enumerate(samples):
-        list+=index+". "+sample['what_sampled']+" ממוצג מס' "+sample['exhibit_id']+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+sample['packaging']+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ 1 +'\n'#TODO replace 1 with sample['bag_num'] after sample update
+        list+=index+".  "+sample['what_sampled']+" ממוצג מס' "+sample['exhibit_id']+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+sample['packaging']+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ 1 +'\n'#TODO replace 1 with sample['bag_num'] after sample update
     return list
 
 @csrf_exempt
@@ -426,3 +426,6 @@ def downloadFile(request):
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
+
+
+
