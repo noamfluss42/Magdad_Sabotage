@@ -17,6 +17,8 @@ urlpatterns=[
     url(r'^samples/([0-9]+)$', views.samplesApi),
     # url(r'^img/$', views.downloadFileParam),
     url(r'^img', views.downloadFile),
-    url(r'^query', views.queryHandler)
+    url(r'^query', views.queryHandler),
+    url(r'^id/$', views.idApi),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -6,7 +6,7 @@ from django.http.response import FileResponse
 from django.db.models import Value
 from django.http.response import HttpResponse
 from django.http import Http404
-
+from django.db.models import Max
 from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
@@ -365,6 +365,35 @@ def exhibitsApi(request, exhibit_number = ""):
         department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+
+@csrf_exempt
+def idApi(request,type=""):
+    if request.method == 'GET':
+        if type == "case":
+            id = Case.objects.all().aggregate(Max('internal_number'))
+            if id['internal_number'] is None:
+                id = "1"
+            else:
+                id = str(int(id['internal_number'])+1)
+            return JsonResponse(id, safe=False)
+        elif type == "exhibit":
+            id = Exhibits.objects.all().aggregate(Max('exhibit_number'))
+            if id['exhibit_number'] is None:
+                id = "1"
+            else:
+                id = str(int(id['exhibit_number'])+1)
+            return JsonResponse(id, safe=False)
+        elif type == "sample":
+            id = Samples.objects.all().aggregate(Max('sample_id'))
+            if id['sample_id'] is None:
+                id = "1"
+            else:
+                id = str(int(id['sample_id'])+1)
+            return JsonResponse(id, safe=False)
+        else:
+            return JsonResponse("Invalid Type", safe=False)
+
+
 @csrf_exempt
 def sampleQuery(request):
     query_data = JSONParser().parse(request)
@@ -410,3 +439,10 @@ def downloadFile(request):
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
+
+def last_id(model):
+    max_rated_entry = model.objects.latest()
+    if max_rated_entry == None:
+        return str(1)
+    else:
+        return str(max_rated_entry.details + 1)
