@@ -170,63 +170,60 @@ def queryHandler(request):
     query_data = JSONParser().parse(request)
     cases = Case.objects.all()
     if "" != query_data['min_date'] and "" != query_data['max_date']:
-        filterDate(cases,query_data)
-
-    if "" != query_data['internal_number']:
-        cases.filter(internal_number=query_data['internal_number'])
+        cases = filterDate(cases,query_data)
+    if "" != query_data['internal_number']: 
+        cases = cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['received_or_go']:
-        cases.filter(received_or_go=query_data['received_or_go'])
+        cases = cases.filter(received_or_go=query_data['received_or_go'])
     if "" != query_data['lab_name']:
-        cases.filter(lab_name=query_data['lab_name'])
+        cases = cases.filter(lab_name=query_data['lab_name'])
     if "" != query_data['event_characteristic']:
-        cases.filter(event_characteristic=query_data['event_characteristic'])
+        cases = cases.filter(event_characteristic=query_data['event_characteristic'])
     if "" != query_data['event_date']:
-        cases.filter(event_date=query_data['event_date'])
+        cases = cases.filter(event_date=query_data['event_date'])
     if "" != query_data['received_date']:
-        cases.filter(received_date=query_data['received_date'])
+        cases = cases.filter(received_date=query_data['received_date'])
     if "" != query_data['event_type']:
-        cases.filter(event_type=query_data['event_type'])
+        cases = cases.filter(event_type=query_data['event_type'])
     if "" != query_data['pele_number']:
-        cases.filter(pele_number=query_data['pele_number'])
+        cases = cases.filter(pele_number=query_data['pele_number'])
     if "" != query_data['district']:
-        cases.filter(district=query_data['district'])
+        cases = cases.filter(district=query_data['district'])
     if "" != query_data['investigating_unit']:
-        cases.filter(investigating_unit=query_data['investigating_unit'])
+        cases = cases.filter(investigating_unit=query_data['investigating_unit'])
     if "" != query_data['explosion_or_disarm']:
-        cases.filter(explosion_or_disarm=query_data['explosion_or_disarm'])
+        cases = cases.filter(explosion_or_disarm=query_data['explosion_or_disarm'])
     if "" != query_data['reference_number']:
-        cases.filter(reference_number=query_data['reference_number'])
+        cases = cases.filter(reference_number=query_data['reference_number'])
     if "" != query_data['status']:
-        cases.filter(status=query_data['status'])
+        cases = cases.filter(status=query_data['status'])
     if "" != query_data['event_location']:
-        cases.filter(event_location=query_data['event_location'])
+        cases = cases.filter(event_location=query_data['event_location'])
     if "" != query_data['event_description']:
-        cases.filter(event_description=query_data['event_description'])
+        cases = cases.filter(event_description=query_data['event_description'])
     if "" != query_data['sender_name']:
-        cases.filter(sender_name=query_data['sender_name'])
+        cases = cases.filter(sender_name=query_data['sender_name'])
 
     if "" != query_data['weapon_name']:
-        cases.filter(weapon_name=query_data['weapon_name'])
+        cases = cases.filter(weapon_name=query_data['weapon_name'])
     if "" != query_data['explosive_device_material']:
-        cases.filter(explosive_device_material=query_data['explosive_device_material'])
+        cases = cases.filter(explosive_device_material=query_data['explosive_device_material'])
     if "" != query_data['explosive_device_means']:
-        cases.filter(explosive_device_means=query_data['explosive_device_means'])
+        cases = cases.filter(explosive_device_means=query_data['explosive_device_means'])
     if "" != query_data['weapon_options']:
-        cases.filter(weapon_options=query_data['weapon_options'])
+        cases = cases.filter(weapon_options=query_data['weapon_options'])
     if "" != query_data['explosive_device_operating_system']:
-        cases.filter(explosive_device_operating_system=query_data['explosive_device_operating_system'])
+        cases = cases.filter(explosive_device_operating_system=query_data['explosive_device_operating_system'])
     if "" != query_data['weapon_mark']:
-        cases.filter(weapon_mark=query_data['weapon_mark'])
+        cases = cases.filter(weapon_mark=query_data['weapon_mark'])
     if "" != query_data['explosive_device_spray']:
-        cases.filter(explosive_device_spray=query_data['explosive_device_spray'])
+        cases = cases.filter(explosive_device_spray=query_data['explosive_device_spray'])
     if "" != query_data['weapon_color']:
-        cases.filter(weapon_color=query_data['weapon_color'])
+        cases = cases.filter(weapon_color=query_data['weapon_color'])
     if "" != query_data['explosive_device_camouflage']:
-        cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
+        cases = cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
     if "" != query_data['weapon_additional_characteristics']:
-        cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
-
-
+        cases = cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
     cases_serializer = CaseSerializer(cases, many=True)
     return JsonResponse(cases_serializer.data, safe=False)
 
@@ -243,14 +240,20 @@ def caseApi(request, case_name=""):
         return JsonResponse(cases_serializer.data, safe=False)
 
     elif request.method == 'POST':
+        print("\n\ncase post")
         case_data = JSONParser().parse(request)
+        print("case_data",case_data)
         department_serializer = CaseSerializer(data=case_data)
+        print("department_serializer",type(department_serializer))
         if department_serializer.is_valid():
+            print("is valid")
             department_serializer.save()
+            print("Added Successfully")
             return JsonResponse("Added Successfully!!", safe=False)
         return JsonResponse("Failed to Addd.", safe=False)
 
     elif request.method == 'PUT':
+        print("case put")
         department_data = JSONParser().parse(request)
         department = Case.objects.get(internal_number=department_data['internal_number'])
         department_serializer = CaseSerializer(department, data=department_data)
@@ -351,7 +354,7 @@ def exhibitsApi(request, exhibit_number = ""):
 
     elif request.method == 'PUT':
         exhibit_data = JSONParser().parse(request)
-        exhibit = Exhibits.objects.get(exhibit_number=exhibit_data['exhibit_number'])
+        exhibit = Exhibits.objects.get(internal_number = exhibit_data["internal_number"] ,exhibit_number=exhibit_data['exhibit_number'])
         exhibits_serializer = ExhibitsSerializer(exhibit, data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
@@ -386,7 +389,7 @@ def samplesApi(request, sample_id=""):
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
-        department = Samples.objects.get(sample_id=department_data['sample_id'])
+        department = Samples.objects.get(sample_id=department_data['sample_id'],exhibit_id=department_data['exhibit_id'],case_id=department_data['case_id'],transferred_to_lab=department_data['transferred_to_lab'])
         department_serializer = SamplesSerializer(department, data=department_data)
         if department_serializer.is_valid():
             department_serializer.save()
