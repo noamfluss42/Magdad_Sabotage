@@ -404,22 +404,23 @@ def samplesApi(request, sample_id=""):
 
 
 """
-return list 
+    return list of all samples attributed to a case
+param:
+    internal_num - id of case
 """
 def getSampleList(internal_num):
-    samples = ""
+    samples = Samples.objects.filter(case_id = internal_num).values()
     list = ""
-    for sample in enumerate(samples):
-        list+=""
-    return "1.TEMP\n2.sample\n3.LIST"
+    for index,sample in enumerate(samples):
+        list+=index+". "+sample['what_sampled']+" ממוצג מס' "+sample['exhibit_id']+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+sample['packaging']+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ 1 +'\n'#TODO replace 1 with sample['bag_num'] after sample update
+    return list
 
 @csrf_exempt
 def downloadFile(request):
     if request.method == 'GET':
         docx_data = request.GET.dict()
-        docx_data['exhibits'] = getSampleList(docx_data['internal_number'])
         docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
-        docx_data['exhibit_description'] = "TEMP SAMPLE DESC"
+        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'])
         docx_data.update(Case.objects.filter(internal_number = docx_data['internal_number']).values("reference_type","reference_number","event_description"))
         file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
