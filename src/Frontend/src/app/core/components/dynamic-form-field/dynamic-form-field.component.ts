@@ -11,16 +11,17 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { FormFieldBase } from '../../utils/form-field-base';
-//import { useDebugValue } from 'react';
-import {
-  MomentDateModule,
-  MomentDateAdapter,
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-} from '@angular/material-moment-adapter';
+import {MomentDateModule,MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS,} from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { default as _rollupMoment } from 'moment';
+
+
+
+
 const moment = _rollupMoment || _moment;
+
+
 export const DATE_FORMAT = {
   parse: {
     dateInput: 'dd/MM/y',
@@ -38,13 +39,13 @@ export const DATE_FORMAT = {
   templateUrl: './dynamic-form-field.component.html',
   styleUrls: ['../../../styles/dynamic-form-field.component.css'],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'he-IL' },
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE],
-
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
     },
-    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {strict: true}},
+
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMAT },
   ],
 })
@@ -56,12 +57,19 @@ export class DynamicFormFieldComponent {
    */
   @Input() field!: FormFieldBase<string>;
   @Input() form!: FormGroup;
+  dates: any;
   constructor() {
-    // this.field = new FormControl(this.options.value);
-    // this.form.addControl(this.field.key, this.field);
+    
+
+    // add date to the field
   }
 
+
+  
   get isValid() {
     return this.form.controls[this.field.key].valid;
   }
+
+  
+
 }
