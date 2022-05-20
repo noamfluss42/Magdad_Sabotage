@@ -59,6 +59,7 @@ export class EditExhibitScreenComponent implements OnInit {
     for (let key in this.data) {
       if (form.controls[key]) {
         form.controls[key].setValue(this.data[key]);
+        
       }
     }
   };

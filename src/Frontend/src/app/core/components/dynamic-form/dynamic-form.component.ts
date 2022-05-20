@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import type { FormFieldBase } from '../../utils/form-field-base';
 import { Component, OnInit } from '@angular/core';
 import { FieldControlService } from '../../services/field-control.service';
-
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
@@ -39,4 +38,9 @@ export class DynamicFormComponent implements OnInit {
   onSubmitCallBack: (res: string) => void = (res: string) => {
     this.payLoad = res;
   };
+
+  //function to reset the form.
+  onReset() {
+    this.form.reset();
+  }
 }

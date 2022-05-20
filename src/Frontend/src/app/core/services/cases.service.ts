@@ -221,7 +221,7 @@ export class CasesService {
         type: 'redirect',
         required: false,
         onClick: () => {
-          
+
           this.router.navigate(['/exhibitNavigator']);
       }}),
 
@@ -256,6 +256,7 @@ export class CasesService {
         label: 'אמל"ח: שם הפריט',
         required: true,
         type: 'text',
+      
       }),
       new TextboxField({
         key: 'explosive_device_material',
