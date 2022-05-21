@@ -13,6 +13,7 @@ export class SharedDataService {
   private data = new BehaviorSubject<Object>({});
   currentData = this.data.asObservable();
 
+
   constructor(private generateDocxService: GenerateDocxService) {}
 
   //adds data to the shared data object, the parameter must be an object.
@@ -33,7 +34,14 @@ export class SharedDataService {
       this.generateDocxService.downloadDocx(docxData);
     });
   }
+
+
+
 }
+
+
+
+
 
 function getCurrentDate() {
   const date = new Date();

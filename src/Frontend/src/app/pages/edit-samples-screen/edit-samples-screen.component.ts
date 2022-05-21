@@ -45,5 +45,6 @@ export class EditSamplesScreenComponent implements OnInit {
       console.log(res);
     }
     );
+    localStorage.removeItem('sample');
   }
 }
