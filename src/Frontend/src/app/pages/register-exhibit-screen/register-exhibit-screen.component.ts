@@ -13,20 +13,18 @@ import { FormFieldBase } from '../../core/utils/form-field-base';
 })
 export class RegisterExhibitScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
-  samplesFields$: FormFieldBase<any>[];
 
   constructor(
     private service: ExhibitsService,
     private sharedData: SharedDataService,
-    private samplesService: SamplesService,
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
-    this.samplesFields$ = this.samplesService.getQuestions();
 
     const localCase = JSON.parse(localStorage.getItem('case') || '[]');
     var values = Array.from(this.fields$.values())
     values[0]["value"] = localCase.internal_number
+    values[11]["value"] = localCase.sender_name
 
   }
 
@@ -40,6 +38,9 @@ export class RegisterExhibitScreenComponent implements OnInit {
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
     });
+
+    localStorage.setItem('exhibit', JSON.stringify(formRawValue));
+
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);
   };

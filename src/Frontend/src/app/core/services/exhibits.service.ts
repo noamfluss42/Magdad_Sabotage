@@ -166,25 +166,12 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
-      //new ButtonField({
-      //  key: 'test',
-      //  label: 'תנועת דגימות',
-      //  required: true,
-      //  type: 'button',
-      //}),
-
-
-
-
       new ButtonField({
-        key: 'sample_navigation',
         label: 'תנועת דגימות',
-        required: true,
-        type: 'button',
         onClick: () => {
           this.router.navigate(['/sampleNavigator']);
-      }}), //TODO! implement sample navigator
-
+        }
+      }),
     ];
     return questions;
   }
@@ -287,4 +274,5 @@ export class ExhibitsService {
 
     ];
   }
+
 }

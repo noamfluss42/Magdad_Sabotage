@@ -16,6 +16,13 @@ export class SamplesScreenComponent implements OnInit {
 
   constructor(private service: SamplesService) {
     this.fields$ = this.service.getQuestions();
+
+    const localExhibit = JSON.parse(localStorage.getItem('exhibit') || '[]');
+    var values = Array.from(this.fields$.values())
+    values[0]["value"] = localExhibit.case_id
+    values[1]["value"] = localExhibit.exhibit_number
+    values[14]["value"] = localExhibit.investigator_name
+
   }
 
   ngOnInit(): void {
