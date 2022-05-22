@@ -12,6 +12,7 @@ export class EditCaseScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
   tags$: FormFieldBase<any>[];
   field$: FormFieldBase<string> = new FormFieldBase<string>();
+  generateDocxButton$: FormFieldBase<string>[];
   data: any;
   form!: FormGroup;
   caseData: any;
@@ -19,6 +20,7 @@ export class EditCaseScreenComponent implements OnInit {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
     this.field$ = this.fields$[1];
+    this.generateDocxButton$ = service.getGenerateDocxButton();
     this.form = this.fcs.toFormGroup([this.field$]);
     this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
 

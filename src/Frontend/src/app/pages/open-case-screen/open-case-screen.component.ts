@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class OpenCaseScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
   tags$ : FormFieldBase<any>[];
+  generateDocxButton$ : FormFieldBase<any>[];
 
 
   constructor(
@@ -21,6 +22,7 @@ export class OpenCaseScreenComponent implements OnInit {
   ) {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
+    this.generateDocxButton$ = service.getGenerateDocxButton();
 
   }
 
@@ -72,25 +74,5 @@ export class OpenCaseScreenComponent implements OnInit {
     localStorage.setItem('case', JSON.stringify(formRawValue));
     console.log(formRawValue);
   }
-  //onExhibits = (form: FormGroup, cb: (res: string) => void): void => {
-
-  //  alert(JSON.stringify(form))
-  //  const formRawValue = form.getRawValue();
-  //  if (!(formRawValue["internal_number"]
-  //    && formRawValue["received_or_go"]
-  //    && formRawValue["lab_name"]
-  //    && formRawValue["event_characteristic"]
-  //    && formRawValue["district"]
-  //    && formRawValue["investigating_unit"])
-  //  ) {
-  //    alert("Fields are required!")
-  //    return;
-  //  } else {
-  //    alert("YAY")
-  //  }
-
-  //  this.router.navigate(['/exhibitNavigator']);
-
-  //}
 
 }

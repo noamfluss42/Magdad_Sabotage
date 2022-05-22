@@ -6,8 +6,6 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { SamplesService } from 'src/app/core/services/samples.service';
 import { FormFieldBase } from '../../core/utils/form-field-base';
 
-enum Mode { Exhibits, RegisterSamples, EditSamples }
-
 @Component({
   selector: 'app-register-exhibit-screen',
   templateUrl: './register-exhibit-screen.component.html',
@@ -17,8 +15,6 @@ export class RegisterExhibitScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
   samplesFields$: FormFieldBase<any>[];
 
-  mode$: Mode;
-
   constructor(
     private service: ExhibitsService,
     private sharedData: SharedDataService,
@@ -27,7 +23,6 @@ export class RegisterExhibitScreenComponent implements OnInit {
   ) {
     this.fields$ = this.service.getQuestions();
     this.samplesFields$ = this.samplesService.getQuestions();
-    this.mode$ = Mode.Exhibits
 
     const localCase = JSON.parse(localStorage.getItem('case') || '[]');
     var values = Array.from(this.fields$.values())
@@ -48,13 +43,5 @@ export class RegisterExhibitScreenComponent implements OnInit {
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);
   };
-
-  openNewSample() {
-    this.mode$ = Mode.RegisterSamples
-  }
-
-  registerNewSample() {
-    this.mode$ = Mode.Exhibits
-  }
 
 }
