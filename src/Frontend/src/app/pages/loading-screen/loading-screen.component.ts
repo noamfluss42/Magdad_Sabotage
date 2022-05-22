@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingScreenComponent implements OnInit {
 
-  constructor() { }
+  constructor() { 
+
+  }
+
+  //if a user is on page for longer than 5 seconds, navigate to the last page he was on
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      window.location.href = '/searchCaseResult';
+    }, 1000);
+  }
+
 
   ngOnInit(): void {
+
   }
+  
 
 }
