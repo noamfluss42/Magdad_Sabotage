@@ -43,7 +43,8 @@ import { SamplesNavigatorScreenComponent } from './pages/samples-navigator-scree
 import { SamplesInCaseScreenComponent } from './pages/samples-in-case-screen/samples-in-case-screen.component';
 import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-screen.component';
 import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-samples-screen.component';
-
+import { LoadingScreenComponent } from './pages/loading-screen/loading-screen.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
   imports: [
     BrowserModule,
@@ -69,6 +70,7 @@ import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-sam
     MatListModule,
     MatAutocompleteModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
 
   declarations: [
@@ -89,6 +91,7 @@ import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-sam
     SamplesInCaseScreenComponent,
     EditCaseScreenComponent,
     EditSamplesScreenComponent,
+    LoadingScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

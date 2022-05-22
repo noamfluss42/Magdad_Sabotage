@@ -14,6 +14,7 @@ import { SamplesScreenComponent } from './pages/samples-screen/samples-screen.co
 import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-screen.component';
 import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-samples-screen.component';
+import { LoadingScreenComponent } from './pages/loading-screen/loading-screen.component';
 
 const routes: Routes = [
   {
@@ -71,6 +72,10 @@ const routes: Routes = [
   {
     path: 'editSampleScreen',
     component: EditSamplesScreenComponent,
+  },
+  {
+    path: 'loadingScreen',
+    component: LoadingScreenComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];

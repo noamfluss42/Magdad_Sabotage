@@ -5,117 +5,113 @@ import { Observable } from 'rxjs';
 import { Constants } from '../constants/constants';
 import { DropdownField, TextboxField, DatePickerField } from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
-import {Case, CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
+import { Case, CaseSearch, ResultCaseTable, TableColumn } from '../utils/types';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SearchCaseService {
   queryUrl = `${Constants.API_URL}/query/`;
-  constructor(private http: HttpClient,private router: Router) { }
-    // return Observable of Case[]
-    getQuery() {
-      return this.http.get<CaseSearch>(this.queryUrl);
-    }
+  constructor(private http: HttpClient, private router: Router) {}
+  // return Observable of Case[]
+  getQuery() {
+    return this.http.get<CaseSearch>(this.queryUrl);
+  }
 
-    /* POST: add new Case do database */
+  /* POST: add new Case do database */
 
-    // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
-    postQuery(case_: CaseSearch): Observable<CaseSearch> {
-      console.log(case_);
-      return this.http.post<CaseSearch>(this.queryUrl, case_, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      });
-    }
-    // //sets data for the search case result screen
-    setData(data: any) {
-      localStorage.setItem('data', JSON.stringify(data));
-    }
-    getData(): any { // returns data from local storage and check if null
-      const data = localStorage.getItem('data');
-      if (data) {
-        return JSON.parse(data);
-      }
-      return null;
-    }
-    free(data: any) {
-      localStorage.removeItem('data');
-    }
-    //TODO CHECK QUERY
-    getTags() {
-      const tags: FormFieldBase<string>[] = [
-        new TextboxField({
-          key: 'weapon_name',
-          label: 'אמל"ח: שם הפריט',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'explosive_device_material',
-          label: 'מט"ח: חנ"מ',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'explosive_device_means',
-          label: 'מט"ח: אמצעי ייזום',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'weapon_options',
-          label: 'אמל"ח: הגדרות',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'explosive_device_operating_system',
-          label: 'מט"ח: מע' + "' הפעלה",
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'weapon_mark',
-          label: 'אמל"ח: סימון',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'explosive_device_spray',
-          label: 'מט"ח: רסס',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'weapon_color',
-          label: 'אמל"ח: צבע',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'explosive_device_camouflage',
-          label: 'מט"ח: הסוואה',
-          required: true,
-          type: 'text',
-        }),
-        new TextboxField({
-          key: 'weapon_additional_characteristics',
-          label: 'אמל"ח: מאפיינים נוספים',
-          required: true,
-          type: 'text',
-        }),
+  // In Typescript 'case' is an illegal parameter name, therfore we use 'case_'
+  postQuery(case_: CaseSearch): Observable<CaseSearch> {
+    console.log(case_);
+    return this.http.post<CaseSearch>(this.queryUrl, case_, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
+  }
+  // //sets data for the search case result screen
 
-      ];
-      return tags;
+  getData(): any {
+    // returns data from local storage and check if null
+    const data = sessionStorage.getItem('results');
+    if (data) {
+      return JSON.parse(data);
     }
+    return JSON.parse('[]');
+  }
+
+  //TODO CHECK QUERY
+  getTags() {
+    const tags: FormFieldBase<string>[] = [
+      new TextboxField({
+        key: 'weapon_name',
+        label: 'אמל"ח: שם הפריט',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'explosive_device_material',
+        label: 'מט"ח: חנ"מ',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'explosive_device_means',
+        label: 'מט"ח: אמצעי ייזום',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'weapon_options',
+        label: 'אמל"ח: הגדרות',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'explosive_device_operating_system',
+        label: 'מט"ח: מע' + "' הפעלה",
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'weapon_mark',
+        label: 'אמל"ח: סימון',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'explosive_device_spray',
+        label: 'מט"ח: רסס',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'weapon_color',
+        label: 'אמל"ח: צבע',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'explosive_device_camouflage',
+        label: 'מט"ח: הסוואה',
+
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'weapon_additional_characteristics',
+        label: 'אמל"ח: מאפיינים נוספים',
+
+        type: 'text',
+      }),
+    ];
+    return tags;
+  }
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
         key: 'internal_number', // +year
         label: 'מספר פנימי',
-        required: true,
+
         type: 'text',
       }),
       new DropdownField({
@@ -129,7 +125,7 @@ export class SearchCaseService {
       new DropdownField({
         key: 'lab_name',
         label: 'שם מעבדה ',
-        required: true,
+
         options: [
           { key: 'דרום', value: 'דרום' },
           { key: 'תל אביב', value: 'ת"א' },
@@ -140,7 +136,7 @@ export class SearchCaseService {
       new DropdownField({
         key: 'event_characteristic',
         label: 'מאפיין האירוע',
-        required: true,
+
         options: [
           { key: 'אמל"ח', value: 'אמל"ח' },
           { key: 'מטען חבלה', value: 'מטען חבלה' },
@@ -156,7 +152,6 @@ export class SearchCaseService {
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
-        required: true,
         type: 'text',
       }),
 
@@ -212,7 +207,7 @@ export class SearchCaseService {
       new TextboxField({
         key: 'reference_number',
         label: 'סימוכין',
-        required: true,
+
         type: 'text',
       }),
 
@@ -242,21 +237,21 @@ export class SearchCaseService {
       new TextboxField({
         key: 'event_location',
         label: 'מקום האירוע',
-        required: true,
+
         type: 'text',
       }),
 
       new TextboxField({
         key: 'event_description',
         label: 'תיאור האירוע',
-        required: true,
+
         type: 'text',
       }),
 
       new TextboxField({
         key: 'sender_name',
         label: 'שם המומחה',
-        required: true,
+
         type: 'text',
       }),
 
@@ -264,17 +259,12 @@ export class SearchCaseService {
         key: 'min_date',
         label: 'טווח תאריך התחלה',
         type: 'text',
-
-
       }),
       new DatePickerField({
         key: 'max_date',
         label: 'טווח תאריך סוף',
         type: 'text',
-
-
       }),
-
     ];
 
     return questions.sort((a, b) => a.order - b.order);
@@ -285,7 +275,6 @@ export class SearchCaseService {
         name: 'תאריך קבלה',
         attribute: 'received_date',
         sortable: true,
-
       },
       {
         name: 'מעבדה',
@@ -306,17 +295,13 @@ export class SearchCaseService {
         name: 'עריכה',
         attribute: 'עריכה',
         sortable: true,
-        onClick: (_case : Case) => {
+        onClick: (_case: Case) => {
           console.log(_case);
           // local storage exhibit
-          localStorage.setItem("caseQ",JSON.stringify(_case));
+          localStorage.setItem('caseQ', JSON.stringify(_case));
           this.router.navigate(['/editCaseScreen']);
         },
       },
-
-
-
     ].reverse();
   }
-
 }
