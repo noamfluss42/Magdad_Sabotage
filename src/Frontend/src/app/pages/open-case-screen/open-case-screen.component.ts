@@ -35,10 +35,8 @@ export class OpenCaseScreenComponent implements OnInit {
       cb(res);
     });
     this.sharedData.addToData(data);
-    localStorage.setItem('case', JSON.stringify(data));
-
-    // this.router.navigate(['/registerExhibit']);
   };
+
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
     // sort form value by interface keys
     const formRawValue = form.getRawValue();
