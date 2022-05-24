@@ -244,12 +244,13 @@ def caseApi(request, case_name=""):
         case_data = JSONParser().parse(request)
         print("case_data",case_data)
         department_serializer = CaseSerializer(data=case_data)
-        print("department_serializer",type(department_serializer))
         if department_serializer.is_valid():
             print("is valid")
             department_serializer.save()
             print("Added Successfully")
             return JsonResponse("Added Successfully!!", safe=False)
+        else:
+            print("error",department_serializer.errors)
         return JsonResponse("Failed to Addd.", safe=False)
 
     elif request.method == 'PUT':
