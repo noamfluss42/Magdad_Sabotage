@@ -203,17 +203,12 @@ export class CasesService {
         required: true,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'catch_report',
-        label: 'דוח תפיסה',
-        required: true,
-        type: 'text',
-      }),
+
 
       new TextboxField({
         key: 'event_description',
         label: 'תיאור האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
 

@@ -221,11 +221,7 @@ export class SearchCaseService {
         ],
       }),
 
-      new TextboxField({
-        key: 'catch_report',
-        label: 'דוח תפיסה',
-        type: 'text',
-      }),
+
 
       // new DatePickerField({
       //   key: 'sign_date',

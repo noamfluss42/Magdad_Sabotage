@@ -61,7 +61,6 @@ export interface Case {
   status: string;
   sender_name: string;
   event_location: string;
-  catch_report: string;
   event_description: string;
 
   weapon_name: string;
@@ -135,7 +134,6 @@ export interface CaseSearch {
   status: string;
   sender_name: string;
   event_location: string;
-  catch_report: string;
   event_description: string;
 
   weapon_name: string;

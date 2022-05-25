@@ -38,8 +38,9 @@ export class OpenCaseScreenComponent implements OnInit {
       && formRawValue["district"]
       && formRawValue["investigating_unit"])
     ) {
-      alert("Fields are required!")
-      return;
+
+      alert("Fields are requireddfdf!")
+      //return;
     }
 
     const savedCase = JSON.parse(localStorage.getItem('case') || '[]');
