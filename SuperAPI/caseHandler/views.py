@@ -332,7 +332,9 @@ def exhibitDwnld(request):
 #internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
 def exhibitQuery(request):
+    print(request)
     query_data = JSONParser().parse(request)
+    print(query_data)
     exhibits = Exhibits.objects.all()
     exhibits.filter(internal_number=query_data['internal_number'])
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)

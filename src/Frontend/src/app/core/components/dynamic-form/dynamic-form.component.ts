@@ -46,6 +46,7 @@ export class DynamicFormComponent implements OnInit {
 
   //function to reset the form.
   onReset() {
+    this.buttonStatus = true;
     this.form.reset();
   }
 
