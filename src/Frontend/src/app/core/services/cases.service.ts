@@ -110,7 +110,6 @@ export class CasesService {
         label: 'תאריך אירוע',
         type: 'text',
         required: true,
-
       }),
       new DatePickerField({
         key: 'received_date',
@@ -168,6 +167,7 @@ export class CasesService {
       new DropdownField({
         key: 'explosion_or_disarm',
         label: 'פיצוץ/נטרול',
+        required: false,
         options: [
           { key: 'פיצוץ', value: 'פיצוץ' },
           { key: 'נטרול', value: 'נטרול' },
@@ -184,7 +184,7 @@ export class CasesService {
       new DropdownField({
         key: 'status',
         label: 'סטטוס',
-        required: true,
+        required: false,
         options: [
           { key: 'פתוח', value: 'פתוח' },
           { key: ' סגור לללא חווד', value: ' סגור לללא חווד' },
@@ -200,7 +200,7 @@ export class CasesService {
       new TextboxField({
         key: 'event_location',
         label: 'מקום האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
@@ -252,61 +252,61 @@ export class CasesService {
       new TextboxField({
         key: 'weapon_name',
         label: 'אמל"ח: שם הפריט',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_material',
         label: 'מט"ח: חנ"מ',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_means',
         label: 'מט"ח: אמצעי ייזום',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_options',
         label: 'אמל"ח: הגדרות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_operating_system',
         label: 'מט"ח: מע' + "' הפעלה",
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_mark',
         label: 'אמל"ח: סימון',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_spray',
         label: 'מט"ח: רסס',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_color',
         label: 'אמל"ח: צבע',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_camouflage',
         label: 'מט"ח: הסוואה',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_additional_characteristics',
         label: 'אמל"ח: מאפיינים נוספים',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
