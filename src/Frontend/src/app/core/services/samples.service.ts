@@ -153,6 +153,12 @@ export class SamplesService {
         required: true,
         type: 'text',
       }),
+      new TextboxField({
+        key: 'bag_num',
+        label: 'מספר שקית',
+        required: true,
+        type: 'text',
+      }),
     ];
     return questions.sort((a, b) => a.order - b.order);
   }
@@ -240,7 +246,11 @@ export class SamplesService {
         attribute: 'phone_num',
         sortable: true,
       },
-
+      {
+        name: 'מספר שקית',
+        attribute: 'bag_num',
+        sortable: true,
+      },
       {
         name: 'עריכה',
         attribute: 'עריכה',

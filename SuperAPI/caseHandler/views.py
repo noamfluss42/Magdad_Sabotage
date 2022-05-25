@@ -170,6 +170,7 @@ def general_sum(msg):
 @csrf_exempt
 def queryHandler(request):
     query_data = JSONParser().parse(request)
+    print("query_data",query_data)
     cases = Case.objects.all()
     if "" != query_data['min_date'] and "" != query_data['max_date']:
         cases = filterDate(cases, query_data)
@@ -457,7 +458,7 @@ def getSampleList(internal_num):
     for index, sample in enumerate(samples):
         list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id'])\
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
-                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + str(1) + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
     return list
 
 

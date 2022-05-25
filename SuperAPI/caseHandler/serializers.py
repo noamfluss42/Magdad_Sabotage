@@ -130,4 +130,5 @@ class SamplesSerializer(serializers.ModelSerializer):
         'unit_name', 
         'reference',
         'investigator_name',
-        'phone_num',)
+        'phone_num',
+        'bag_num',)
