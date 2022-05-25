@@ -54,6 +54,7 @@ export class OpenCaseScreenComponent implements OnInit {
 
     // this.router.navigate(['/registerExhibit']);
   };
+
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
     // sort form value by interface keys
     const formRawValue = form.getRawValue();

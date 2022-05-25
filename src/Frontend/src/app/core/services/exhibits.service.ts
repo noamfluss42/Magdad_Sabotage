@@ -24,8 +24,8 @@ export class ExhibitsService {
 
   /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
-    return this.http.put<Exhibit>(
-      `${this.exhibitsURL}/${exhibit.exhibit_number}`,
+    console.log(exhibit);
+    return this.http.put<Exhibit>(`${this.exhibitsURL}/${exhibit.exhibit_number}`,
       exhibit,
       {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -58,7 +58,7 @@ export class ExhibitsService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
-        key: 'case_id', // +year
+        key: 'internal_number', // +year
         label: 'מספר תיק',
         required: true,
         type: 'text',
@@ -144,7 +144,7 @@ export class ExhibitsService {
         required:true,
       }),
       new DatePickerField({
-        key:"handled_date",
+        key:"handle_date",
         label:"תאריך טיפול",
         required:true,
       }),
@@ -166,12 +166,28 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
+      //new ButtonField({
+      //  key: 'test',
+      //  label: 'תנועת דגימות',
+      //  required: true,
+      //  type: 'button',
+      //}),
+
+
+
+
       new ButtonField({
+        key: 'sample_navigation',
         label: 'תנועת דגימות',
-        onClick: () => {
+        type: 'button',
+        onClick: (exhibit:Exhibit) => {
+          console.log(exhibit);
+          // local storage exhibit
+          localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
           this.router.navigate(['/sampleNavigator']);
-        }
-      }),
+
+      }}), //TODO! implement sample navigator
+
     ];
     return questions;
   }
@@ -268,11 +284,11 @@ export class ExhibitsService {
           console.log(exhibit);
           // local storage exhibit
           localStorage.setItem("exhibit",JSON.stringify(exhibit));
+          localStorage.removeItem("case");
           this.router.navigate(['/editExhibit']);
         },
       },
 
     ];
   }
-
 }

@@ -8,10 +8,9 @@ import { FormFieldBase } from '../../core/utils/form-field-base';
 @Component({
   selector: 'app-samples-screen',
   templateUrl: './samples-screen.component.html',
-  styleUrls: ['./samples-screen.component.css']
+  styleUrls: ['./samples-screen.component.css'],
 })
 export class SamplesScreenComponent implements OnInit {
-
   fields$: FormFieldBase<any>[];
 
   constructor(private service: SamplesService) {
@@ -25,11 +24,13 @@ export class SamplesScreenComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
-    alert('sub')
+    console.log(form.getRawValue());
+    this.service.postSample(form.value).subscribe((res: any) => {
+      console.log(res);
+      cb(res);
+    });
   };
-
 }

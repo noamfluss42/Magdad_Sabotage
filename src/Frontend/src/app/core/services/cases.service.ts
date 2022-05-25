@@ -14,13 +14,12 @@ import { FormGroup } from '@angular/forms';
 })
 export class CasesService {
   caseURL = `${Constants.API_URL}/case/`;
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient,private router: Router) {}
 
   // return Observable of Case[]
   getCase() {
     return this.http.get<Case[]>(this.caseURL);
   }
-
   /* POST: add new Case do database */
 
   // In Typescript 'case' is an illegal parameter name, therefore we use 'case_'
@@ -43,15 +42,16 @@ export class CasesService {
   deleteCase(id: number): Observable<unknown> {
     return this.http.delete(`${this.caseURL}/${id}`);
   }
-
+  /*TODO check merge */
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL, case_, {
+    return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
     });
   }
+  /*TODO check merge */
   cacheCaseOnReturn(case_: Case) {
     localStorage.setItem('case', JSON.stringify(case_));
   }
@@ -219,7 +219,7 @@ export class CasesService {
 
 
       new ButtonField({
-        key: 'navigator',
+        key:'navigator',
         label: 'תנועת מוצגים',
         type: 'redirect',
         required: false,

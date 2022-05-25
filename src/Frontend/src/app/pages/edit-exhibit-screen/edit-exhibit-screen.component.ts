@@ -26,24 +26,25 @@ export class EditExhibitScreenComponent implements OnInit {
     this.fields$ = service.getQuestions();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
+
   }
 
   ngOnInit(): void {
 
   }
 
-  // This function will run once the bag_number is submitted, then the forms will change
-  // this can be seen in the html template.s
-  onSubmit(): void {
-    // this.service.getExhibit(this.form.getRawValue().bag_number).subscribe((res: any) => {
-      this.service.editExhibit(this.form.getRawValue()).subscribe((res: any) => {
-        console.log(res);
-      }
-      );
+  // // This function will run once the bag_number is submitted, then the forms will change
+  // // this can be seen in the html template.s
+  // onSubmit(): void {
+  //   // this.service.getExhibit(this.form.getRawValue().bag_number).subscribe((res: any) => {
+  //     this.service.editExhibit(this.form.getRawValue()).subscribe((res: any) => {
+  //       console.log(res);
+  //     }
+  //     );
 
-    // var exhibit : string = JSON.parse(localStorage.getItem('exhibit')).exhibit_number;
-    // this.service.getExhibit().subscribe((x: any) => (this.data = x));
-  }
+  //   // var exhibit : string = JSON.parse(localStorage.getItem('exhibit')).exhibit_number;
+  //   // this.service.getExhibit().subscribe((x: any) => (this.data = x));
+  // }
 
 
 
@@ -58,10 +59,9 @@ export class EditExhibitScreenComponent implements OnInit {
     for (let key in this.data) {
       if (form.controls[key]) {
         form.controls[key].setValue(this.data[key]);
+
       }
     }
-
-
   };
 
   // // Will be called after child form submitted
@@ -75,12 +75,15 @@ export class EditExhibitScreenComponent implements OnInit {
   // onNoClick(): void {
   //   this.dialogRef.close();
   // }
-  onEditSubmit(): void {
-    this.service.editExhibit(this.form.getRawValue()).subscribe((res: any) => {
+  onEditSubmit= (form: FormGroup): void => {
+    const formRawValue = form.getRawValue();
+    delete formRawValue.sample_navigation;
+    this.service.editExhibit(formRawValue).subscribe((res: any) => {
       console.log(res);
     }
     );
     localStorage.removeItem('exhibit');
+
   }
 
 }

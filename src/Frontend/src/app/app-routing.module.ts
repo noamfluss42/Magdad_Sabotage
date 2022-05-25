@@ -13,6 +13,8 @@ import { ExhibitsInCaseScreenComponent } from './pages/exhibits-in-case-screen/e
 import { SamplesScreenComponent } from './pages/samples-screen/samples-screen.component';
 import { ExhibitsNavigatorScreenComponent } from './pages/exhibits-navigator-screen/exhibits-navigator-screen.component';
 import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-screen.component';
+import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-samples-screen.component';
+import { LoadingScreenComponent } from './pages/loading-screen/loading-screen.component';
 
 const routes: Routes = [
   {
@@ -66,6 +68,14 @@ const routes: Routes = [
   {
     path: 'editCaseScreen',
     component: EditCaseScreenComponent,
+  },
+  {
+    path: 'editSampleScreen',
+    component: EditSamplesScreenComponent,
+  },
+  {
+    path: 'loadingScreen',
+    component: LoadingScreenComponent,
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];

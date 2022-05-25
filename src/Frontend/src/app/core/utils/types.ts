@@ -1,5 +1,5 @@
 export interface Exhibit {
-  case_id: string;
+  internal_number: string;
   exhibit_number: string;
   location: string;
   description: string;
@@ -76,6 +76,29 @@ export interface Case {
   weapon_additional_characteristics: string;
 }
 
+export interface Sample
+{
+  case_id: string;
+  exhibit_id: string;
+  sample_id: string;
+  what_sampled: string;
+  where_sampled: string;
+  transferred_to_lab: string;
+  sending_date: string;
+  receiving_date: string;
+  packaging: string;
+  results: string;
+  notes: string;
+  date: string;
+  unit_name: string;
+  reference: string;
+  investigator_name: string;
+  phone_num: string;
+
+}
+
+
+
 export interface TableColumn {
   name: string;
   attribute: any;
@@ -90,8 +113,11 @@ export interface ResultCaseTable {
   internal_number: string;
   min_date: string;
   max_date: string;
-
 }
+
+
+
+
 export interface CaseSearch {
 
   internal_number: string;
