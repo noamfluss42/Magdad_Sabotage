@@ -39,10 +39,25 @@ export class RegisterExhibitScreenComponent implements OnInit {
   // Function must be defined as arrow function otherwise 'this' keyword will refer to
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
+    var does_exist = false;
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
-    this.service.postExhibit(formRawValue).subscribe((res: any) => {
-      cb(res);
+    this.service.getExhibitsFromCase(formRawValue).subscribe((res: any) => {
+      //check if case exist
+      if(res.length > 0){
+        does_exist = true;
+      }
+      if(does_exist){
+        //update case
+        this.service.editExhibit(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }else{
+        //create case
+        this.service.postExhibit(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }
     });
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);
