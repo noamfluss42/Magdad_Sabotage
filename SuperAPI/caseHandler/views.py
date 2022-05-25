@@ -459,6 +459,7 @@ def getSampleList(internal_num):
     samples = Samples.objects.filter(case_id=internal_num).values()
     list = ""
     for index, sample in enumerate(samples):
+        print("start index",index,"and sample",sample["sample_id"])
         list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id'])\
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
                 + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
