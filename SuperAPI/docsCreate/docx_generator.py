@@ -69,13 +69,13 @@ def generate_docx(args):
         doc.tables[0].rows[0].cells[2].paragraphs[3].runs[0]._r.xpath(CHECKBOX_PATH)[0].insert(2,
                                                                                                OxmlElement('w:checked'))
     doc.tables[0].rows[1].cells[0].paragraphs[0].runs[2].text = "יחדיהההה"
-    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[4].text = args["reference_type"]
-    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[7].text = args["reference_number"]
+    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[4].text = ""#args["reference_type"] # TODO
+    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[7].text = ""#args["reference_number"] # TODO
     #doc.tables[0].rows[1].cells[0].paragraphs[1].runs[1].text = "tempBAgNum"
     doc.tables[0].rows[1].cells[0].paragraphs[2].runs[0].text = args["exhibit_description"]
     #doc.tables[0].rows[1].cells[0].paragraphs[5].runs[0].text = args["exhibit_packaging"]
     #doc.tables[0].rows[1].cells[0].paragraphs[7].runs[0].text = args["exhibit_mark"]
-    doc.tables[0].rows[1].cells[0].paragraphs[4].runs[0].text = args["event_description"]
+    doc.tables[0].rows[1].cells[0].paragraphs[4].runs[0].text = "" #args["event_description"] TODO
     doc.tables[0].rows[1].cells[0].paragraphs[6].runs[0].text = args["testing_essence"]
     doc.tables[0].rows[1].cells[0].paragraphs[8].runs[0].text = args["notes"]
     doc.tables[0].rows[1].cells[0].paragraphs[9].runs[1].text = args["name"]

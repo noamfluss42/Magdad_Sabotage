@@ -30,7 +30,7 @@ from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
 
-def filterDate(case_list,query_data):
+def filterDate(case_list, query_data):
     if "" != query_data['min_date']:
         min_date = datetime.strptime(query_data['min_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
     else:
@@ -41,18 +41,18 @@ def filterDate(case_list,query_data):
         max_date = datetime.max
 
     for case in Case.objects.values():
-        #create datetime objects from given dates
+        # create datetime objects from given dates
         case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
-        if not min_date <= case_date <= max_date:#if date not in range
-            case_list.exclude(event_date = case['event_date'])#remove all objects with this date
+        if not min_date <= case_date <= max_date:  # if date not in range
+            case_list.exclude(event_date=case['event_date'])  # remove all objects with this date
             print("in between")
         else:
             print("No!")
-    #returns new case querySet object
+    # returns new case querySet object
     return case_list
 
 
-def monthly_sum(dates):#more updates will come
+def monthly_sum(dates):  # more updates will come
     case_list = []
     count = 0
     monthly_sum_events = []
@@ -62,30 +62,30 @@ def monthly_sum(dates):#more updates will come
         case_list += [case]
     filtered_case_list = filterDate(case_list, dates)
 
-    #generally opened
+    # generally opened
 
     monthly_sum_events += [count]
 
     count = 0
 
-    #opened cases this month
+    # opened cases this month
     for case in filtered_case_list:
         if case['reference_type'] == 'open':
             count += 1
     monthly_sum_events += [count]
 
-    #closed cases this month
+    # closed cases this month
     closed_cases = len(filtered_case_list) - count
     monthly_sum_events += [closed_cases]
 
     count = 0
-    #events without area
+    # events without area
     for case in filtered_case_list:
         if case['event location'] == '':
             count += 1
     monthly_sum_events += [count]
 
-    #total evetns this month
+    # total evetns this month
     monthly_sum_events += [len(filtered_case_list)]
 
     count_weapons = 0
@@ -101,7 +101,7 @@ def monthly_sum(dates):#more updates will come
             count_fireworks += 1
         if case['event_type'] == 'query':
             count_query += 1
-    num_of_event_types = [count_weapons,count_explosive_device,count_fireworks,count_query]
+    num_of_event_types = [count_weapons, count_explosive_device, count_fireworks, count_query]
     monthly_sum_events += [num_of_event_types]
 
     monthly_sum_events += [0]
@@ -109,11 +109,12 @@ def monthly_sum(dates):#more updates will come
 
     return monthly_sum_events
 
+
 def yearly_sum(msg):
     date_list = list(msg.split('/'))
     year = date_list[2]
     year = year[6:]
-    jan_sum = monthly_sum({'min_date': ('01/01/' + year), 'max_date': ('31/01/' + year)})#with /
+    jan_sum = monthly_sum({'min_date': ('01/01/' + year), 'max_date': ('31/01/' + year)})  # with /
     feb_sum = monthly_sum({'min_date': ('01/02/' + year), 'max_date': ('28/02/' + year)})
     mar_sum = monthly_sum({'min_date': ('01/03/' + year), 'max_date': ('31/03/' + year)})
     apr_sum = monthly_sum({'min_date': ('01/04/' + year), 'max_date': ('30/04/' + year)})
@@ -125,7 +126,8 @@ def yearly_sum(msg):
     oct_sum = monthly_sum({'min_date': ('01/10/' + year), 'max_date': ('31/10/' + year)})
     nov_sum = monthly_sum({'min_date': ('01/11/' + year), 'max_date': ('30/11/' + year)})
     dec_sum = monthly_sum({'min_date': ('01/12/' + year), 'max_date': ('31/12/' + year)})
-    general_list = [jan_sum,feb_sum,mar_sum,apr_sum,may_sum,jun_sum,jul_sum,aug_sum,sep_sum,oct_sum,nov_sum,dec_sum]
+    general_list = [jan_sum, feb_sum, mar_sum, apr_sum, may_sum, jun_sum, jul_sum, aug_sum, sep_sum, oct_sum, nov_sum,
+                    dec_sum]
     yearly_sum_events = []
 
     count = 0
@@ -152,6 +154,7 @@ def yearly_sum(msg):
 
     return yearly_sum_events
 
+
 def general_sum(msg):
     data_list = []
 
@@ -166,13 +169,14 @@ def general_sum(msg):
 
     return data_list
 
+
 @csrf_exempt
 def queryHandler(request):
     query_data = JSONParser().parse(request)
     cases = Case.objects.all()
     if "" != query_data['min_date'] and "" != query_data['max_date']:
-        cases = filterDate(cases,query_data)
-    if "" != query_data['internal_number']: 
+        cases = filterDate(cases, query_data)
+    if "" != query_data['internal_number']:
         cases = cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['received_or_go']:
         cases = cases.filter(received_or_go=query_data['received_or_go'])
@@ -243,9 +247,9 @@ def caseApi(request, case_name=""):
     elif request.method == 'POST':
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
-        print("case_data",case_data)
+        print("case_data", case_data)
         department_serializer = CaseSerializer(data=case_data)
-        print("department_serializer",type(department_serializer))
+        print("department_serializer", type(department_serializer))
         if department_serializer.is_valid():
             print("is valid")
             department_serializer.save()
@@ -280,7 +284,7 @@ def WriteToExcel(exhibit_data):
         'valign': 'top',
         'border': 1
     })
-    #create collum names
+    # create collum names
     worksheet_s.write(0, 0, ugettext("internal_number"), header)
     worksheet_s.write(0, 1, ugettext("exhibit_number"), header)
     worksheet_s.write(0, 2, ugettext("location"), header)
@@ -296,7 +300,7 @@ def WriteToExcel(exhibit_data):
     worksheet_s.write(0, 12, ugettext("lab_name"), header)
     worksheet_s.write(0, 13, ugettext("result"), header)
 
-    #put data in table
+    # put data in table
     for idx, data in enumerate(exhibit_data):
         row = 1 + idx
         worksheet_s.write_string(row, 0, data['internal_number'])
@@ -318,6 +322,7 @@ def WriteToExcel(exhibit_data):
     # xlsx_data contains the Excel file
     return xlsx_data
 
+
 @csrf_exempt
 def exhibitDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')
@@ -326,8 +331,9 @@ def exhibitDwnld(request):
     response.write(xlsx_data)
     return response
 
-#given a case internal number, returns all exhibits related to it
-#internal number should be sent as a Json param 'internal_number' : <value>
+
+# given a case internal number, returns all exhibits related to it
+# internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
 def exhibitQuery(request):
     query_data = JSONParser().parse(request)
@@ -335,11 +341,13 @@ def exhibitQuery(request):
     exhibits.filter(internal_number=query_data['internal_number'])
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
     return JsonResponse(exhibits_serializer.data, safe=False)
+
+
 @csrf_exempt
-def exhibitsApi(request, exhibit_number = ""):
+def exhibitsApi(request, exhibit_number=""):
     if request.method == 'GET':
         exhibit = Exhibits.objects.all()
-        exhibit.annotate(index = Value(''))
+        exhibit.annotate(index=Value(''))
         for row_num, exh in enumerate(exhibit):
             exh.index = row_num
         exhibits_serializer = ExhibitsSerializerI(exhibit, many=True)
@@ -355,7 +363,8 @@ def exhibitsApi(request, exhibit_number = ""):
 
     elif request.method == 'PUT':
         exhibit_data = JSONParser().parse(request)
-        exhibit = Exhibits.objects.get(internal_number = exhibit_data["internal_number"] ,exhibit_number=exhibit_data['exhibit_number'])
+        exhibit = Exhibits.objects.get(internal_number=exhibit_data["internal_number"],
+                                       exhibit_number=exhibit_data['exhibit_number'])
         exhibits_serializer = ExhibitsSerializer(exhibit, data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
@@ -366,6 +375,8 @@ def exhibitsApi(request, exhibit_number = ""):
         department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+
+
 @csrf_exempt
 def sampleQuery(request):
     query_data = JSONParser().parse(request)
@@ -374,6 +385,7 @@ def sampleQuery(request):
     samples_serializer = SamplesSerializer(samples, many=True)
     return JsonResponse(samples_serializer.data, safe=False)
 
+
 @csrf_exempt
 def samplesApi(request, sample_id=""):
     if request.method == 'GET':
@@ -381,16 +393,18 @@ def samplesApi(request, sample_id=""):
         samples_serializer = SamplesSerializer(samples_value, many=True)
         return JsonResponse(samples_serializer.data, safe=False)
     elif request.method == 'POST':
-            samples_data = JSONParser().parse(request)
-            department_serializer = SamplesSerializer(data=samples_data)
-            if department_serializer.is_valid():
-                department_serializer.save()
-                return JsonResponse("Added Successfully!!", safe=False)
-            return JsonResponse("Failed to Add.", safe=False)
+        samples_data = JSONParser().parse(request)
+        department_serializer = SamplesSerializer(data=samples_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse("Added Successfully!!", safe=False)
+        return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
-        department = Samples.objects.get(sample_id=department_data['sample_id'],exhibit_id=department_data['exhibit_id'],case_id=department_data['case_id'],transferred_to_lab=department_data['transferred_to_lab'])
+        department = Samples.objects.get(sample_id=department_data['sample_id'],
+                                         exhibit_id=department_data['exhibit_id'], case_id=department_data['case_id'],
+                                         transferred_to_lab=department_data['transferred_to_lab'])
         department_serializer = SamplesSerializer(department, data=department_data)
         if department_serializer.is_valid():
             department_serializer.save()
@@ -408,24 +422,31 @@ def samplesApi(request, sample_id=""):
 param:
     internal_num - id of case
 """
+
+
 def getSampleList(internal_num):
-    samples = Samples.objects.filter(case_id = internal_num).values()
+    samples = Samples.objects.filter(case_id=internal_num).values()
     list = ""
-    for index,sample in enumerate(samples):
-        list+=index+".  "+sample['what_sampled']+" ממוצג מס' "+sample['exhibit_id']+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+sample['packaging']+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ 1 +'\n'#TODO replace 1 with sample['bag_num'] after sample update
+    for index, sample in enumerate(samples):
+        list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id'])\
+                + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + str(1) + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
     return list
+
 
 @csrf_exempt
 def downloadFile(request):
     if request.method == 'GET':
+        print("start downloadFile", request)
         docx_data = request.GET.dict()
+        print("docx data", docx_data)
         docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
         docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'])
-        docx_data.update(Case.objects.filter(internal_number = docx_data['internal_number']).values("reference_type","reference_number","event_description"))
+        filtered = Case.objects.filter(internal_number=docx_data['internal_number'])
+        #to_update = filtered.values("reference_type", "reference_number", "event_description")
+        print("filtered",filtered)
+        #docx_data.update() # TODO update
         file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
-
-
-
