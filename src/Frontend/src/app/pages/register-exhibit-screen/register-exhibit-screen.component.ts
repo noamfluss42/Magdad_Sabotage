@@ -6,8 +6,6 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { SamplesService } from 'src/app/core/services/samples.service';
 import { FormFieldBase } from '../../core/utils/form-field-base';
 
-enum Mode { Exhibits, RegisterSamples, EditSamples }
-
 @Component({
   selector: 'app-register-exhibit-screen',
   templateUrl: './register-exhibit-screen.component.html',
@@ -15,22 +13,18 @@ enum Mode { Exhibits, RegisterSamples, EditSamples }
 })
 export class RegisterExhibitScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
-  samplesFields$: FormFieldBase<any>[];
-
-  mode$: Mode;
 
   constructor(
     private service: ExhibitsService,
     private sharedData: SharedDataService,
-    private samplesService: SamplesService,
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
-    this.samplesFields$ = this.samplesService.getQuestions();
-    this.mode$ = Mode.Exhibits
 
-    //var values = Array.from(this.fields$.values())
-    //values[values.length - 1]["onClick"] = this.a
+    const localCase = JSON.parse(localStorage.getItem('case') || '[]');
+    var values = Array.from(this.fields$.values())
+    values[0]["value"] = localCase.internal_number
+    values[11]["value"] = localCase.sender_name
 
   }
 
@@ -59,16 +53,11 @@ export class RegisterExhibitScreenComponent implements OnInit {
         });
       }
     });
+
+    localStorage.setItem('exhibit', JSON.stringify(formRawValue));
+
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);
   };
-
-  openNewSample() {
-    this.mode$ = Mode.RegisterSamples
-  }
-
-  registerNewSample() {
-    this.mode$ = Mode.Exhibits
-  }
 
 }

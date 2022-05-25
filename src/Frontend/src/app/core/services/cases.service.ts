@@ -7,6 +7,8 @@ import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../ut
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
 import { formatDate } from '@angular/common';
+import { FormGroup } from '@angular/forms';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -40,7 +42,7 @@ export class CasesService {
   deleteCase(id: number): Observable<unknown> {
     return this.http.delete(`${this.caseURL}/${id}`);
   }
-
+  /*TODO check merge */
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
     return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
@@ -49,6 +51,11 @@ export class CasesService {
       }),
     });
   }
+  /*TODO check merge */
+  cacheCaseOnReturn(case_: Case) {
+    localStorage.setItem('case', JSON.stringify(case_));
+  }
+
   // get this year
   getFullYear(): number {
     const date = new Date();
@@ -102,10 +109,12 @@ export class CasesService {
         key: 'event_date',
         label: 'תאריך אירוע',
         type: 'text',
+        required: true,
       }),
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
+        required: true,
         type: 'text',
 
       }),
@@ -113,6 +122,7 @@ export class CasesService {
       new DropdownField({
         key: 'event_type',
         label: 'סוג אירוע',
+        required: false,
         options: [
           { key: 'פלילי', value: 'פלילי' },
           { key: 'פח"ע', value: 'פח"ע' },
@@ -121,6 +131,7 @@ export class CasesService {
 
       new TextboxField({
         key: 'pele_number',
+        required: false,
         label: "'מס" + ' פלא',
         type: 'text',
         value: '' + '.' + this.getFullYear().toString(),
@@ -156,6 +167,7 @@ export class CasesService {
       new DropdownField({
         key: 'explosion_or_disarm',
         label: 'פיצוץ/נטרול',
+        required: false,
         options: [
           { key: 'פיצוץ', value: 'פיצוץ' },
           { key: 'נטרול', value: 'נטרול' },
@@ -172,7 +184,7 @@ export class CasesService {
       new DropdownField({
         key: 'status',
         label: 'סטטוס',
-        required: true,
+        required: false,
         options: [
           { key: 'פתוח', value: 'פתוח' },
           { key: ' סגור לללא חווד', value: ' סגור לללא חווד' },
@@ -188,20 +200,15 @@ export class CasesService {
       new TextboxField({
         key: 'event_location',
         label: 'מקום האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'catch_report',
-        label: 'דוח תפיסה',
-        required: true,
-        type: 'text',
-      }),
+
 
       new TextboxField({
         key: 'event_description',
         label: 'תיאור האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
@@ -212,9 +219,30 @@ export class CasesService {
         type: 'redirect',
         required: false,
         onClick: () => {
-
           this.router.navigate(['/exhibitNavigator']);
-      }}),
+        }
+      }),
+
+      // new TextboxField({
+      //   key: 'sender_rank',
+      //   label: 'דרגה ',
+      //   required: true,
+      //   type: 'text',
+      // }),
+
+      // new TextboxField({
+      //   key: 'sender_serial_number',
+      //   label: "מס' אישי ",
+      //   required: true,
+      //   type: 'text',
+      // }),
+
+      // new TextboxField({
+      //   key: 'phone_number',
+      //   label: 'מספר טלפון ',
+      //   required: true,
+      //   type: 'text',
+      // }),
     ];
     return questions;
   }
@@ -224,66 +252,78 @@ export class CasesService {
       new TextboxField({
         key: 'weapon_name',
         label: 'אמל"ח: שם הפריט',
-        required: true,
+        required: false,
         type: 'text',
-
       }),
       new TextboxField({
         key: 'explosive_device_material',
         label: 'מט"ח: חנ"מ',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_means',
         label: 'מט"ח: אמצעי ייזום',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_options',
         label: 'אמל"ח: הגדרות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_operating_system',
         label: 'מט"ח: מע' + "' הפעלה",
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_mark',
         label: 'אמל"ח: סימון',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_spray',
         label: 'מט"ח: רסס',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_color',
         label: 'אמל"ח: צבע',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'explosive_device_camouflage',
         label: 'מט"ח: הסוואה',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'weapon_additional_characteristics',
         label: 'אמל"ח: מאפיינים נוספים',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
     ];
     return tags;
   }
+
+  getGenerateDocxButton() {
+    const button: FormFieldBase<string>[] = [
+      new ButtonField({
+        label: 'יצירת טופס ושליחה למעבדה',
+        onClick: () => {
+          this.router.navigate(['/genLabForm']);
+        }
+      }),
+    ];
+    return button;
+  }
+
 }
