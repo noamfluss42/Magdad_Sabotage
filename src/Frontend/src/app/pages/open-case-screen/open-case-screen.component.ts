@@ -4,6 +4,7 @@ import { CasesService } from 'src/app/core/services/cases.service';
 import { FormGroup } from '@angular/forms';
 import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { Router } from '@angular/router';
+import { SearchCaseService } from 'src/app/core/services/search-case.service';
 @Component({
   selector: 'app-open-case-screen',
   templateUrl: './open-case-screen.component.html',
@@ -16,6 +17,7 @@ export class OpenCaseScreenComponent implements OnInit {
 
   constructor(
     private service: CasesService,
+    private searchService: SearchCaseService,
     private sharedData: SharedDataService,
     private router: Router
   ) {
@@ -39,12 +41,27 @@ export class OpenCaseScreenComponent implements OnInit {
 
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
     // sort form value by interface keys
+    var does_exist = false;
     const formRawValue = form.getRawValue();
     delete formRawValue.navigator;
-
-
-    //sort formRawValue by  order of Case interface
-    localStorage.setItem('case', JSON.stringify(formRawValue));
-    console.log(formRawValue);
-  }
+    //check first press
+    //get case from service
+    this.searchService.postQuery(formRawValue).subscribe((res: any) => {
+      //check if case exist
+      if(res.length > 0){
+        does_exist = true;
+      }
+      if(does_exist){
+        //update case
+        this.service.updateCase(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }else{
+        //create case
+        this.service.postCase(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }
+    });
+}
 }
