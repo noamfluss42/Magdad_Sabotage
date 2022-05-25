@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { CasesService } from 'src/app/core/services/cases.service';
 import { FieldControlService } from 'src/app/core/services/field-control.service';
 import { FormFieldBase } from 'src/app/core/utils/form-field-base';
@@ -25,6 +26,7 @@ export class EditCaseScreenComponent implements OnInit {
     this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
     localStorage.removeItem('caseQ');
     this.splitAt("weapon_name",this.caseData);
+    
     //split caseData to get only tags
   }
   splitAt(key: any, value: any) {
@@ -48,7 +50,9 @@ export class EditCaseScreenComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
@@ -64,6 +68,7 @@ export class EditCaseScreenComponent implements OnInit {
 
   onFieldsInit = (form: FormGroup): void => {
     var value = this.caseQdata;
+
     // form.controls['exhibit_number'].setValue(this.data.exhibit_number);
     // go over this.data and set the value of the form
 
@@ -74,6 +79,7 @@ export class EditCaseScreenComponent implements OnInit {
     for (let key in value) {
       if (form.controls[key]) {
         form.controls[key].setValue(value[key]);
+
       }
   }
   };

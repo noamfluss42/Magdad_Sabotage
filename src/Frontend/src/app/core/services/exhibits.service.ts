@@ -174,7 +174,7 @@ export class ExhibitsService {
           localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
           this.router.navigate(['/sampleNavigator']);
 
-      }}), //TODO! implement sample navigator
+      }}),
 
     ];
     return questions;
