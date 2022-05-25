@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Case(models.Model):
+    # class Meta:
+        # get_latest_by = 'internal_number'
     internal_number = models.CharField(max_length=100, primary_key=True)
     received_or_go = models.CharField(max_length=100)
     lab_name = models.CharField(max_length=256)
@@ -65,6 +67,7 @@ class CaseI(models.Model):
 class Exhibits(models.Model):
     class Meta:
         unique_together = (('internal_number', 'exhibit_number'),)
+        # get_latest_by = 'exhibit_number'
     internal_number = models.CharField(max_length=32)
     exhibit_number = models.CharField(max_length=32)
     location = models.CharField(max_length=128)

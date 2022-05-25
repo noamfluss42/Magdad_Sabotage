@@ -62,7 +62,6 @@ export class ExhibitsService {
         label: 'מספר תיק',
         required: true,
         type: 'text',
-        // value:OpenCaseFieldsService.getQuestions().key['internalNumber'], //! impleament method to get case id from open case service to exhibit register.
       }),
       new TextboxField({
         key: 'exhibit_number', // +year
@@ -82,7 +81,6 @@ export class ExhibitsService {
         required: true,
         type: 'text',
       }),
-
       new TextboxField({
         key: 'amount',
         label: 'כמות',
@@ -166,27 +164,17 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
-      //new ButtonField({
-      //  key: 'test',
-      //  label: 'תנועת דגימות',
-      //  required: true,
-      //  type: 'button',
-      //}),
-
-
-
-
       new ButtonField({
         key: 'sample_navigation',
         label: 'תנועת דגימות',
-        required: true,
         type: 'button',
         onClick: (exhibit:Exhibit) => {
           console.log(exhibit);
           // local storage exhibit
           localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
           this.router.navigate(['/sampleNavigator']);
-      }}), //TODO! implement sample navigator
+
+      }}),
 
     ];
     return questions;
@@ -284,6 +272,7 @@ export class ExhibitsService {
           console.log(exhibit);
           // local storage exhibit
           localStorage.setItem("exhibit",JSON.stringify(exhibit));
+          localStorage.removeItem("case");
           this.router.navigate(['/editExhibit']);
         },
       },

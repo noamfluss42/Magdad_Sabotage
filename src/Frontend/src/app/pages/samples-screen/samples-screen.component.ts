@@ -21,9 +21,21 @@ export class SamplesScreenComponent implements OnInit {
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     console.log(form.getRawValue());
-    this.service.postSample(form.value).subscribe((res: any) => {
-      console.log(res);
-      cb(res);
+    var does_exist = false;
+    const formRawValue = form.getRawValue();
+    this.service.getSample(formRawValue).subscribe((res: any) => {
+      if (res.length > 0) {
+        this.service.editSample(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }
+      if (!does_exist) {
+        this.service.postSample(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }
+
     });
+
   };
 }

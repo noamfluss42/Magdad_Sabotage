@@ -49,10 +49,6 @@ export class CasesService {
       }),
     });
   }
-  cacheCaseOnReturn(case_: Case) {
-    localStorage.setItem('case', JSON.stringify(case_));
-  }
-
   // get this year
   getFullYear(): number {
     const date = new Date();
@@ -106,13 +102,10 @@ export class CasesService {
         key: 'event_date',
         label: 'תאריך אירוע',
         type: 'text',
-        required: true,
-
       }),
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
-        required: true,
         type: 'text',
 
       }),
@@ -120,7 +113,6 @@ export class CasesService {
       new DropdownField({
         key: 'event_type',
         label: 'סוג אירוע',
-        required: false,
         options: [
           { key: 'פלילי', value: 'פלילי' },
           { key: 'פח"ע', value: 'פח"ע' },
@@ -129,7 +121,6 @@ export class CasesService {
 
       new TextboxField({
         key: 'pele_number',
-        required: false,
         label: "'מס" + ' פלא',
         type: 'text',
         value: '' + '.' + this.getFullYear().toString(),
@@ -221,30 +212,9 @@ export class CasesService {
         type: 'redirect',
         required: false,
         onClick: () => {
-          
+
           this.router.navigate(['/exhibitNavigator']);
       }}),
-
-      // new TextboxField({
-      //   key: 'sender_rank',
-      //   label: 'דרגה ',
-      //   required: true,
-      //   type: 'text',
-      // }),
-
-      // new TextboxField({
-      //   key: 'sender_serial_number',
-      //   label: "מס' אישי ",
-      //   required: true,
-      //   type: 'text',
-      // }),
-
-      // new TextboxField({
-      //   key: 'phone_number',
-      //   label: 'מספר טלפון ',
-      //   required: true,
-      //   type: 'text',
-      // }),
     ];
     return questions;
   }
@@ -256,6 +226,7 @@ export class CasesService {
         label: 'אמל"ח: שם הפריט',
         required: true,
         type: 'text',
+
       }),
       new TextboxField({
         key: 'explosive_device_material',

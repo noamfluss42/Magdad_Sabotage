@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   MatCheckboxDefaultOptions,
@@ -11,16 +11,17 @@ import {
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
 import { FormFieldBase } from '../../utils/form-field-base';
-import {MomentDateModule,MomentDateAdapter,MAT_MOMENT_DATE_ADAPTER_OPTIONS,} from '@angular/material-moment-adapter';
+import {
+  MomentDateModule,
+  MomentDateAdapter,
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+} from '@angular/material-moment-adapter';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { default as _rollupMoment } from 'moment';
-
-
-
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 
 const moment = _rollupMoment || _moment;
-
 
 export const DATE_FORMAT = {
   parse: {
@@ -58,18 +59,15 @@ export class DynamicFormFieldComponent {
   @Input() field!: FormFieldBase<string>;
   @Input() form!: FormGroup;
   dates: any;
-  constructor() {
-    
+  dynamicForm:any = false;
 
-    // add date to the field
+  constructor(dynamicForm: DynamicFormComponent) {
+    this.dynamicForm = dynamicForm;
   }
-
-
-  
-  get isValid() {
-    return this.form.controls[this.field.key].valid;
+  //update button status according to the dynamicForm.status
+  get buttonStatus() {
+    return this.dynamicForm.buttonStatus;
   }
-
   
 
 }

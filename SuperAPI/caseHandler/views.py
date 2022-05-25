@@ -6,7 +6,7 @@ from django.http.response import FileResponse
 from django.db.models import Value
 from django.http.response import HttpResponse
 from django.http import Http404
-
+from django.db.models import Max
 from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
@@ -30,7 +30,7 @@ from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
 
-def filterDate(case_list, query_data):
+def filterDate(case_list,query_data):
     if "" != query_data['min_date']:
         min_date = datetime.strptime(query_data['min_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
     else:
@@ -41,14 +41,14 @@ def filterDate(case_list, query_data):
         max_date = datetime.max
 
     for case in Case.objects.values():
-        # create datetime objects from given dates
+        #create datetime objects from given dates
         case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
-        if not min_date <= case_date <= max_date:  # if date not in range
-            case_list.exclude(event_date=case['event_date'])  # remove all objects with this date
+        if not min_date <= case_date <= max_date:#if date not in range
+            case_list.exclude(event_date = case['event_date'])#remove all objects with this date
             print("in between")
         else:
             print("No!")
-    # returns new case querySet object
+    #returns new case querySet object
     return case_list
 
 
@@ -62,7 +62,7 @@ def monthly_sum(dates):  # more updates will come
         case_list += [case]
     filtered_case_list = filterDate(case_list, dates)
 
-    # generally opened
+    #generally opened
 
     monthly_sum_events += [count]
 
@@ -101,14 +101,13 @@ def monthly_sum(dates):  # more updates will come
             count_fireworks += 1
         if case['event_type'] == 'query':
             count_query += 1
-    num_of_event_types = [count_weapons, count_explosive_device, count_fireworks, count_query]
+    num_of_event_types = [count_weapons,count_explosive_device,count_fireworks,count_query]
     monthly_sum_events += [num_of_event_types]
 
     monthly_sum_events += [0]
     monthly_sum_events += [0]
 
     return monthly_sum_events
-
 
 def yearly_sum(msg):
     date_list = list(msg.split('/'))
@@ -154,7 +153,6 @@ def yearly_sum(msg):
 
     return yearly_sum_events
 
-
 def general_sum(msg):
     data_list = []
 
@@ -168,7 +166,6 @@ def general_sum(msg):
         data_list = yearly_sum(msg)
 
     return data_list
-
 
 @csrf_exempt
 def queryHandler(request):
@@ -255,6 +252,8 @@ def caseApi(request, case_name=""):
             department_serializer.save()
             print("Added Successfully")
             return JsonResponse("Added Successfully!!", safe=False)
+        else:
+            print("error",department_serializer.errors)
         return JsonResponse("Failed to Addd.", safe=False)
 
     elif request.method == 'PUT':
@@ -322,7 +321,6 @@ def WriteToExcel(exhibit_data):
     # xlsx_data contains the Excel file
     return xlsx_data
 
-
 @csrf_exempt
 def exhibitDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')
@@ -336,7 +334,9 @@ def exhibitDwnld(request):
 # internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
 def exhibitQuery(request):
+    print(request)
     query_data = JSONParser().parse(request)
+    print(query_data)
     exhibits = Exhibits.objects.all()
     exhibits.filter(internal_number=query_data['internal_number'])
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
@@ -375,6 +375,33 @@ def exhibitsApi(request, exhibit_number=""):
         department = Case.objects.get(exhibit_number=exhibit_number)
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
+
+@csrf_exempt
+def idApi(request,type=""):
+    if request.method == 'GET':
+        if type == "case":
+            id = Case.objects.all().aggregate(Max('internal_number'))
+            if id['internal_number'] is None:
+                id = "1"
+            else:
+                id = str(int(id['internal_number'])+1)
+            return JsonResponse(id, safe=False)
+        elif type == "exhibit":
+            id = Exhibits.objects.all().aggregate(Max('exhibit_number'))
+            if id['exhibit_number'] is None:
+                id = "1"
+            else:
+                id = str(int(id['exhibit_number'])+1)
+            return JsonResponse(id, safe=False)
+        elif type == "sample":
+            id = Samples.objects.all().aggregate(Max('sample_id'))
+            if id['sample_id'] is None:
+                id = "1"
+            else:
+                id = str(int(id['sample_id'])+1)
+            return JsonResponse(id, safe=False)
+        else:
+            return JsonResponse("Invalid Type", safe=False)
 
 
 @csrf_exempt
@@ -450,3 +477,10 @@ def downloadFile(request):
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
+
+def last_id(model):
+    max_rated_entry = model.objects.latest()
+    if max_rated_entry == None:
+        return str(1)
+    else:
+        return str(max_rated_entry.details + 1)
