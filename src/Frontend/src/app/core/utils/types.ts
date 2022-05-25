@@ -61,7 +61,6 @@ export interface Case {
   status: string;
   sender_name: string;
   event_location: string;
-  catch_report: string;
   event_description: string;
 
   weapon_name: string;
@@ -135,19 +134,7 @@ export interface CaseSearch {
   status: string;
   sender_name: string;
   event_location: string;
-  catch_report: string;
   event_description: string;
 
-  weapon_name: string;
-  explosive_device_material: string;
-  explosive_device_means: string;
-  weapon_options: string;
-  explosive_device_operating_system: string;
-  weapon_mark: string;
-  explosive_device_spray: string;
-  weapon_color: string;
-  explosive_device_camouflage: string;
-  weapon_additional_characteristics: string;
-  min_date: string;
-  max_date: string;
+
 }

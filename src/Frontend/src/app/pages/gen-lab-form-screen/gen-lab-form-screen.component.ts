@@ -18,6 +18,11 @@ export class GenLabFormScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = service.getQuestions();
+
+    const localCase = JSON.parse(localStorage.getItem('case') || '[]');
+    var values = Array.from(this.fields$.values())
+    values[0]["value"] = localCase.internal_number
+
   }
 
   ngOnInit(): void {}

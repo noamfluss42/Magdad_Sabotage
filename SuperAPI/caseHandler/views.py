@@ -28,6 +28,8 @@ from caseHandler.serializers import SamplesSerializer
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
+from caseHandler.create_default_values import create_default_values
+
 
 def filterDate(case_list,query_data):
     if "" != query_data['min_date']:
@@ -240,9 +242,8 @@ def caseApi(request, case_name=""):
         return JsonResponse(cases_serializer.data, safe=False)
 
     elif request.method == 'POST':
-        print("\n\ncase post")
         case_data = JSONParser().parse(request)
-        print("case_data",case_data)
+        create_default_values(case_data, CaseSerializer)
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
             print("is valid")
@@ -256,6 +257,7 @@ def caseApi(request, case_name=""):
     elif request.method == 'PUT':
         print("case put")
         department_data = JSONParser().parse(request)
+        create_default_values(department_data, CaseSerializer)
         department = Case.objects.get(internal_number=department_data['internal_number'])
         department_serializer = CaseSerializer(department, data=department_data)
         if department_serializer.is_valid():
@@ -349,6 +351,7 @@ def exhibitsApi(request, exhibit_number = ""):
 
     elif request.method == 'POST':
         exhibit_data = JSONParser().parse(request)
+        create_default_values(exhibit_data, ExhibitsSerializer)
         exhibits_serializer = ExhibitsSerializer(data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
@@ -357,6 +360,7 @@ def exhibitsApi(request, exhibit_number = ""):
 
     elif request.method == 'PUT':
         exhibit_data = JSONParser().parse(request)
+        create_default_values(exhibit_data, ExhibitsSerializer)
         exhibit = Exhibits.objects.get(internal_number = exhibit_data["internal_number"] ,exhibit_number=exhibit_data['exhibit_number'])
         exhibits_serializer = ExhibitsSerializer(exhibit, data=exhibit_data)
         if exhibits_serializer.is_valid():
@@ -399,9 +403,11 @@ def idApi(request,type=""):
 
 @csrf_exempt
 def sampleQuery(request):
+    print("start sampleQuery",request)
     query_data = JSONParser().parse(request)
+    print("after parse",query_data)
     samples = Samples.objects.all()
-    samples.filter(exhibit_id=query_data['exhibit_id'])
+    samples.filter(internal_number=query_data['internal_number'],exhibit_id=query_data['exhibit_id'])
     samples_serializer = SamplesSerializer(samples, many=True)
     return JsonResponse(samples_serializer.data, safe=False)
 
@@ -413,6 +419,7 @@ def samplesApi(request, sample_id=""):
         return JsonResponse(samples_serializer.data, safe=False)
     elif request.method == 'POST':
             samples_data = JSONParser().parse(request)
+            create_default_values(samples_data, SamplesSerializer)
             department_serializer = SamplesSerializer(data=samples_data)
             if department_serializer.is_valid():
                 department_serializer.save()
@@ -421,6 +428,7 @@ def samplesApi(request, sample_id=""):
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
+        create_default_values(department_data, SamplesSerializer)
         department = Samples.objects.get(sample_id=department_data['sample_id'],exhibit_id=department_data['exhibit_id'],case_id=department_data['case_id'],transferred_to_lab=department_data['transferred_to_lab'])
         department_serializer = SamplesSerializer(department, data=department_data)
         if department_serializer.is_valid():

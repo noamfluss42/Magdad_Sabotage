@@ -50,7 +50,7 @@ export class ExhibitsService {
   // }
 
   getExhibitsFromCase(case_internal_number: string) {
-    return this.http.get<Exhibit>(`${this.exhibitsURL}/query/${case_internal_number}`, {
+    return this.http.get<Exhibit>(`${this.exhibitsURL}/query${case_internal_number}`, {
       responseType: 'json',
     });
   }
@@ -62,6 +62,7 @@ export class ExhibitsService {
         label: 'מספר תיק',
         required: true,
         type: 'text',
+        // value:OpenCaseFieldsService.getQuestions().key['internalNumber'], //! impleament method to get case id from open case service to exhibit register.
       }),
       new TextboxField({
         key: 'exhibit_number', // +year
@@ -81,6 +82,7 @@ export class ExhibitsService {
         required: true,
         type: 'text',
       }),
+
       new TextboxField({
         key: 'amount',
         label: 'כמות',
@@ -164,6 +166,16 @@ export class ExhibitsService {
         required:true,
         type:'text',
       }),
+      //new ButtonField({
+      //  key: 'test',
+      //  label: 'תנועת דגימות',
+      //  required: true,
+      //  type: 'button',
+      //}),
+
+
+
+
       new ButtonField({
         key: 'sample_navigation',
         label: 'תנועת דגימות',

@@ -7,6 +7,8 @@ import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../ut
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
 import { formatDate } from '@angular/common';
+import { FormGroup } from '@angular/forms';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -40,7 +42,7 @@ export class CasesService {
   deleteCase(id: number): Observable<unknown> {
     return this.http.delete(`${this.caseURL}/${id}`);
   }
-
+  /*TODO check merge */
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
     return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
@@ -49,6 +51,11 @@ export class CasesService {
       }),
     });
   }
+  /*TODO check merge */
+  cacheCaseOnReturn(case_: Case) {
+    localStorage.setItem('case', JSON.stringify(case_));
+  }
+
   // get this year
   getFullYear(): number {
     const date = new Date();
@@ -102,10 +109,13 @@ export class CasesService {
         key: 'event_date',
         label: 'תאריך אירוע',
         type: 'text',
+        required: true,
+
       }),
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
+        required: true,
         type: 'text',
 
       }),
@@ -113,6 +123,7 @@ export class CasesService {
       new DropdownField({
         key: 'event_type',
         label: 'סוג אירוע',
+        required: false,
         options: [
           { key: 'פלילי', value: 'פלילי' },
           { key: 'פח"ע', value: 'פח"ע' },
@@ -121,6 +132,7 @@ export class CasesService {
 
       new TextboxField({
         key: 'pele_number',
+        required: false,
         label: "'מס" + ' פלא',
         type: 'text',
         value: '' + '.' + this.getFullYear().toString(),
@@ -191,17 +203,12 @@ export class CasesService {
         required: true,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'catch_report',
-        label: 'דוח תפיסה',
-        required: true,
-        type: 'text',
-      }),
+
 
       new TextboxField({
         key: 'event_description',
         label: 'תיאור האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
@@ -212,9 +219,30 @@ export class CasesService {
         type: 'redirect',
         required: false,
         onClick: () => {
-
           this.router.navigate(['/exhibitNavigator']);
-      }}),
+        }
+      }),
+
+      // new TextboxField({
+      //   key: 'sender_rank',
+      //   label: 'דרגה ',
+      //   required: true,
+      //   type: 'text',
+      // }),
+
+      // new TextboxField({
+      //   key: 'sender_serial_number',
+      //   label: "מס' אישי ",
+      //   required: true,
+      //   type: 'text',
+      // }),
+
+      // new TextboxField({
+      //   key: 'phone_number',
+      //   label: 'מספר טלפון ',
+      //   required: true,
+      //   type: 'text',
+      // }),
     ];
     return questions;
   }
@@ -226,7 +254,6 @@ export class CasesService {
         label: 'אמל"ח: שם הפריט',
         required: true,
         type: 'text',
-
       }),
       new TextboxField({
         key: 'explosive_device_material',
@@ -286,4 +313,17 @@ export class CasesService {
     ];
     return tags;
   }
+
+  getGenerateDocxButton() {
+    const button: FormFieldBase<string>[] = [
+      new ButtonField({
+        label: 'יצירת טופס ושליחה למעבדה',
+        onClick: () => {
+          this.router.navigate(['/genLabForm']);
+        }
+      }),
+    ];
+    return button;
+  }
+
 }
