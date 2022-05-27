@@ -81,17 +81,23 @@ export class SamplesService {
         required: true,
         type: 'text',
       }),
-      new DropdownField({
+      //new DropdownField({
+      //  key: 'transferred_to_lab',
+      //  label: 'מעבדה',
+      //  required: true,
+      //  options: [
+      //    { key: 'hanam', value: 'חנ"מ' },
+      //    { key: 'ta', value: 'ט"א' },
+      //    { key: 'biologically', value: 'ביולוגית' },
+      //    { key: 'arsons', value: 'הצתות' },
+      //    { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
+      //  ],
+      //}),
+      new TextboxField({
         key: 'transferred_to_lab',
         label: 'מעבדה',
         required: true,
-        options: [
-          { key: 'hanam', value: 'חנ"מ' },
-          { key: 'ta', value: 'ט"א' },
-          { key: 'biologically', value: 'ביולוגית' },
-          { key: 'arsons', value: 'הצתות' },
-          { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
-        ],
+        type: 'text',
       }),
       new DatePickerField({
         key: 'sending_date',

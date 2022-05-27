@@ -25,6 +25,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
     var values = Array.from(this.fields$.values())
     values[0]["value"] = localCase.internal_number
     values[11]["value"] = localCase.sender_name
+    values[12]["value"] = localCase.lab_name
 
   }
 
