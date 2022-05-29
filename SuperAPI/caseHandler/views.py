@@ -274,7 +274,7 @@ def caseApi(request, case_name=""):
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 
-def WriteToExcel(exhibit_data):
+def WriteToExcelExb(exhibit_data):
     output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet_s = workbook.add_worksheet("Exhibits")
@@ -286,22 +286,22 @@ def WriteToExcel(exhibit_data):
         'border': 1
     })
     # create collum names
-    worksheet_s.write(0, 0, ugettext("internal_number"), header)
-    worksheet_s.write(0, 1, ugettext("exhibit_number"), header)
-    worksheet_s.write(0, 2, ugettext("location"), header)
-    worksheet_s.write(0, 3, ugettext("description"), header)
-    worksheet_s.write(0, 4, ugettext("amount"), header)
-    worksheet_s.write(0, 5, ugettext("destination"), header)
-    worksheet_s.write(0, 6, ugettext("explosive"), header)
-    worksheet_s.write(0, 7, ugettext("explosive_weight"), header)
-    worksheet_s.write(0, 8, ugettext("tnt_equivalent"), header)
-    worksheet_s.write(0, 9, ugettext("received_date"), header)
-    worksheet_s.write(0, 10, ugettext("handle_date"), header)
-    worksheet_s.write(0, 11, ugettext("investigator_name"), header)
-    worksheet_s.write(0, 12, ugettext("lab_name"), header)
-    worksheet_s.write(0, 13, ugettext("result"), header)
+    worksheet_s.write(0, 0, ugettext("מס פנימי"), header)
+    worksheet_s.write(0, 1, ugettext("מס מוצג"), header)
+    worksheet_s.write(0, 2, ugettext("מיקום"), header)
+    worksheet_s.write(0, 3, ugettext("תיאור"), header)
+    worksheet_s.write(0, 4, ugettext("כמות"), header)
+    worksheet_s.write(0, 5, ugettext("ייעוד"), header)
+    worksheet_s.write(0, 6, ugettext('חנ"פ'), header)
+    worksheet_s.write(0, 7, ugettext('משקל חנ"פ'), header)
+    worksheet_s.write(0, 8, ugettext("אקוויולנט לTNT"), header)
+    worksheet_s.write(0, 9, ugettext("תאריך הכנסה"), header)
+    worksheet_s.write(0, 10, ugettext("תאריך טיפול"), header)
+    worksheet_s.write(0, 11, ugettext("שם החוקר"), header)
+    worksheet_s.write(0, 12, ugettext("מעבדה"), header)
+    worksheet_s.write(0, 13, ugettext("תוצאות הבדיקה"), header)
 
-    # put data in table
+
     for idx, data in enumerate(exhibit_data):
         row = 1 + idx
         worksheet_s.write_string(row, 0, data['internal_number'])
@@ -326,10 +326,96 @@ def WriteToExcel(exhibit_data):
 @csrf_exempt
 def exhibitDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
-    xlsx_data = WriteToExcel(Exhibits.objects.values())
+    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'
+    xlsx_data = WriteToExcelExb(Exhibits.objects.values())
     response.write(xlsx_data)
     return response
+
+
+def WriteToExcelCase(exhibit_data):
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet_s = workbook.add_worksheet("Cases")
+    header = workbook.add_format({
+        'bg_color': '#F7F7F7',
+        'color': 'black',
+        'align': 'center',
+        'valign': 'top',
+        'border': 1
+    })
+    # create collum names
+    worksheet_s.write(0, 0, ugettext("מס פנימי"), header)
+    worksheet_s.write(0, 1, ugettext("יציאה\קבלה"), header)
+    worksheet_s.write(0, 2, ugettext("מעבדה"), header)
+    worksheet_s.write(0, 3, ugettext("מאפיין אירוע"), header)
+    worksheet_s.write(0, 4, ugettext("תאריך האירוע"), header)
+    worksheet_s.write(0, 5, ugettext("תאריך קבלה"), header)
+    worksheet_s.write(0, 6, ugettext("סוג האירוע"), header)
+    worksheet_s.write(0, 7, ugettext("מס פלא"), header)
+    worksheet_s.write(0, 8, ugettext("מחוז"), header)
+    worksheet_s.write(0, 9, ugettext("יח חוקרת"), header)
+    worksheet_s.write(0, 10, ugettext("פיצוץ/נטרול"), header)
+    worksheet_s.write(0, 11, ugettext("סימוכין"), header)
+    worksheet_s.write(0, 12, ugettext("סטטוס"), header)
+    worksheet_s.write(0, 13, ugettext("מקום אירוע"), header)
+    worksheet_s.write(0, 14, ugettext("תיאור אירוע"), header)
+    worksheet_s.write(0, 15, ugettext("שם המומחה"), header)
+    worksheet_s.write(0, 16, ugettext("weapon_name"), header)
+    worksheet_s.write(0, 17, ugettext("explosive_device_material"), header)
+    worksheet_s.write(0, 18, ugettext("explosive_device_means"), header)
+    worksheet_s.write(0, 19, ugettext("weapon_options"), header)
+    worksheet_s.write(0, 20, ugettext("explosive_device_operating_system"), header)
+    worksheet_s.write(0, 21, ugettext("weapon_mark"), header)
+    worksheet_s.write(0, 22, ugettext("explosive_device_spray"), header)
+    worksheet_s.write(0, 23, ugettext("weapon_color"), header)
+    worksheet_s.write(0, 24, ugettext("explosive_device_camouflage"), header)
+    worksheet_s.write(0, 25, ugettext("weapon_additional_characteristics"), header)
+
+    # put data in table
+    for idx, data in enumerate(exhibit_data):
+        row = 1 + idx
+        worksheet_s.write_string(row, 0, data['internal_number'])
+        worksheet_s.write_string(row, 1, data['received_or_go'])
+        worksheet_s.write_string(row, 2, data['lab_name'])
+        worksheet_s.write_string(row, 3, data['event_characteristic'])
+        worksheet_s.write_string(row, 4, data['event_date'])
+        worksheet_s.write_string(row, 5, data['received_date'])
+        worksheet_s.write_string(row, 6, data['event_type'])
+        worksheet_s.write_string(row, 7, data['pele_number'])
+        worksheet_s.write_string(row, 8, data['district'])
+        worksheet_s.write_string(row, 9, data['investigating_unit'])
+        worksheet_s.write_string(row, 10, data['explosion_or_disarm'])
+        worksheet_s.write_string(row, 11, data['reference_number'])
+        worksheet_s.write_string(row, 12, data['status'])
+        worksheet_s.write_string(row, 13, data['event_location'])
+        worksheet_s.write_string(row, 14, data['event_description'])
+        worksheet_s.write_string(row, 15, data['sender_name'])
+        worksheet_s.write_string(row, 16, data['weapon_name'])
+        worksheet_s.write_string(row, 17, data['explosive_device_material'])
+        worksheet_s.write_string(row, 18, data['explosive_device_means'])
+        worksheet_s.write_string(row, 19, data['weapon_options'])
+        worksheet_s.write_string(row, 20, data['explosive_device_operating_system'])
+        worksheet_s.write_string(row, 21, data['weapon_mark'])
+        worksheet_s.write_string(row, 22, data['explosive_device_spray'])
+        worksheet_s.write_string(row, 23, data['weapon_color'])
+        worksheet_s.write_string(row, 24, data['explosive_device_camouflage'])
+        worksheet_s.write_string(row, 25, data['weapon_additional_characteristics'])
+
+    workbook.close()
+    xlsx_data = output.getvalue()
+    # xlsx_data contains the Excel file
+    return xlsx_data
+
+@csrf_exempt
+def caseDwnld(request):
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx'
+    xlsx_data = WriteToExcelCase(Case.objects.values())
+    response.write(xlsx_data)
+    return response
+
+
+
 
 
 # given a case internal number, returns all exhibits related to it

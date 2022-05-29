@@ -13,11 +13,11 @@ export class DownloadExhibitsService {
   // Sends GET request to backend for downloading exhibits.
   downloadExhibits() {
     this.http
-      .request('GET', `${Constants.API_URL}/exhibits/Dwnld`, {
+      .request('GET', `${Constants.API_URL}/exhibits/dwnld/`, {
         responseType: 'blob',
       })
       .subscribe((data: any) => {
-        saveAs(data, 'exhibits.csv'); //TODO Fix file extension
+        saveAs(data, 'exhibits.xlsx'); //TODO Fix file extension
       });
   }
 
