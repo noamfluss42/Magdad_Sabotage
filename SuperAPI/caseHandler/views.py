@@ -172,6 +172,7 @@ def general_sum(msg):
 @csrf_exempt
 def queryHandler(request):
     query_data = JSONParser().parse(request)
+    create_default_values(query_data, CaseSerializer, default_value="")
     cases = Case.objects.all()
     if "" != query_data['min_date'] and "" != query_data['max_date']:
         cases = filterDate(cases, query_data)
