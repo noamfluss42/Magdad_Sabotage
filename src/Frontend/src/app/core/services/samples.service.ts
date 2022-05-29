@@ -102,13 +102,13 @@ export class SamplesService {
       new DatePickerField({
         key: 'sending_date',
         label: 'תאריך שליחה',
-        required: true,
+        required: false,
         type: 'date',
       }),
       new DatePickerField({
         key: 'receiving_date',
         label: 'תאריך קבלה',
-        required: true,
+        required: false,
         type: 'date',
       }),
       new TextboxField({
@@ -120,13 +120,13 @@ export class SamplesService {
       new TextboxField({
         key: 'results',
         label: 'תוצאות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'notes',
         label: 'הערות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new DatePickerField({
