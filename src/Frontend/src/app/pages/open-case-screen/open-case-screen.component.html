@@ -1,7 +1,7 @@
 <div>
   <h1>פתיחת תיק</h1>
 
-  <app-dynamic-form [fields]="generateDocxButton$"></app-dynamic-form>
+  <button (click)="generateDocxPage()" style="color: white; background: #009688">יצירת טופס ושליחה למעבדה</button>
 
   <app-dynamic-form [fields]="fields$"
                     buttonText="שמור פרטי תיק לא כולל תיוגים"

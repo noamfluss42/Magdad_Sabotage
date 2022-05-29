@@ -125,4 +125,9 @@ export class OpenCaseScreenComponent implements OnInit {
     localStorage.setItem('case', JSON.stringify(formRawValue));
     console.log(formRawValue);
   };
+
+  generateDocxPage() {
+    this.router.navigate(['/genLabForm']);
+  }
+
 }

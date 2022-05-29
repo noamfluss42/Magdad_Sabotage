@@ -320,7 +320,7 @@ export class CasesService {
         label: 'יצירת טופס ושליחה למעבדה',
         onClick: () => {
           this.router.navigate(['/genLabForm']);
-        }
+        },
       }),
     ];
     return button;

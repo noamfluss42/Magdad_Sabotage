@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { CasesService } from 'src/app/core/services/cases.service';
 import { FieldControlService } from 'src/app/core/services/field-control.service';
+import { Router } from '@angular/router';
 import { FormFieldBase } from 'src/app/core/utils/form-field-base';
 @Component({
   selector: 'app-edit-case-screen',
@@ -19,7 +20,7 @@ export class EditCaseScreenComponent implements OnInit {
   caseData: any;
   caseQdata :any;
   caseQTags :any;
-  constructor(private service: CasesService, private fcs: FieldControlService) {
+  constructor(private service: CasesService, private fcs: FieldControlService, private router: Router) {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
     this.field$ = this.fields$[1];
@@ -99,4 +100,9 @@ export class EditCaseScreenComponent implements OnInit {
     delete formRawValue.navigator;
     this.caseData[0] = formRawValue;
   };
+
+  generateDocxPage() {
+    this.router.navigate(['/genLabForm']);
+  }
+
 }
