@@ -30,19 +30,19 @@ export class OpenCaseScreenComponent implements OnInit {
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
-    if (
-      !(
-        formRawValue['internal_number'] &&
-        formRawValue['received_or_go'] &&
-        formRawValue['lab_name'] &&
-        formRawValue['event_characteristic'] &&
-        formRawValue['district'] &&
-        formRawValue['investigating_unit']
-      )
-    ) {
-      alert('Fields are required!');
-      //return;
-    }
+    // if (
+    //   !(
+    //     formRawValue['internal_number'] &&
+    //     formRawValue['received_or_go'] &&
+    //     formRawValue['lab_name'] &&
+    //     formRawValue['event_characteristic'] &&
+    //     formRawValue['district'] &&
+    //     formRawValue['investigating_unit']
+    //   )
+    // ) {
+    //   alert('Fields are required!');
+    //   //return;
+    // }
 
     const savedCase = JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
