@@ -44,9 +44,9 @@ def filterDate(case_list,query_data):
 
     for case in Case.objects.values():
         #create datetime objects from given dates
-        case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
         if not min_date <= case_date <= max_date:#if date not in range
-            case_list.exclude(event_date = case['event_date'])#remove all objects with this date
+            case_list.exclude(event_date = case.event_date)#remove all objects with this date
             print("in between")
         else:
             print("No!")
@@ -59,7 +59,9 @@ def monthly_sum(dates):#more updates will come
     count = 0
     monthly_sum_events = []
     for case in Case.objects.all():
-        if case['reference_type'] == 'open':
+        print("case",case)
+        print("case type",type(case))
+        if case.status == 'open':
             count += 1
         case_list += [case]
     filtered_case_list = filterDate(case_list, dates)
@@ -72,7 +74,7 @@ def monthly_sum(dates):#more updates will come
 
     # opened cases this month
     for case in filtered_case_list:
-        if case['reference_type'] == 'open':
+        if case.status == 'open':
             count += 1
     monthly_sum_events += [count]
 
@@ -83,7 +85,7 @@ def monthly_sum(dates):#more updates will come
     count = 0
     # events without area
     for case in filtered_case_list:
-        if case['event location'] == '':
+        if case.event_location == 'default':
             count += 1
     monthly_sum_events += [count]
 
@@ -95,13 +97,13 @@ def monthly_sum(dates):#more updates will come
     count_fireworks = 0
     count_query = 0
     for case in filtered_case_list:
-        if case['event_type'] == 'weapons':
+        if case.event_type == 'weapons':
             count_weapons += 1
-        if case['event_type'] == 'explosive_device':
+        if case.event_type == 'explosive_device':
             count_explosive_device += 1
-        if case['event_type'] == 'fireworks':
+        if case.event_type == 'fireworks':
             count_fireworks += 1
-        if case['event_type'] == 'query':
+        if case.event_type == 'query':
             count_query += 1
     num_of_event_types = [count_weapons,count_explosive_device,count_fireworks,count_query]
     monthly_sum_events += [num_of_event_types]
@@ -155,12 +157,18 @@ def yearly_sum(msg):
 
     return yearly_sum_events
 
-def general_sum(msg):
+#@csrf_exempt
+def general_sum(request):
+    print("start general_sum")
+    print("request",request)
+    print("request.path",request.path)
+    msg = request.path
     data_list = []
-
     if 'month' in msg:
         new_msg = list(msg.split('/'))
+
         msg = new_msg[len(new_msg) - 1]
+        print("new msg",msg)
         splited_msg = list(msg.split('|'))
         dates_data = {'min_date': splited_msg[0], 'max_date': splited_msg[1]}
         data_list = monthly_sum(dates_data)
