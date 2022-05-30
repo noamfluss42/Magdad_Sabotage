@@ -140,4 +140,9 @@ export class OpenCaseScreenComponent implements OnInit {
       }
     });
   };
+
+  generateDocxPage() {
+    this.router.navigate(['/genLabForm']);
+  }
+
 }

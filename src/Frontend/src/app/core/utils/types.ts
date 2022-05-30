@@ -92,6 +92,7 @@ export interface Sample {
   reference: string;
   investigator_name: string;
   phone_num: string;
+  bag_num: string;
 }
 
 export interface TableColumn {

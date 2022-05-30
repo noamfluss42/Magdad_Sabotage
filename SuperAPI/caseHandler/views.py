@@ -11,6 +11,7 @@ from django.utils.translation import ugettext
 from io import BytesIO
 import xlsxwriter
 from datetime import datetime
+from datetime import date
 
 from django.db.models import Value
 
@@ -43,9 +44,9 @@ def filterDate(case_list,query_data):
 
     for case in Case.objects.values():
         #create datetime objects from given dates
-        case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
         if not min_date <= case_date <= max_date:#if date not in range
-            case_list.exclude(event_date = case['event_date'])#remove all objects with this date
+            case_list.exclude(event_date = case.event_date)#remove all objects with this date
             print("in between")
         else:
             print("No!")
@@ -58,7 +59,9 @@ def monthly_sum(dates):#more updates will come
     count = 0
     monthly_sum_events = []
     for case in Case.objects.all():
-        if case['reference_type'] == 'open':
+        print("case",case)
+        print("case type",type(case))
+        if case.status == 'open':
             count += 1
         case_list += [case]
     filtered_case_list = filterDate(case_list, dates)
@@ -69,24 +72,24 @@ def monthly_sum(dates):#more updates will come
 
     count = 0
 
-    #opened cases this month
+    # opened cases this month
     for case in filtered_case_list:
-        if case['reference_type'] == 'open':
+        if case.status == 'open':
             count += 1
     monthly_sum_events += [count]
 
-    #closed cases this month
+    # closed cases this month
     closed_cases = len(filtered_case_list) - count
     monthly_sum_events += [closed_cases]
 
     count = 0
-    #events without area
+    # events without area
     for case in filtered_case_list:
-        if case['event location'] == '':
+        if case.event_location == 'default':
             count += 1
     monthly_sum_events += [count]
 
-    #total evetns this month
+    # total evetns this month
     monthly_sum_events += [len(filtered_case_list)]
 
     count_weapons = 0
@@ -94,13 +97,13 @@ def monthly_sum(dates):#more updates will come
     count_fireworks = 0
     count_query = 0
     for case in filtered_case_list:
-        if case['event_type'] == 'weapons':
+        if case.event_type == 'weapons':
             count_weapons += 1
-        if case['event_type'] == 'explosive_device':
+        if case.event_type == 'explosive_device':
             count_explosive_device += 1
-        if case['event_type'] == 'fireworks':
+        if case.event_type == 'fireworks':
             count_fireworks += 1
-        if case['event_type'] == 'query':
+        if case.event_type == 'query':
             count_query += 1
     num_of_event_types = [count_weapons,count_explosive_device,count_fireworks,count_query]
     monthly_sum_events += [num_of_event_types]
@@ -114,7 +117,7 @@ def yearly_sum(msg):
     date_list = list(msg.split('/'))
     year = date_list[2]
     year = year[6:]
-    jan_sum = monthly_sum({'min_date': ('01/01/' + year), 'max_date': ('31/01/' + year)})#with /
+    jan_sum = monthly_sum({'min_date': ('01/01/' + year), 'max_date': ('31/01/' + year)})  # with /
     feb_sum = monthly_sum({'min_date': ('01/02/' + year), 'max_date': ('28/02/' + year)})
     mar_sum = monthly_sum({'min_date': ('01/03/' + year), 'max_date': ('31/03/' + year)})
     apr_sum = monthly_sum({'min_date': ('01/04/' + year), 'max_date': ('30/04/' + year)})
@@ -126,7 +129,8 @@ def yearly_sum(msg):
     oct_sum = monthly_sum({'min_date': ('01/10/' + year), 'max_date': ('31/10/' + year)})
     nov_sum = monthly_sum({'min_date': ('01/11/' + year), 'max_date': ('30/11/' + year)})
     dec_sum = monthly_sum({'min_date': ('01/12/' + year), 'max_date': ('31/12/' + year)})
-    general_list = [jan_sum,feb_sum,mar_sum,apr_sum,may_sum,jun_sum,jul_sum,aug_sum,sep_sum,oct_sum,nov_sum,dec_sum]
+    general_list = [jan_sum, feb_sum, mar_sum, apr_sum, may_sum, jun_sum, jul_sum, aug_sum, sep_sum, oct_sum, nov_sum,
+                    dec_sum]
     yearly_sum_events = []
 
     count = 0
@@ -153,12 +157,18 @@ def yearly_sum(msg):
 
     return yearly_sum_events
 
-def general_sum(msg):
+#@csrf_exempt
+def general_sum(request):
+    print("start general_sum")
+    print("request",request)
+    print("request.path",request.path)
+    msg = request.path
     data_list = []
-
     if 'month' in msg:
         new_msg = list(msg.split('/'))
+
         msg = new_msg[len(new_msg) - 1]
+        print("new msg",msg)
         splited_msg = list(msg.split('|'))
         dates_data = {'min_date': splited_msg[0], 'max_date': splited_msg[1]}
         data_list = monthly_sum(dates_data)
@@ -170,10 +180,11 @@ def general_sum(msg):
 @csrf_exempt
 def queryHandler(request):
     query_data = JSONParser().parse(request)
+    create_default_values(query_data, CaseSerializer, default_value="")
     cases = Case.objects.all()
     if "" != query_data['min_date'] and "" != query_data['max_date']:
-        cases = filterDate(cases,query_data)
-    if "" != query_data['internal_number']: 
+        cases = filterDate(cases, query_data)
+    if "" != query_data['internal_number']:
         cases = cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['received_or_go']:
         cases = cases.filter(received_or_go=query_data['received_or_go'])
@@ -242,6 +253,7 @@ def caseApi(request, case_name=""):
         return JsonResponse(cases_serializer.data, safe=False)
 
     elif request.method == 'POST':
+        print("\n\ncase post")
         case_data = JSONParser().parse(request)
         case_data["internal_number"] = idApi('case')
         create_default_values(case_data, CaseSerializer)
@@ -272,7 +284,7 @@ def caseApi(request, case_name=""):
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 
-def WriteToExcel(exhibit_data):
+def WriteToExcelExb(exhibit_data):
     output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
     worksheet_s = workbook.add_worksheet("Exhibits")
@@ -283,23 +295,23 @@ def WriteToExcel(exhibit_data):
         'valign': 'top',
         'border': 1
     })
-    #create collum names
-    worksheet_s.write(0, 0, ugettext("internal_number"), header)
-    worksheet_s.write(0, 1, ugettext("exhibit_number"), header)
-    worksheet_s.write(0, 2, ugettext("location"), header)
-    worksheet_s.write(0, 3, ugettext("description"), header)
-    worksheet_s.write(0, 4, ugettext("amount"), header)
-    worksheet_s.write(0, 5, ugettext("destination"), header)
-    worksheet_s.write(0, 6, ugettext("explosive"), header)
-    worksheet_s.write(0, 7, ugettext("explosive_weight"), header)
-    worksheet_s.write(0, 8, ugettext("tnt_equivalent"), header)
-    worksheet_s.write(0, 9, ugettext("received_date"), header)
-    worksheet_s.write(0, 10, ugettext("handle_date"), header)
-    worksheet_s.write(0, 11, ugettext("investigator_name"), header)
-    worksheet_s.write(0, 12, ugettext("lab_name"), header)
-    worksheet_s.write(0, 13, ugettext("result"), header)
+    # create collum names
+    worksheet_s.write(0, 0, ugettext("מס פנימי"), header)
+    worksheet_s.write(0, 1, ugettext("מס מוצג"), header)
+    worksheet_s.write(0, 2, ugettext("מיקום"), header)
+    worksheet_s.write(0, 3, ugettext("תיאור"), header)
+    worksheet_s.write(0, 4, ugettext("כמות"), header)
+    worksheet_s.write(0, 5, ugettext("ייעוד"), header)
+    worksheet_s.write(0, 6, ugettext('חנ"פ'), header)
+    worksheet_s.write(0, 7, ugettext('משקל חנ"פ'), header)
+    worksheet_s.write(0, 8, ugettext("אקוויולנט לTNT"), header)
+    worksheet_s.write(0, 9, ugettext("תאריך הכנסה"), header)
+    worksheet_s.write(0, 10, ugettext("תאריך טיפול"), header)
+    worksheet_s.write(0, 11, ugettext("שם החוקר"), header)
+    worksheet_s.write(0, 12, ugettext("מעבדה"), header)
+    worksheet_s.write(0, 13, ugettext("תוצאות הבדיקה"), header)
 
-    #put data in table
+
     for idx, data in enumerate(exhibit_data):
         row = 1 + idx
         worksheet_s.write_string(row, 0, data['internal_number'])
@@ -324,13 +336,100 @@ def WriteToExcel(exhibit_data):
 @csrf_exempt
 def exhibitDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Report.xlsx'
-    xlsx_data = WriteToExcel(Exhibits.objects.values())
+    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'
+    xlsx_data = WriteToExcelExb(Exhibits.objects.values())
     response.write(xlsx_data)
     return response
 
-#given a case internal number, returns all exhibits related to it
-#internal number should be sent as a Json param 'internal_number' : <value>
+
+def WriteToExcelCase(exhibit_data):
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet_s = workbook.add_worksheet("Cases")
+    header = workbook.add_format({
+        'bg_color': '#F7F7F7',
+        'color': 'black',
+        'align': 'center',
+        'valign': 'top',
+        'border': 1
+    })
+    # create collum names
+    worksheet_s.write(0, 0, ugettext("מס פנימי"), header)
+    worksheet_s.write(0, 1, ugettext("יציאה\קבלה"), header)
+    worksheet_s.write(0, 2, ugettext("מעבדה"), header)
+    worksheet_s.write(0, 3, ugettext("מאפיין אירוע"), header)
+    worksheet_s.write(0, 4, ugettext("תאריך האירוע"), header)
+    worksheet_s.write(0, 5, ugettext("תאריך קבלה"), header)
+    worksheet_s.write(0, 6, ugettext("סוג האירוע"), header)
+    worksheet_s.write(0, 7, ugettext("מס פלא"), header)
+    worksheet_s.write(0, 8, ugettext("מחוז"), header)
+    worksheet_s.write(0, 9, ugettext("יח חוקרת"), header)
+    worksheet_s.write(0, 10, ugettext("פיצוץ/נטרול"), header)
+    worksheet_s.write(0, 11, ugettext("סימוכין"), header)
+    worksheet_s.write(0, 12, ugettext("סטטוס"), header)
+    worksheet_s.write(0, 13, ugettext("מקום אירוע"), header)
+    worksheet_s.write(0, 14, ugettext("תיאור אירוע"), header)
+    worksheet_s.write(0, 15, ugettext("שם המומחה"), header)
+    worksheet_s.write(0, 16, ugettext("weapon_name"), header)
+    worksheet_s.write(0, 17, ugettext("explosive_device_material"), header)
+    worksheet_s.write(0, 18, ugettext("explosive_device_means"), header)
+    worksheet_s.write(0, 19, ugettext("weapon_options"), header)
+    worksheet_s.write(0, 20, ugettext("explosive_device_operating_system"), header)
+    worksheet_s.write(0, 21, ugettext("weapon_mark"), header)
+    worksheet_s.write(0, 22, ugettext("explosive_device_spray"), header)
+    worksheet_s.write(0, 23, ugettext("weapon_color"), header)
+    worksheet_s.write(0, 24, ugettext("explosive_device_camouflage"), header)
+    worksheet_s.write(0, 25, ugettext("weapon_additional_characteristics"), header)
+
+    # put data in table
+    for idx, data in enumerate(exhibit_data):
+        row = 1 + idx
+        worksheet_s.write_string(row, 0, data['internal_number'])
+        worksheet_s.write_string(row, 1, data['received_or_go'])
+        worksheet_s.write_string(row, 2, data['lab_name'])
+        worksheet_s.write_string(row, 3, data['event_characteristic'])
+        worksheet_s.write_string(row, 4, data['event_date'])
+        worksheet_s.write_string(row, 5, data['received_date'])
+        worksheet_s.write_string(row, 6, data['event_type'])
+        worksheet_s.write_string(row, 7, data['pele_number'])
+        worksheet_s.write_string(row, 8, data['district'])
+        worksheet_s.write_string(row, 9, data['investigating_unit'])
+        worksheet_s.write_string(row, 10, data['explosion_or_disarm'])
+        worksheet_s.write_string(row, 11, data['reference_number'])
+        worksheet_s.write_string(row, 12, data['status'])
+        worksheet_s.write_string(row, 13, data['event_location'])
+        worksheet_s.write_string(row, 14, data['event_description'])
+        worksheet_s.write_string(row, 15, data['sender_name'])
+        worksheet_s.write_string(row, 16, data['weapon_name'])
+        worksheet_s.write_string(row, 17, data['explosive_device_material'])
+        worksheet_s.write_string(row, 18, data['explosive_device_means'])
+        worksheet_s.write_string(row, 19, data['weapon_options'])
+        worksheet_s.write_string(row, 20, data['explosive_device_operating_system'])
+        worksheet_s.write_string(row, 21, data['weapon_mark'])
+        worksheet_s.write_string(row, 22, data['explosive_device_spray'])
+        worksheet_s.write_string(row, 23, data['weapon_color'])
+        worksheet_s.write_string(row, 24, data['explosive_device_camouflage'])
+        worksheet_s.write_string(row, 25, data['weapon_additional_characteristics'])
+
+    workbook.close()
+    xlsx_data = output.getvalue()
+    # xlsx_data contains the Excel file
+    return xlsx_data
+
+@csrf_exempt
+def caseDwnld(request):
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx'
+    xlsx_data = WriteToExcelCase(Case.objects.values())
+    response.write(xlsx_data)
+    return response
+
+
+
+
+
+# given a case internal number, returns all exhibits related to it
+# internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
 def exhibitQuery(request):
     print(request)
@@ -340,11 +439,13 @@ def exhibitQuery(request):
     exhibits.filter(internal_number=query_data['internal_number'])
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
     return JsonResponse(exhibits_serializer.data, safe=False)
+
+
 @csrf_exempt
-def exhibitsApi(request, exhibit_number = ""):
+def exhibitsApi(request, exhibit_number=""):
     if request.method == 'GET':
         exhibit = Exhibits.objects.all()
-        exhibit.annotate(index = Value(''))
+        exhibit.annotate(index=Value(''))
         for row_num, exh in enumerate(exhibit):
             exh.index = row_num
         exhibits_serializer = ExhibitsSerializerI(exhibit, many=True)
@@ -408,9 +509,7 @@ def idApi(type):
 
 @csrf_exempt
 def sampleQuery(request):
-    print("start sampleQuery",request)
     query_data = JSONParser().parse(request)
-    print("after parse",query_data)
     samples = Samples.objects.all()
     samples.filter(internal_number=query_data['internal_number'],exhibit_id=query_data['exhibit_id'])
     samples_serializer = SamplesSerializer(samples, many=True)
@@ -435,7 +534,9 @@ def samplesApi(request, sample_id=""):
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
         create_default_values(department_data, SamplesSerializer)
-        department = Samples.objects.get(sample_id=department_data['sample_id'],exhibit_id=department_data['exhibit_id'],case_id=department_data['case_id'],transferred_to_lab=department_data['transferred_to_lab'])
+        department = Samples.objects.get(sample_id=department_data['sample_id'],
+                                         exhibit_id=department_data['exhibit_id'], case_id=department_data['case_id'],
+                                         transferred_to_lab=department_data['transferred_to_lab'])
         department_serializer = SamplesSerializer(department, data=department_data)
         if department_serializer.is_valid():
             department_serializer.save()
@@ -448,10 +549,36 @@ def samplesApi(request, sample_id=""):
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 
+"""
+    return list of all samples attributed to a case
+param:
+    internal_num - id of case
+"""
+
+
+def getSampleList(internal_num):
+    samples = Samples.objects.filter(case_id=internal_num).values()
+    list = ""
+    for index, sample in enumerate(samples):
+        print("start index",index,"and sample",sample["sample_id"])
+        list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id'])\
+                + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
+    return list
+
+
 @csrf_exempt
 def downloadFile(request):
     if request.method == 'GET':
+        print("start downloadFile", request)
         docx_data = request.GET.dict()
+        print("docx data", docx_data)
+        docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
+        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'])
+        filtered = Case.objects.filter(internal_number=docx_data['internal_number'])
+        #to_update = filtered.values("reference_type", "reference_number", "event_description")
+        print("filtered",filtered)
+        #docx_data.update() # TODO update
         file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp

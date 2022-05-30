@@ -25,6 +25,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
     var values = Array.from(this.fields$.values())
     values[0]["value"] = localCase.internal_number
     values[11]["value"] = localCase.sender_name
+    values[12]["value"] = localCase.lab_name
 
   }
 
@@ -33,16 +34,28 @@ export class RegisterExhibitScreenComponent implements OnInit {
   // Function must be defined as arrow function otherwise 'this' keyword will refer to
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
+    var does_exist = false;
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
-    // acess all the values of the form
-    // const values = Array.from(formRawValue.values());
 
-    this.service.postExhibit(formRawValue).subscribe((res: any) => {
-      cb(res);
-      alert( " מוצג"+ res + "נפתח בהצלחה "); //TODO for noam
-    });
-
+    this.service.getExhibitsFromCase(formRawValue).subscribe((res: any) => {
+      //check if case exist
+      if(res.length > 0){
+        does_exist = true;
+      }
+      if(does_exist){
+        //update case
+        this.service.editExhibit(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }else{
+        //create case
+        this.service.postExhibit(formRawValue).subscribe((res: any) => {
+          cb(res);
+          alert( " מוצג"+ res + "נפתח בהצלחה "); //TODO for noam
+        });
+      }
+      
     localStorage.setItem('exhibit', JSON.stringify(formRawValue));
 
     this.sharedData.addToData(formRawValue);

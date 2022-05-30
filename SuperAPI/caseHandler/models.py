@@ -100,6 +100,7 @@ class Samples(models.Model):
     reference = models.CharField(max_length=256)
     investigator_name = models.CharField(max_length=256)
     phone_num = models.CharField(max_length=256)
+    bag_num = models.CharField(max_length=32)
 
 
 

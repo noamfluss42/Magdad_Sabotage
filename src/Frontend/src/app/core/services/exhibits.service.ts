@@ -97,7 +97,7 @@ export class ExhibitsService {
       new DropdownField({
         key:'explosive',
         label:'חנ"פ',
-        required: true,
+        required: false,
         options: [
           { key: "yes", value: "כן" },
           { key: "no", value: "לא" },
@@ -106,13 +106,13 @@ export class ExhibitsService {
       new TextboxField({
         key:'explosive_weight',
         label:'משקל חנ"פ',
-        required:true,
+        required:false,
         type:'text',
       }),
       new DropdownField({
         key:"tnt_equivalent",
         label:"סוג חומר נפץ",
-        required:true,
+        required:false,
         options: [
           { key: "RDX", value: "RDX" },
           { key: "TNT", value: "TNT" },
@@ -156,13 +156,13 @@ export class ExhibitsService {
       new TextboxField({
         key:"lab_name",
         label:"מעבדה",
-        required:true,
+        required:false,
         type:'text',
       }),
       new TextboxField({
         key:"result",
         label:"תוצאות בדיקה",
-        required:true,
+        required:false,
         type:'text',
       }),
       //new ButtonField({

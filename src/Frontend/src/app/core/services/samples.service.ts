@@ -81,28 +81,34 @@ export class SamplesService {
         required: true,
         type: 'text',
       }),
-      new DropdownField({
+      //new DropdownField({
+      //  key: 'transferred_to_lab',
+      //  label: 'מעבדה',
+      //  required: true,
+      //  options: [
+      //    { key: 'hanam', value: 'חנ"מ' },
+      //    { key: 'ta', value: 'ט"א' },
+      //    { key: 'biologically', value: 'ביולוגית' },
+      //    { key: 'arsons', value: 'הצתות' },
+      //    { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
+      //  ],
+      //}),
+      new TextboxField({
         key: 'transferred_to_lab',
         label: 'מעבדה',
         required: true,
-        options: [
-          { key: 'hanam', value: 'חנ"מ' },
-          { key: 'ta', value: 'ט"א' },
-          { key: 'biologically', value: 'ביולוגית' },
-          { key: 'arsons', value: 'הצתות' },
-          { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
-        ],
+        type: 'text',
       }),
       new DatePickerField({
         key: 'sending_date',
         label: 'תאריך שליחה',
-        required: true,
+        required: false,
         type: 'date',
       }),
       new DatePickerField({
         key: 'receiving_date',
         label: 'תאריך קבלה',
-        required: true,
+        required: false,
         type: 'date',
       }),
       new TextboxField({
@@ -114,13 +120,13 @@ export class SamplesService {
       new TextboxField({
         key: 'results',
         label: 'תוצאות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'notes',
         label: 'הערות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new DatePickerField({
@@ -150,6 +156,12 @@ export class SamplesService {
       new TextboxField({
         key: 'phone_num',
         label: 'מספר טלפון',
+        required: true,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'bag_num',
+        label: 'מספר שקית',
         required: true,
         type: 'text',
       }),
@@ -240,7 +252,11 @@ export class SamplesService {
         attribute: 'phone_num',
         sortable: true,
       },
-
+      {
+        name: 'מספר שקית',
+        attribute: 'bag_num',
+        sortable: true,
+      },
       {
         name: 'עריכה',
         attribute: 'עריכה',

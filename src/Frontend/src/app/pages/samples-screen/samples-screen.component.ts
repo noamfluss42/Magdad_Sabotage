@@ -18,8 +18,9 @@ export class SamplesScreenComponent implements OnInit {
 
     const localExhibit = JSON.parse(localStorage.getItem('exhibit') || '[]');
     var values = Array.from(this.fields$.values())
-    values[0]["value"] = localExhibit.case_id
+    values[0]["value"] = localExhibit.internal_number
     values[1]["value"] = localExhibit.exhibit_number
+    values[5]["value"] = localExhibit.lab_name
     values[14]["value"] = localExhibit.investigator_name
 
   }
@@ -28,9 +29,21 @@ export class SamplesScreenComponent implements OnInit {
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     console.log(form.getRawValue());
-    this.service.postSample(form.value).subscribe((res: any) => {
-      console.log(res);
-      cb(res);
+    var does_exist = false;
+    const formRawValue = form.getRawValue();
+    this.service.getSample(formRawValue).subscribe((res: any) => {
+      if (res.length > 0) {
+        this.service.editSample(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }
+      if (!does_exist) {
+        this.service.postSample(formRawValue).subscribe((res: any) => {
+          cb(res);
+        });
+      }
+
     });
+
   };
 }
