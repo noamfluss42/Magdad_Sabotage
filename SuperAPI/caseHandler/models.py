@@ -84,18 +84,6 @@ class Exhibits(models.Model):
     result = models.CharField(max_length=128)
 
 class Samples(models.Model):
-
-    # SOUTH = 'S'
-    # TEL_AVIV = 'TLV'
-    # NORTH = 'N'
-    # MATE_ARTZI = 'MATAR'
-    # LABRATORIES = [
-    #     (SOUTH, 'דרום'),
-    #     (TEL_AVIV, 'תל אביב'),
-    #     (NORTH, 'צפון'),
-    #     (MATE_ARTZI, 'מטא"ר'),
-    # ]
-
     case_id = models.CharField(max_length=32)
     exhibit_id = models.CharField(max_length=32)
     sample_id = models.CharField(max_length=32)

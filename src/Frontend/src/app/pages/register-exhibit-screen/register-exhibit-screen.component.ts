@@ -35,8 +35,12 @@ export class RegisterExhibitScreenComponent implements OnInit {
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
+    // acess all the values of the form
+    // const values = Array.from(formRawValue.values());
+
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
+      alert( " מוצג"+ res + "נפתח בהצלחה "); //TODO for noam
     });
 
     localStorage.setItem('exhibit', JSON.stringify(formRawValue));

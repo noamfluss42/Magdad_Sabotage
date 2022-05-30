@@ -11,8 +11,11 @@ import { Exhibit, TableColumn } from '../utils/types';
 })
 export class ExhibitsService {
   exhibitsURL = `${Constants.API_URL}/exhibits`;
+  public exhibit_number: string;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.exhibit_number = '';
+  }
 
   /* GET: get exhibit by bag_number from the server */
   getExhibit(exhibit_number: string) {
@@ -55,6 +58,8 @@ export class ExhibitsService {
     });
   }
 
+
+
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
@@ -63,12 +68,6 @@ export class ExhibitsService {
         required: true,
         type: 'text',
         // value:OpenCaseFieldsService.getQuestions().key['internalNumber'], //! impleament method to get case id from open case service to exhibit register.
-      }),
-      new TextboxField({
-        key: 'exhibit_number', // +year
-        label: "מס' מוצג",
-        required: true,
-        type: 'text',
       }),
       new TextboxField({
         key: 'location',
