@@ -47,13 +47,13 @@ export interface Exhibit {
 // }
 export interface Case {
   internal_number: string;
-  received_or_go :string;
+  received_or_go: string;
   lab_name: string;
   event_characteristic: string;
   event_date: string;
   received_date: string;
   event_type: string;
-  pele_number :string;
+  pele_number: string;
   district: string;
   investigation_unit: string;
   explosion_or_disarm: string;
@@ -75,8 +75,7 @@ export interface Case {
   weapon_additional_characteristics: string;
 }
 
-export interface Sample
-{
+export interface Sample {
   case_id: string;
   exhibit_id: string;
   sample_id: string;
@@ -96,8 +95,6 @@ export interface Sample
   bag_num: string;
 }
 
-
-
 export interface TableColumn {
   name: string;
   attribute: any;
@@ -114,19 +111,15 @@ export interface ResultCaseTable {
   max_date: string;
 }
 
-
-
-
 export interface CaseSearch {
-
   internal_number: string;
-  received_or_go :string;
+  received_or_go: string;
   lab_name: string;
   event_characteristic: string;
   event_date: string;
   received_date: string;
   event_type: string;
-  pele_number :string;
+  pele_number: string;
   district: string;
   investigation_unit: string;
   explosion_or_disarm: string;
@@ -135,6 +128,4 @@ export interface CaseSearch {
   sender_name: string;
   event_location: string;
   event_description: string;
-
-
 }

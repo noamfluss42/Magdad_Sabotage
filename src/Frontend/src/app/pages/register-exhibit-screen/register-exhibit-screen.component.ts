@@ -37,6 +37,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
     var does_exist = false;
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
+
     this.service.getExhibitsFromCase(formRawValue).subscribe((res: any) => {
       //check if case exist
       if(res.length > 0){
@@ -51,10 +52,10 @@ export class RegisterExhibitScreenComponent implements OnInit {
         //create case
         this.service.postExhibit(formRawValue).subscribe((res: any) => {
           cb(res);
+          alert( " מוצג"+ res + "נפתח בהצלחה "); //TODO for noam
         });
       }
-    });
-
+      
     localStorage.setItem('exhibit', JSON.stringify(formRawValue));
 
     this.sharedData.addToData(formRawValue);
