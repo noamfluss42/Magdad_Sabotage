@@ -20,5 +20,14 @@ export class DownloadExhibitsService {
         saveAs(data, 'exhibits.xlsx'); //TODO Fix file extension
       });
   }
+  downloadCases() {
+    this.http
+      .request('GET', `${Constants.API_URL}/case/dwnld/`, {
+        responseType: 'blob',
+      })
+      .subscribe((data: any) => {
+        saveAs(data, 'cases.xlsx'); //TODO Fix file extension
+      });
+  }
 
 }
