@@ -1,8 +1,30 @@
 To create the container:
-    - first make sure you can run the app locally (if not possible, just set the correct database parameters as explained in "run_the_app_instructions.txt")
+    - first make sure you can run the app locally (as explained in run_the_app_instructions.txt)
+    - set the correct environment variables of the db in SuperAPI -> env_variables.env, they are uset in settings.py.
+    - set the correct API_URL of the server in the environment field in docker-compose.yml.
+    - now everything is set.
     - From the main folder go to src->Frontend
-    - run "ng build"
-    - run "docker compose build"
-    - run "docker compose up"
-    - the app should be running now in "http://localhost:4200/"
+    - run "ng build". Important: do this step everytime you change something in src->frontend folder.
+    - run "docker-compose up --build"
+    - the app should be running now in "http://localhost:12581/"
+    - the docker logs should look like this:
+    
+backend2        | Watching for file changes with StatReloader
+backend2        | Performing system checks...
+backend2        |
+backend2        | System check identified no issues (0 silenced).
+backend2        | May 31, 2022 - 09:40:20
+backend2        | Django version 3.2.13, using settings 'SuperAPI.settings'
+backend2        | Starting development server at http://0.0.0.0:12580/
+backend2        | Quit the server with CONTROL-C.
+frontend2       | nginx 09:40:20.39
+frontend2       | nginx 09:40:20.39 Welcome to the Bitnami nginx container
+frontend2       | nginx 09:40:20.40 Subscribe to project updates by watching https://github.com/bitnami/bitnami-docker-nginx      
+frontend2       | nginx 09:40:20.40 Submit issues and feature requests at https://github.com/bitnami/bitnami-docker-nginx/issues  
+frontend2       | nginx 09:40:20.40
+frontend2       |
+frontend2       | 2022/05/31 09:40:20 [warn] 1#1: the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
+frontend2       | nginx: [warn] the "user" directive makes sense only if the master process runs with super-user privileges, ignored in /opt/bitnami/nginx/conf/nginx.conf:2
+
+
     - to delete the container run "docker compose down"
