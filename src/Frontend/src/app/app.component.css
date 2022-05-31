@@ -1,6 +1,6 @@
 @import "./styles/navbar.css";
 
-div {
+.signature {
   text-align: center;
   font-family: "Garamond", Serif;
 }
