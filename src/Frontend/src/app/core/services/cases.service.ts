@@ -51,6 +51,8 @@ export class CasesService {
       }),
     });
   }
+
+
   /*TODO check merge */
   cacheCaseOnReturn(case_: Case) {
     localStorage.setItem('case', JSON.stringify(case_));
@@ -67,13 +69,13 @@ export class CasesService {
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      new TextboxField({
-        key: 'internal_number', // +year
-        label: 'מספר פנימי',
-        required: true,
-        type: 'text',
-        value: '' + '.' + this.getShortYear().toString(),
-      }),
+      // new TextboxField({
+      //   key: 'internal_number', // +year
+      //   label: 'מספר פנימי',
+      //   required: true,
+      //   type: 'text',
+      //   value: this.generateInternalNumber(),
+      // }),
       new DropdownField({
         key: 'received_or_go',
         label: 'יציאה/קבלה',

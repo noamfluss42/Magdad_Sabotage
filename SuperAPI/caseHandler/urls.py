@@ -20,6 +20,6 @@ urlpatterns=[
     url(r'^img', views.downloadFile),
     url(r'^query', views.queryHandler),
     url(r'^id/$', views.idApi),
-
+    #url(r'^monthlySummary/',views.general_sum),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

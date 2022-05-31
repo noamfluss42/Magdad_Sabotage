@@ -44,9 +44,9 @@ def filterDate(case_list,query_data):
 
     for case in Case.objects.values():
         #create datetime objects from given dates
-        case_date = datetime.strptime(case['event_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
         if not min_date <= case_date <= max_date:#if date not in range
-            case_list.exclude(event_date = case['event_date'])#remove all objects with this date
+            case_list.exclude(event_date = case.event_date)#remove all objects with this date
             print("in between")
         else:
             print("No!")
@@ -59,7 +59,9 @@ def monthly_sum(dates):#more updates will come
     count = 0
     monthly_sum_events = []
     for case in Case.objects.all():
-        if case['reference_type'] == 'open':
+        print("case",case)
+        print("case type",type(case))
+        if case.status == 'open':
             count += 1
         case_list += [case]
     filtered_case_list = filterDate(case_list, dates)
@@ -72,7 +74,7 @@ def monthly_sum(dates):#more updates will come
 
     # opened cases this month
     for case in filtered_case_list:
-        if case['reference_type'] == 'open':
+        if case.status == 'open':
             count += 1
     monthly_sum_events += [count]
 
@@ -83,7 +85,7 @@ def monthly_sum(dates):#more updates will come
     count = 0
     # events without area
     for case in filtered_case_list:
-        if case['event location'] == '':
+        if case.event_location == 'default':
             count += 1
     monthly_sum_events += [count]
 
@@ -95,13 +97,13 @@ def monthly_sum(dates):#more updates will come
     count_fireworks = 0
     count_query = 0
     for case in filtered_case_list:
-        if case['event_type'] == 'weapons':
+        if case.event_type == 'weapons':
             count_weapons += 1
-        if case['event_type'] == 'explosive_device':
+        if case.event_type == 'explosive_device':
             count_explosive_device += 1
-        if case['event_type'] == 'fireworks':
+        if case.event_type == 'fireworks':
             count_fireworks += 1
-        if case['event_type'] == 'query':
+        if case.event_type == 'query':
             count_query += 1
     num_of_event_types = [count_weapons,count_explosive_device,count_fireworks,count_query]
     monthly_sum_events += [num_of_event_types]
@@ -155,12 +157,18 @@ def yearly_sum(msg):
 
     return yearly_sum_events
 
-def general_sum(msg):
+#@csrf_exempt
+def general_sum(request):
+    print("start general_sum")
+    print("request",request)
+    print("request.path",request.path)
+    msg = request.path
     data_list = []
-
     if 'month' in msg:
         new_msg = list(msg.split('/'))
+
         msg = new_msg[len(new_msg) - 1]
+        print("new msg",msg)
         splited_msg = list(msg.split('|'))
         dates_data = {'min_date': splited_msg[0], 'max_date': splited_msg[1]}
         data_list = monthly_sum(dates_data)
@@ -247,13 +255,14 @@ def caseApi(request, case_name=""):
     elif request.method == 'POST':
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
+        case_data["internal_number"] = idApi('case')
         create_default_values(case_data, CaseSerializer)
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
             print("is valid")
             department_serializer.save()
             print("Added Successfully")
-            return JsonResponse("Added Successfully!!", safe=False)
+            return JsonResponse(str(case_data["internal_number"]), safe=False)
         else:
             print("error",department_serializer.errors)
         return JsonResponse("Failed to Addd.", safe=False)
@@ -444,11 +453,12 @@ def exhibitsApi(request, exhibit_number=""):
 
     elif request.method == 'POST':
         exhibit_data = JSONParser().parse(request)
+        exhibit_data["exhibit_number"] = idApi('exhibit')
         create_default_values(exhibit_data, ExhibitsSerializer)
         exhibits_serializer = ExhibitsSerializer(data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
-            return JsonResponse("Added Successfully!!", safe=False)
+            return JsonResponse(str(exhibit_data["exhibit_number"]), safe=False)
         return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
@@ -466,32 +476,35 @@ def exhibitsApi(request, exhibit_number=""):
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
-@csrf_exempt
-def idApi(request,type=""):
-    if request.method == 'GET':
-        if type == "case":
-            id = Case.objects.all().aggregate(Max('internal_number'))
-            if id['internal_number'] is None:
-                id = "1"
-            else:
-                id = str(int(id['internal_number'])+1)
-            return JsonResponse(id, safe=False)
-        elif type == "exhibit":
-            id = Exhibits.objects.all().aggregate(Max('exhibit_number'))
-            if id['exhibit_number'] is None:
-                id = "1"
-            else:
-                id = str(int(id['exhibit_number'])+1)
-            return JsonResponse(id, safe=False)
-        elif type == "sample":
-            id = Samples.objects.all().aggregate(Max('sample_id'))
-            if id['sample_id'] is None:
-                id = "1"
-            else:
-                id = str(int(id['sample_id'])+1)
-            return JsonResponse(id, safe=False)
+
+def idApi(type):
+    id = ''
+    if type == "exhibit":
+        #get the last exhibit number +1
+        if Exhibits.objects.count() == 0:
+            id = "1"
+            return id
         else:
-            return JsonResponse("Invalid Type", safe=False)
+            exhibit = Exhibits.objects.all().order_by('-exhibit_number')
+            id = int(exhibit[0].exhibit_number) + 1
+            return id
+    elif type == "case":
+        if Case.objects.count() == 0:
+            id = "1"
+            return id
+        else:
+            case = Case.objects.all().order_by('-internal_number')
+            #TODO take year into consideration
+            id = float(case[0].internal_number) + 1
+            return id
+    elif type == "samples":
+        if Samples.objects.count() == 0:
+            id = "1"
+            return id
+        else:
+            samples = Samples.objects.all().order_by('-sample_number')
+            id = int(samples[0].sample_number) + 1
+            return id
 
 
 @csrf_exempt
@@ -510,11 +523,12 @@ def samplesApi(request, sample_id=""):
         return JsonResponse(samples_serializer.data, safe=False)
     elif request.method == 'POST':
             samples_data = JSONParser().parse(request)
+            samples_data["sample_number"] = idApi('samples')
             create_default_values(samples_data, SamplesSerializer)
             department_serializer = SamplesSerializer(data=samples_data)
             if department_serializer.is_valid():
                 department_serializer.save()
-                return JsonResponse("Added Successfully!!", safe=False)
+                return JsonResponse(str(samples_data["sample_number"]), safe=False)
             return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
@@ -570,9 +584,3 @@ def downloadFile(request):
         return resp
     return Http404("Not Get Request")
 
-def last_id(model):
-    max_rated_entry = model.objects.latest()
-    if max_rated_entry == None:
-        return str(1)
-    else:
-        return str(max_rated_entry.details + 1)
