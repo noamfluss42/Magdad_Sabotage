@@ -435,11 +435,11 @@ def caseDwnld(request):
 # given a case internal number, returns all exhibits related to it
 # internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
-def exhibitQuery(request):
-    print("test1")
+def exhibitQuery(request, internal_number=""):
     exhibits = Exhibits.objects.all()
-    exhibits = exhibits.filter(internal_number=exhibits['internal_number'])
+    exhibits = exhibits.filter(internal_number=internal_number)
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
+    print("exhibits_serializer.data",exhibits_serializer.data)
     return JsonResponse(exhibits_serializer.data, safe=False)
 
 
@@ -498,7 +498,7 @@ def idApi(type):
         else:
             case = Case.objects.all().order_by('-internal_number')
             #TODO take year into consideration
-            id = float(case[0].internal_number) + 1
+            id = int(float(case[0].internal_number) + 1)
             return id
     elif type == "samples":
         if Samples.objects.count() == 0:
@@ -512,7 +512,10 @@ def idApi(type):
 
 @csrf_exempt
 def sampleQuery(request):
+    print("sampleQuery")
+    print("got request",request)
     query_data = JSONParser().parse(request)
+    print("query_data",query_data)
     samples = Samples.objects.all()
     samples = samples.filter(internal_number=query_data['internal_number'],exhibit_id=query_data['exhibit_id'])
     samples_serializer = SamplesSerializer(samples, many=True)

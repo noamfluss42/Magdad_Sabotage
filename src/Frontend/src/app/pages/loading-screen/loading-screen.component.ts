@@ -19,7 +19,7 @@ export class LoadingScreenComponent implements OnInit {
 
       window.location.href = '/searchCaseResult';
 
-    }, 2000);
+    }, 500);
   }
 
 

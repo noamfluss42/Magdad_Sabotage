@@ -26,10 +26,10 @@ export class EditCaseScreenComponent implements OnInit {
     this.field$ = this.fields$[1];
     this.generateDocxButton$ = service.getGenerateDocxButton();
     this.form = this.fcs.toFormGroup([this.field$]);
-    this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
-    localStorage.removeItem('caseQ');
+    this.caseData = JSON.parse(localStorage.getItem('case') || '[]');
+    //localStorage.removeItem('case');
     this.splitAt("weapon_name",this.caseData);
-    
+
     //split caseData to get only tags
   }
   splitAt(key: any, value: any) {
@@ -54,13 +54,16 @@ export class EditCaseScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+    alert("try in on submin1"+formRawValue);
     this.caseData[1] = formRawValue;
+    alert("try in on submin2");
     const data = { ...this.caseData[0], ...this.caseData[1] };
+    alert("try in on submin3");
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
@@ -96,10 +99,10 @@ export class EditCaseScreenComponent implements OnInit {
   };
 
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
-    const formRawValue = form.getRawValue();
-    delete formRawValue.navigator;
-    this.caseData[0] = formRawValue;
-  };
+      const formRawValue = {internal_number: this.caseData.internal_number, ...form.getRawValue()};
+      delete formRawValue.navigator;
+      this.caseData[0] = formRawValue;
+    };
 
   generateDocxPage() {
     this.router.navigate(['/genLabForm']);
