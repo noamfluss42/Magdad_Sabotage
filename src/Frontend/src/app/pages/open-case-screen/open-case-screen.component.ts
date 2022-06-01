@@ -130,6 +130,7 @@ export class OpenCaseScreenComponent implements OnInit {
           alert(' תיק' + this.internal_number + 'נפתח בהצלחה '); //TODO for noam
           formRawValue.internal_number = this.internal_number;
           localStorage.setItem('case', JSON.stringify(formRawValue));
+          localStorage.setItem('screen','/case');
         });
       }
     });

@@ -29,6 +29,6 @@ export class ExhibitsInCaseScreenComponent implements OnInit {
     }
     this.tableColumns = this.service.getTableColumns();
     this.tableData = this.service.getExhibitsFromCase(this.internal_number);
-
+    localStorage.setItem('screen','/case/:id/exhibits');
   }
 }

@@ -76,7 +76,7 @@ export class EditExhibitScreenComponent implements OnInit {
   //   this.dialogRef.close();
   // }
   onEditSubmit= (form: FormGroup): void => {
-    const formRawValue = form.getRawValue();
+    const formRawValue =  {exhibit_number: this.data.exhibit_number, ...form.getRawValue()};
     delete formRawValue.sample_navigation;
     this.service.editExhibit(formRawValue).subscribe((res: any) => {
       console.log(res);

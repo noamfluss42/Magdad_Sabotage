@@ -28,7 +28,8 @@ export class ResultsScreenComponent implements OnInit {
     this.caseId = this.route.snapshot.paramMap.get('id') as string;
     this.tableData = this.service.getData();
     this.searchResults = this.tableData.length | 0;
-    this.resultCaseTableColumns = this.service.getTableColumns();;
+    this.resultCaseTableColumns = this.service.getTableColumns();
+    localStorage.setItem('screen','/searchCaseResult');
   }
 
   

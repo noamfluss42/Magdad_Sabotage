@@ -23,8 +23,8 @@ export class SamplesInCaseScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableColumns = this.service.getTableColumns();
-    this.exhibit_number =localStorage.getItem('exhibit_number')
-    this.case= localStorage.getItem('case')
+    this.exhibit_number =localStorage.getItem('exhibit_number');
+    this.case= localStorage.getItem('case');
     if (this.case) {
       this.internal_number = JSON.parse(this.case).internal_number.split('.')[0]
     }

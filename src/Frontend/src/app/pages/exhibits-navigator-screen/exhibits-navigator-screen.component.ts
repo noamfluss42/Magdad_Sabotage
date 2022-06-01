@@ -10,6 +10,7 @@ export class ExhibitsNavigatorScreenComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    localStorage.setItem('screen','/exhibitNavigator');
   }
 
 }

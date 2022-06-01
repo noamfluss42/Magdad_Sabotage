@@ -36,7 +36,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
     var does_exist = false;
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
-
+    localStorage.setItem('screen', 'registerExhibit');
     this.router.navigate(['/loadingScreen']).then(() => {
     this.service
       .getExhibitsFromCase(formRawValue.internal_number.split('.')[0])
@@ -45,7 +45,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
               cb(res);
               alert(' מוצג' + res + 'נפתח בהצלחה '); //TODO for noam
               localStorage.setItem('exhibit', JSON.stringify(formRawValue));
-              this.router.navigate(['/registerExhibit']);
+              this.router.navigate(['/exhibitNavigator']);
             });
           });
         }
