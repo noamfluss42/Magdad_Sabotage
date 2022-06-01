@@ -39,7 +39,7 @@ def generate_docx(args):
 
     doc.paragraphs[2].runs[2].text = args["phone_number"]
     doc.paragraphs[3].runs[3].text = args["internal_number"]
-    doc.paragraphs[5].runs[1].text = args["recipient"]
+    doc.paragraphs[5].runs[1].text = args["transferred_to_lab"]
     # This segement handle the checkboxes
     if args["urgency"] == 'normal':
         doc.tables[0].rows[0].cells[0].paragraphs[1].runs[0]._r.xpath(CHECKBOX_PATH)[0].insert(2,
@@ -89,7 +89,7 @@ def main():
         'lab_name':"LAB",#
         'phone_number':"PHONE",#
         'internal_number': "IN",#
-        'recipient': "RECEPEINT",#
+        'transferred_to_lab': "RECEPEINT",#
         'urgency': "urgent",#
         'hazards': "sharp",#
         'exhibits': "exhibits",#

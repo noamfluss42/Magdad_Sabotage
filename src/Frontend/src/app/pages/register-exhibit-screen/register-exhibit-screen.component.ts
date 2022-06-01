@@ -44,7 +44,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
 
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
-      alert(' מוצג' + res + 'נפתח בהצלחה '); //TODO for noam
+      alert(' מוצג' + res + 'נפתח בהצלחה ');
       formRawValue.exhibit_number = res;
       localStorage.setItem('exhibit', JSON.stringify(formRawValue));
     });

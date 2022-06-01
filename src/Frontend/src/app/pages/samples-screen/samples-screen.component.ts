@@ -35,7 +35,7 @@ export class SamplesScreenComponent implements OnInit {
     alert("postSample"+formRawValue.exhibit_number)
     this.service.postSample(formRawValue).subscribe((res: any) => {
       console.log(res);
-      alert(' דגימה' + res + 'נפתחה בהצלחה '); //TODO for noam
+      alert(' דגימה' + res + 'נפתחה בהצלחה ');
       localStorage.setItem("sample",JSON.stringify(formRawValue));
     }
     );

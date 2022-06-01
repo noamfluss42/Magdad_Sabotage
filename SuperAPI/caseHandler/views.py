@@ -44,9 +44,9 @@ def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filt
     res = []
     for case in case_list:
         if filter_by_status_closed_date:
-            case_date = datetime.strptime(case.status_closed_date, '%Y-%m-%dT%H:%M:%S.%f%z')
+            case_date = datetime.strptime(case.status_closed_date,date_format)
         else:
-            case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
+            case_date = datetime.strptime(case.event_date, date_format)
 
         if min_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
                 case_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
@@ -568,19 +568,21 @@ param:
 """
 
 
-def getSampleList(internal_num, name):
-    samples = Samples.objects.filter(internal_number=internal_num).values()
-    case = Case.objects.get(internal_num=internal_num)
+def getSampleList(internal_number, name,transferred_to_lab):
+    print("internal_number=",internal_number,"transferred_to_lab =", transferred_to_lab)
+    samples = Samples.objects.filter(internal_number=internal_number,transferred_to_lab = transferred_to_lab).values()
+    print("getSampleList samples",samples)
+    case = Case.objects.get(internal_number=internal_number)
     list = ""
     for index, sample in enumerate(samples):
         print("start index", index, "and sample", sample["sample_id"])
-
         list += str(sample["sample_id"]) + ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_number']) \
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
-                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + +' ושומנה "' + sample[
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + ' וסומנה "' + sample[
                     "date"] + "\" מע' חבלה " \
-                + case["lab_name"] + "מס' " + (
-                    case["pele_number"] if case["pele_number"] != "default" else sample["reference"])
+                + case.lab_name + " " + "מס'" + " "
+        list += case.pele_number if case.pele_number != "default" else sample["reference"]
+        list += " " + "ר.ז "
         try:
             list += str(name.split(" ")[0][0]) + "." + str(name.split(" ")[1][0]) + '\n'
         except:  # in case only first name is provided
@@ -595,8 +597,8 @@ def downloadFile(request):
         docx_data = request.GET.dict()
         print("docx data", docx_data)
         docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
-        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'], docx_data["name"])
-        filtered = Case.objects.filter(internal_number=docx_data['internal_number']).values()
+        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'], docx_data["name"],docx_data["transferred_to_lab"])
+        filtered = Case.objects.filter(internal_number=docx_data['internal_number']).values()[0]
         docx_data['investigating_unit'] = filtered['investigating_unit']
         # to_update = filtered.values("reference_type", "reference_number", "event_description")
         print("filtered", filtered)
