@@ -32,150 +32,128 @@ from django.core.files.storage import default_storage
 from caseHandler.create_default_values import create_default_values
 
 
-def filterDate(case_list,query_data):
+def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z'):
     if "" != query_data['min_date']:
-        min_date = datetime.strptime(query_data['min_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        min_date = datetime.strptime(query_data['min_date'], date_format)
     else:
         min_date = datetime.min
     if "" != query_data['max_date']:
-        max_date = datetime.strptime(query_data['max_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        max_date = datetime.strptime(query_data['max_date'], date_format)
     else:
         max_date = datetime.max
-
-    for case in Case.objects.values():
-        #create datetime objects from given dates
+    res = []
+    for case in case_list:
         case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
-        if not min_date <= case_date <= max_date:#if date not in range
-            case_list.exclude(event_date = case.event_date)#remove all objects with this date
-            print("in between")
-        else:
-            print("No!")
-    #returns new case querySet object
-    return case_list
+
+        if min_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
+                        case_date.replace(hour=0,minute=0,second=0,microsecond=0,tzinfo=None) <= \
+                        max_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None):
+            res.append(case)
+    # returns new case querySet object
+    return res
 
 
-def monthly_sum(dates):#more updates will come
+def monthly_sum(dates, get_dict=False):  # more updates will come
+    print("start monthly_sum")
     case_list = []
     count = 0
     monthly_sum_events = []
+    result = {"totalOpenCases": 0,
+              "monthlyOpenedCases": 0,
+              "monthlyClosedCases": 0,
+              "totalNoneAreaEvents": 0,
+              "areasTreatedBySapper": 0,
+              "totalCheckedAreas": 0,
+              "totalMonthlyEvents": 0,
+              "eventsByCategories_count_weapons": 0,
+              "eventsByCategories_count_explosive_device": 0,
+              "eventsByCategories_count_fireworks": 0,
+              "eventsByCategories_count_query": 0}
+
     for case in Case.objects.all():
-        print("case",case)
-        print("case type",type(case))
-        if case.status == 'open':
+        if case.helping == 'לא':
             count += 1
-        case_list += [case]
-    filtered_case_list = filterDate(case_list, dates)
+            case_list.append(case)
 
-    #generally opened
+    for case in case_list:
+        if case.status == 'פתוח':
+            result["totalOpenCases"] += 1
 
-    monthly_sum_events += [count]
+    case_list = filterDate(case_list, dates, date_format='%d-%m-%Y')
 
-    count = 0
+    for case in case_list:
+        if case.received_or_go == 'קבלת אירוע':
+            result["areasTreatedBySapper"] += 1
+    #
 
-    # opened cases this month
-    for case in filtered_case_list:
-        if case.status == 'open':
-            count += 1
-    monthly_sum_events += [count]
+    for case in case_list:
+        if case.event_characteristic == 'weapons':
+            result["eventsByCategories_count_weapons"] += 1
+        if case.event_characteristic == 'explosive_device':
+            result["eventsByCategories_count_explosive_device"] += 1
+        if case.event_characteristic == 'fireworks':
+            result["eventsByCategories_count_fireworks"] += 1
+        if case.event_characteristic == 'query':
+            result["eventsByCategories_count_query"] += 1
+    result["totalNoneAreaEvents"] = result["eventsByCategories_count_query"]
 
-    # closed cases this month
-    closed_cases = len(filtered_case_list) - count
-    monthly_sum_events += [closed_cases]
+    if get_dict:
+        return result
+    return JsonResponse(result, safe=False)
 
-    count = 0
-    # events without area
-    for case in filtered_case_list:
-        if case.event_location == 'default':
-            count += 1
-    monthly_sum_events += [count]
-
-    # total evetns this month
-    monthly_sum_events += [len(filtered_case_list)]
-
-    count_weapons = 0
-    count_explosive_device = 0
-    count_fireworks = 0
-    count_query = 0
-    for case in filtered_case_list:
-        if case.event_type == 'weapons':
-            count_weapons += 1
-        if case.event_type == 'explosive_device':
-            count_explosive_device += 1
-        if case.event_type == 'fireworks':
-            count_fireworks += 1
-        if case.event_type == 'query':
-            count_query += 1
-    num_of_event_types = [count_weapons,count_explosive_device,count_fireworks,count_query]
-    monthly_sum_events += [num_of_event_types]
-
-    monthly_sum_events += [0]
-    monthly_sum_events += [0]
-
-    return monthly_sum_events
 
 def yearly_sum(msg):
-    date_list = list(msg.split('/'))
-    year = date_list[2]
-    year = year[6:]
-    jan_sum = monthly_sum({'min_date': ('01/01/' + year), 'max_date': ('31/01/' + year)})  # with /
-    feb_sum = monthly_sum({'min_date': ('01/02/' + year), 'max_date': ('28/02/' + year)})
-    mar_sum = monthly_sum({'min_date': ('01/03/' + year), 'max_date': ('31/03/' + year)})
-    apr_sum = monthly_sum({'min_date': ('01/04/' + year), 'max_date': ('30/04/' + year)})
-    may_sum = monthly_sum({'min_date': ('01/05/' + year), 'max_date': ('31/05/' + year)})
-    jun_sum = monthly_sum({'min_date': ('01/06/' + year), 'max_date': ('30/06/' + year)})
-    jul_sum = monthly_sum({'min_date': ('01/07/' + year), 'max_date': ('31/07/' + year)})
-    aug_sum = monthly_sum({'min_date': ('01/08/' + year), 'max_date': ('31/08/' + year)})
-    sep_sum = monthly_sum({'min_date': ('01/09/' + year), 'max_date': ('30/09/' + year)})
-    oct_sum = monthly_sum({'min_date': ('01/10/' + year), 'max_date': ('31/10/' + year)})
-    nov_sum = monthly_sum({'min_date': ('01/11/' + year), 'max_date': ('30/11/' + year)})
-    dec_sum = monthly_sum({'min_date': ('01/12/' + year), 'max_date': ('31/12/' + year)})
-    general_list = [jan_sum, feb_sum, mar_sum, apr_sum, may_sum, jun_sum, jul_sum, aug_sum, sep_sum, oct_sum, nov_sum,
-                    dec_sum]
-    yearly_sum_events = []
+    year = msg[-4:]
+    print("start yearly_sum", year)
+    yearly_result = monthly_sum({'min_date': ('01-01-' + year), 'max_date': ('31-12-' + year)},get_dict=True)
+    yearly_result_list = []
+    index = 0
+    for key in yearly_result.keys():
+        if index == 0:
+            index+=1
+        if index == 1:
+            yearly_result_list.append(0)
+            index += 1
+        yearly_result_list.append(yearly_result[key])
+    return JsonResponse(yearly_result_list, safe=False)
 
-    count = 0
 
-    for num in range(len(jan_sum) - 1):
-        for sum in general_list:
-            count += sum[num]
-        yearly_sum_events += [count]
-        count = 0
-    yearly_sum_events += jan_sum[len(jan_sum) - 2]
-
-    categ_list = []
-
-    for i in range(4):
-        count = 0
-        for sum in general_list:
-            count += sum[len(sum) - 1][i]
-        categ_list += [count]
-
-    yearly_sum_events += [categ_list]
-
-    yearly_sum_events += [0]
-    yearly_sum_events += [0]
-
-    return yearly_sum_events
-
-#@csrf_exempt
+@csrf_exempt
 def general_sum(request):
-    print("start general_sum")
-    print("request",request)
-    print("request.path",request.path)
     msg = request.path
     data_list = []
+    new_msg = list(msg.split('/'))
+    dates = new_msg[len(new_msg) - 1]
     if 'month' in msg:
-        new_msg = list(msg.split('/'))
-
-        msg = new_msg[len(new_msg) - 1]
-        print("new msg",msg)
-        splited_msg = list(msg.split('|'))
+        splited_msg = list(dates.split('|'))
         dates_data = {'min_date': splited_msg[0], 'max_date': splited_msg[1]}
         data_list = monthly_sum(dates_data)
     elif 'year' in msg:
-        data_list = yearly_sum(msg)
+        data_list = yearly_sum(dates)
 
     return data_list
+
+
+def search_tags(cases, field, data):
+    data_values = data.split(",")
+    res = []
+    print("cases,field,data", cases, field, data)
+    for case in cases:
+        all_in_case = True
+        for data_value in data_values:
+            search_value = {"weapon_name": case.weapon_name,
+                            "explosive_device_means": case.explosive_device_means,
+                            "explosive_device_operating_system": case.explosive_device_operating_system,
+                            "explosive_device_spray": case.explosive_device_spray,
+                            "explosive_device_camouflage": case.explosive_device_camouflage}
+            if data_value not in case.weapon_name:
+                all_in_case = False
+                break
+        if all_in_case:
+            res.append(case)
+    print("res", res)
+    return res
+
 
 @csrf_exempt
 def queryHandler(request):
@@ -218,23 +196,28 @@ def queryHandler(request):
         cases = cases.filter(sender_name=query_data['sender_name'])
 
     if "" != query_data['weapon_name']:
-        cases = cases.filter(weapon_name=query_data['weapon_name'])
+        cases = search_tags(cases, "weapon_name",
+                            query_data['weapon_name'])  # cases.filter(weapon_name=query_data['weapon_name'])
     if "" != query_data['explosive_device_material']:
         cases = cases.filter(explosive_device_material=query_data['explosive_device_material'])
     if "" != query_data['explosive_device_means']:
-        cases = cases.filter(explosive_device_means=query_data['explosive_device_means'])
+        cases = search_tags(cases, "explosive_device_means", query_data['explosive_device_means'])
+        # cases = cases.filter(explosive_device_means=query_data['explosive_device_means'])
     if "" != query_data['weapon_options']:
         cases = cases.filter(weapon_options=query_data['weapon_options'])
     if "" != query_data['explosive_device_operating_system']:
-        cases = cases.filter(explosive_device_operating_system=query_data['explosive_device_operating_system'])
+        cases = search_tags(cases, "explosive_device_operating_system", query_data['explosive_device_operating_system'])
+        # cases = cases.filter(explosive_device_operating_system=query_data['explosive_device_operating_system'])
     if "" != query_data['weapon_mark']:
         cases = cases.filter(weapon_mark=query_data['weapon_mark'])
     if "" != query_data['explosive_device_spray']:
-        cases = cases.filter(explosive_device_spray=query_data['explosive_device_spray'])
+        cases = search_tags(cases, "explosive_device_spray", query_data['explosive_device_spray'])
+        # cases = cases.filter(explosive_device_spray=query_data['explosive_device_spray'])
     if "" != query_data['weapon_color']:
         cases = cases.filter(weapon_color=query_data['weapon_color'])
     if "" != query_data['explosive_device_camouflage']:
-        cases = cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
+        cases = search_tags(cases, "explosive_device_camouflage", query_data['explosive_device_camouflage'])
+        # cases = cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
     if "" != query_data['weapon_additional_characteristics']:
         cases = cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
     cases_serializer = CaseSerializer(cases, many=True)
@@ -256,6 +239,7 @@ def caseApi(request, case_name=""):
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
         case_data["internal_number"] = idApi('case')
+        print("case_data['internal_number']", case_data["internal_number"])
         create_default_values(case_data, CaseSerializer)
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
@@ -264,7 +248,7 @@ def caseApi(request, case_name=""):
             print("Added Successfully")
             return JsonResponse(str(case_data["internal_number"]), safe=False)
         else:
-            print("error",department_serializer.errors)
+            print("error", department_serializer.errors)
         return JsonResponse("Failed to Addd.", safe=False)
 
     elif request.method == 'PUT':
@@ -311,7 +295,6 @@ def WriteToExcelExb(exhibit_data):
     worksheet_s.write(0, 12, ugettext("מעבדה"), header)
     worksheet_s.write(0, 13, ugettext("תוצאות הבדיקה"), header)
 
-
     for idx, data in enumerate(exhibit_data):
         row = 1 + idx
         worksheet_s.write_string(row, 0, data['internal_number'])
@@ -332,6 +315,7 @@ def WriteToExcelExb(exhibit_data):
     xlsx_data = output.getvalue()
     # xlsx_data contains the Excel file
     return xlsx_data
+
 
 @csrf_exempt
 def exhibitDwnld(request):
@@ -416,6 +400,7 @@ def WriteToExcelCase(exhibit_data):
     # xlsx_data contains the Excel file
     return xlsx_data
 
+
 @csrf_exempt
 def caseDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')
@@ -423,9 +408,6 @@ def caseDwnld(request):
     xlsx_data = WriteToExcelCase(Case.objects.values())
     response.write(xlsx_data)
     return response
-
-
-
 
 
 # given a case internal number, returns all exhibits related to it
@@ -464,7 +446,8 @@ def exhibitsApi(request, exhibit_number=""):
     elif request.method == 'PUT':
         exhibit_data = JSONParser().parse(request)
         create_default_values(exhibit_data, ExhibitsSerializer)
-        exhibit = Exhibits.objects.get(internal_number = exhibit_data["internal_number"] ,exhibit_number=exhibit_data['exhibit_number'])
+        exhibit = Exhibits.objects.get(internal_number=exhibit_data["internal_number"],
+                                       exhibit_number=exhibit_data['exhibit_number'])
         exhibits_serializer = ExhibitsSerializer(exhibit, data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
@@ -477,16 +460,16 @@ def exhibitsApi(request, exhibit_number=""):
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 
-def idApi(type):
+def idApi(type, internal_number=None, transferred_to_lab=None):
     id = ''
     if type == "exhibit":
-        #get the last exhibit number +1
-        if Exhibits.objects.count() == 0:
+        # get the last exhibit number +1
+        exhibit = Exhibits.objects.all().filter(internal_number=internal_number).order_by('-exhibit_number')
+        if len(exhibit) == 0:
             id = "1"
             return id
         else:
-            exhibit = Exhibits.objects.all().order_by('-exhibit_number')
-            id = int(exhibit[0].exhibit_number) + 1
+            id = max([float(e.exhibit_number) for e in exhibit]) + 1
             return id
     elif type == "case":
         if Case.objects.count() == 0:
@@ -494,16 +477,17 @@ def idApi(type):
             return id
         else:
             case = Case.objects.all().order_by('-internal_number')
-            #TODO take year into consideration
-            id = float(case[0].internal_number) + 1
+            # TODO take year into consideration
+            id = max([float(c.internal_number) for c in case]) + 1
             return id
     elif type == "samples":
-        if Samples.objects.count() == 0:
+        samples = Samples.objects.all().filter(internal_number=internal_number,
+                                               transferred_to_lab=transferred_to_lab).order_by('-sample_number')
+        if len(samples) == 0:
             id = "1"
             return id
         else:
-            samples = Samples.objects.all().order_by('-sample_number')
-            id = int(samples[0].sample_number) + 1
+            id = max([float(s.sample_number) for s in samples]) + 1
             return id
 
 
@@ -511,9 +495,10 @@ def idApi(type):
 def sampleQuery(request):
     query_data = JSONParser().parse(request)
     samples = Samples.objects.all()
-    samples.filter(internal_number=query_data['internal_number'],exhibit_id=query_data['exhibit_id'])
+    samples.filter(internal_number=query_data['internal_number'], exhibit_id=query_data['exhibit_id'])
     samples_serializer = SamplesSerializer(samples, many=True)
     return JsonResponse(samples_serializer.data, safe=False)
+
 
 @csrf_exempt
 def samplesApi(request, sample_id=""):
@@ -522,14 +507,14 @@ def samplesApi(request, sample_id=""):
         samples_serializer = SamplesSerializer(samples_value, many=True)
         return JsonResponse(samples_serializer.data, safe=False)
     elif request.method == 'POST':
-            samples_data = JSONParser().parse(request)
-            samples_data["sample_number"] = idApi('samples')
-            create_default_values(samples_data, SamplesSerializer)
-            department_serializer = SamplesSerializer(data=samples_data)
-            if department_serializer.is_valid():
-                department_serializer.save()
-                return JsonResponse(str(samples_data["sample_number"]), safe=False)
-            return JsonResponse("Failed to Add.", safe=False)
+        samples_data = JSONParser().parse(request)
+        samples_data["sample_number"] = idApi('samples')
+        create_default_values(samples_data, SamplesSerializer)
+        department_serializer = SamplesSerializer(data=samples_data)
+        if department_serializer.is_valid():
+            department_serializer.save()
+            return JsonResponse(str(samples_data["sample_number"]), safe=False)
+        return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
         department_data = JSONParser().parse(request)
@@ -560,10 +545,11 @@ def getSampleList(internal_num):
     samples = Samples.objects.filter(case_id=internal_num).values()
     list = ""
     for index, sample in enumerate(samples):
-        print("start index",index,"and sample",sample["sample_id"])
-        list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id'])\
+        print("start index", index, "and sample", sample["sample_id"])
+        list += str(sample["sample_id"]) + ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id']) \
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
-                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample[
+                    "bag_num"] + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
     return list
 
 
@@ -576,11 +562,10 @@ def downloadFile(request):
         docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
         docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'])
         filtered = Case.objects.filter(internal_number=docx_data['internal_number'])
-        #to_update = filtered.values("reference_type", "reference_number", "event_description")
-        print("filtered",filtered)
-        #docx_data.update() # TODO update
+        # to_update = filtered.values("reference_type", "reference_number", "event_description")
+        print("filtered", filtered)
+        # docx_data.update() # TODO update
         file = generate_docx(docx_data)  # create file binary stream
         resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
         return resp
     return Http404("Not Get Request")
-

@@ -101,10 +101,10 @@ export class CasesService {
         label: 'מאפיין האירוע',
         required: true,
         options: [
-          { key: 'אמל"ח', value: 'אמל"ח' },
-          { key: 'מטען חבלה', value: 'מטען חבלה' },
-          { key: 'זיקוקין', value: 'זיקוקין' },
-          { key: 'בדיקות/שאילתה', value: 'בדיקות/שאילתה' },
+          { key: 'weapons', value: 'אמל"ח' },
+          { key: 'explosive_device', value: 'מטען חבלה' },
+          { key: 'fireworks', value: 'זיקוקין' },
+          { key: 'query', value: 'בדיקות/שאילתה' },
         ],
       }),
       new DatePickerField({
@@ -214,6 +214,15 @@ export class CasesService {
         type: 'text',
       }),
 
+      new DropdownField({
+        key: 'helping',
+        label: 'סיוע',
+        required: true,
+        options: [
+          { key: 'כן', value: 'כן' },
+          { key: 'לא', value: 'לא' },
+        ],
+      }),
 
       new ButtonField({
         key:'navigator',

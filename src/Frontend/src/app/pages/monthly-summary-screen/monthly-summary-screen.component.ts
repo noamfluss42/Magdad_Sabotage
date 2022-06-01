@@ -1,14 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { first, Observable } from 'rxjs';
-import { FormFieldBase } from '../../core/utils/form-field-base';
-import { SummaryService } from 'src/app/core/services/summary.service';
-import { FormGroup } from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import {Component, Inject, OnInit} from '@angular/core';
+import {first, Observable} from 'rxjs';
+import {FormFieldBase} from '../../core/utils/form-field-base';
+import {SummaryService} from 'src/app/core/services/summary.service';
+import {FormGroup} from '@angular/forms';
+import {DatePipe} from '@angular/common';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-monthly-summary-screen',
   templateUrl: './monthly-summary-screen.component.html',
@@ -26,7 +27,10 @@ export class MonthlySummaryScreenComponent implements OnInit {
   areasTreatedBySapper: number = 4;
   totalCheckedAreas: number = 5;
   totalMonthlyEvents: number = 6;
-  eventsByCategories: number = 7;
+  eventsByCategories_count_weapons: number = 7;
+  eventsByCategories_count_explosive_device: number = 8;
+  eventsByCategories_count_fireworks: number = 9;
+  eventsByCategories_count_query: number = 10;
 
   constructor(
     private service: SummaryService,
@@ -39,17 +43,29 @@ export class MonthlySummaryScreenComponent implements OnInit {
 
     let result =
       service.getMonthlySummary(`${fromDate}|${toDate}`)
-        .subscribe((res: any) => (this.monthlySummary = res));
-
+        .subscribe((res: any) => (this.monthlySummary = [res.totalOpenCases,
+                                                              res.monthlyOpenedCases,
+                                                              res.monthlyClosedCases,
+                                                              res.totalNoneAreaEvents,
+                                                              res.areasTreatedBySapper,
+                                                              res.totalCheckedAreas,
+                                                              res.totalMonthlyEvents,
+                                                              res.eventsByCategories_count_weapons,
+                                                              res.eventsByCategories_count_explosive_device,
+                                                              res.eventsByCategories_count_fireworks,
+                                                              res.eventsByCategories_count_query]));
     this.monthlySummary = [
-      "Data1",
-      "Data2",
-      "Data3",
-      "Data4",
-      "Data5",
-      "Data6",
-      "Data7",
-      "Data8",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
     ]
 
   }

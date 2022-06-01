@@ -20,6 +20,8 @@ class Case(models.Model):
     event_location = models.CharField(max_length=100)
     event_description = models.CharField(max_length=256)
     sender_name = models.CharField(max_length=50)
+    helping = models.CharField(max_length=50)
+
 
     weapon_name = models.CharField(max_length=256)
     explosive_device_material = models.CharField(max_length=256)
@@ -50,6 +52,7 @@ class CaseI(models.Model):
     event_location = models.CharField(max_length=100)
     event_description = models.CharField(max_length=256)
     sender_name = models.CharField(max_length=50)
+    helping = models.CharField(max_length=50)
 
     weapon_name = models.CharField(max_length=256)
     explosive_device_material = models.CharField(max_length=256)

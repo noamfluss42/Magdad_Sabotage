@@ -148,23 +148,30 @@ export class ExhibitsService {
         required:true,
       }),
       new TextboxField({
-        key:"investigator_name",
-        label:"שם חוקר",
-        required:true,
-        type:'text',
-      }),
-      new TextboxField({
-        key:"lab_name",
-        label:"מעבדה",
-        required:false,
-        type:'text',
-      }),
-      new TextboxField({
         key:"result",
         label:"תוצאות בדיקה",
         required:false,
         type:'text',
       }),
+      new TextboxField({
+        key:"investigator_name",
+        label:"שם חוקר",
+        required:true,
+        type:'text',
+      }),
+      new DropdownField({
+        key:"lab_name",
+        label:"מעבדה",
+        required:false,
+        type:'text',
+        options: [
+          { key: 'דרום', value: 'דרום' },
+          { key: 'תל אביב', value: 'ת"א' },
+          { key: 'צפון', value: 'צפון' },
+          { key: 'מטא"ר', value: 'מטא"ר' },
+        ],
+      }),
+
       //new ButtonField({
       //  key: 'test',
       //  label: 'תנועת דגימות',

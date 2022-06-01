@@ -11,7 +11,11 @@
   <p>{{ yearlySummary[areasTreatedBySapperYearly] }} :זירות שטופלו ע"י חבלן</p>
   <p>{{ yearlySummary[totalYearlyCheckedAreas] }} :סה"כ יציאה לזירות אירוע</p>
   <p>{{ yearlySummary[totalYearlyEvents] }} :סה"כ אירועים השנה</p>
-  <p>{{ yearlySummary[eventsByCategoriesYearly] }} :פירוט אירועים עפ"י קטגוריות</p>
+  <p><b>פירוט אירועים עפ"י קטגוריות</b></p>
+  <p>{{ yearlySummary[eventsByCategories_count_weaponsYearly] }} :אמל"ח</p>
+  <p>{{ yearlySummary[eventsByCategories_count_explosive_deviceYearly] }} :מטען חבלה</p>
+  <p>{{ yearlySummary[eventsByCategories_count_fireworksYearly] }} :זיקוקין</p>
+  <p>{{ yearlySummary[eventsByCategories_count_queryYearly] }} :בדיקות/שאילתות</p>
 </div>
 
 <div *ngIf="month != 0">
@@ -23,7 +27,11 @@
   <p>{{ monthlySummary[areasTreatedBySapper] }} :זירות שטופלו ע"י חבלן</p>
   <p>{{ monthlySummary[totalCheckedAreas] }} :סה"כ יציאה לזירות אירוע</p>
   <p>{{ monthlySummary[totalMonthlyEvents] }} :סה"כ אירועים החודש</p>
-  <p>{{ monthlySummary[eventsByCategories] }} :פירוט אירועים עפ"י קטגוריות</p>
+  <p><b>פירוט אירועים עפ"י קטגוריות</b></p>
+  <p>{{ monthlySummary[eventsByCategories_count_weapons] }} :אמל"ח</p>
+  <p>{{ monthlySummary[eventsByCategories_count_explosive_device] }} :מטען חבלה</p>
+  <p>{{ monthlySummary[eventsByCategories_count_fireworks] }} :זיקוקין</p>
+  <p>{{ monthlySummary[eventsByCategories_count_query] }} :בדיקות/שאילתות</p>
 </div>
 
 <div>

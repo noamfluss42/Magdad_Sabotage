@@ -138,10 +138,10 @@ export class SearchCaseService {
         label: 'מאפיין האירוע',
 
         options: [
-          { key: 'אמל"ח', value: 'אמל"ח' },
-          { key: 'מטען חבלה', value: 'מטען חבלה' },
-          { key: 'זיקוקין', value: 'זיקוקין' },
-          { key: 'בדיקות/שאילתה', value: 'בדיקות/שאילתה' },
+          { key: 'weapons', value: 'אמל"ח' },
+          { key: 'explosive_device', value: 'מטען חבלה' },
+          { key: 'fireworks', value: 'זיקוקין' },
+          { key: 'query', value: 'בדיקות/שאילתה' },
         ],
       }),
       new DatePickerField({
