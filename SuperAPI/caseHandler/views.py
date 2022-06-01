@@ -1,3 +1,4 @@
+from wsgiref.util import request_uri
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -245,6 +246,9 @@ def queryHandler(request):
 @csrf_exempt
 def caseApi(request, case_name=""):
     if request.method == 'GET':
+        print(request)
+        case_data = JSONParser().parse(request)
+        print(case_data)
         cases = Case.objects.all()
         cases.annotate(index=Value(''))
         for row_num, case in enumerate(cases):
@@ -432,11 +436,9 @@ def caseDwnld(request):
 # internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
 def exhibitQuery(request):
-    print(request)
-    query_data = JSONParser().parse(request)
-    print(query_data)
+    print("test1")
     exhibits = Exhibits.objects.all()
-    exhibits.filter(internal_number=query_data['internal_number'])
+    exhibits = exhibits.filter(internal_number=exhibits['internal_number'])
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
     return JsonResponse(exhibits_serializer.data, safe=False)
 
@@ -449,6 +451,7 @@ def exhibitsApi(request, exhibit_number=""):
         for row_num, exh in enumerate(exhibit):
             exh.index = row_num
         exhibits_serializer = ExhibitsSerializerI(exhibit, many=True)
+
         return JsonResponse(exhibits_serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -511,7 +514,7 @@ def idApi(type):
 def sampleQuery(request):
     query_data = JSONParser().parse(request)
     samples = Samples.objects.all()
-    samples.filter(internal_number=query_data['internal_number'],exhibit_id=query_data['exhibit_id'])
+    samples = samples.filter(internal_number=query_data['internal_number'],exhibit_id=query_data['exhibit_id'])
     samples_serializer = SamplesSerializer(samples, many=True)
     return JsonResponse(samples_serializer.data, safe=False)
 

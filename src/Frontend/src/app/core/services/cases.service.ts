@@ -17,8 +17,8 @@ export class CasesService {
   constructor(private http: HttpClient,private router: Router) {}
 
   // return Observable of Case[]
-  getCase() {
-    return this.http.get<Case[]>(this.caseURL);
+  getCase(case_: Case) {
+    return this.http.get<Case[]>(`${this.caseURL}/${case_.internal_number.split('.')[0]}`);
   }
   /* POST: add new Case do database */
 
@@ -29,13 +29,6 @@ export class CasesService {
         'Content-Type': 'application/json',
       }),
     });
-  }
-
-  /* GET case fields that contains search term */
-  searchCaseFields(term: string): Observable<Case[]> {
-    term = term.trim();
-    const options = term ? { params: new HttpParams().set('name', term) } : {};
-    return this.http.get<Case[]>(this.caseURL, options);
   }
 
   /* DELETE: delete case by id on the server.*/

@@ -2,7 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Constants } from '../constants/constants';
-import { ButtonField, DatePickerField, DropdownField, TextboxField } from '../utils/fields';
+import {
+  ButtonField,
+  DatePickerField,
+  DropdownField,
+  TextboxField,
+} from '../utils/fields';
 import { FormFieldBase } from '../utils/form-field-base';
 import { Exhibit, TableColumn } from '../utils/types';
 
@@ -11,12 +16,20 @@ import { Exhibit, TableColumn } from '../utils/types';
 })
 export class ExhibitsService {
   exhibitsURL = `${Constants.API_URL}/exhibits`;
+  exhibitsURLQuery = `${Constants.API_URL}/get_exhibits_query`;
   public exhibit_number: string;
 
   constructor(private http: HttpClient, private router: Router) {
     this.exhibit_number = '';
   }
-
+  // get this year
+  getFullYear(): number {
+    const date = new Date();
+    return date.getFullYear();
+  }
+  getShortYear(): number {
+    return this.getFullYear() - 2000;
+  }
   /* GET: get exhibit by bag_number from the server */
   getExhibit(exhibit_number: string) {
     console.log(exhibit_number);
@@ -28,7 +41,8 @@ export class ExhibitsService {
   /* PUT: edit exhibit by bag_number on the server */
   editExhibit(exhibit: Exhibit) {
     console.log(exhibit);
-    return this.http.put<Exhibit>(`${this.exhibitsURL}/${exhibit.exhibit_number}`,
+    return this.http.put<Exhibit>(
+      `${this.exhibitsURL}/${exhibit.exhibit_number}`,
       exhibit,
       {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -53,12 +67,13 @@ export class ExhibitsService {
   // }
 
   getExhibitsFromCase(case_internal_number: string) {
-    return this.http.get<Exhibit>(`${this.exhibitsURL}/query${case_internal_number}`, {
-      responseType: 'json',
-    });
+    return this.http.get<Exhibit>(
+      `${this.exhibitsURLQuery}/${case_internal_number}`,
+      {
+        responseType: 'json',
+      }
+    );
   }
-
-
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
@@ -95,75 +110,75 @@ export class ExhibitsService {
         type: 'text',
       }),
       new DropdownField({
-        key:'explosive',
-        label:'חנ"פ',
+        key: 'explosive',
+        label: 'חנ"פ',
         required: false,
         options: [
-          { key: "yes", value: "כן" },
-          { key: "no", value: "לא" },
-        ]
+          { key: 'yes', value: 'כן' },
+          { key: 'no', value: 'לא' },
+        ],
       }),
       new TextboxField({
-        key:'explosive_weight',
-        label:'משקל חנ"פ',
-        required:false,
-        type:'text',
+        key: 'explosive_weight',
+        label: 'משקל חנ"פ',
+        required: false,
+        type: 'text',
       }),
       new DropdownField({
-        key:"tnt_equivalent",
-        label:"סוג חומר נפץ",
-        required:false,
+        key: 'tnt_equivalent',
+        label: 'סוג חומר נפץ',
+        required: false,
         options: [
-          { key: "RDX", value: "RDX" },
-          { key: "TNT", value: "TNT" },
-          { key: "COMP-B", value: "COMP-B" },
-          { key: "HMX", value: "HMX" },
-          { key: "SMTEX", value: "סמטקס" },
-          { key: "Tn", value: "טן" },
-          { key: "TATP", value: "TATP" },
-          { key: "Nitroglycerin", value: "ניטרו גליצירין" },
-          { key: "spear", value: "חנית" },
-          { key: "ANFO", value: "ANFO" },
-          { key: "C-4", value: "C-4" },
-          { key: "A-5", value: "A-5" },
-          { key: "Octol", value: "אוקטול" },
-          { key: "Urea-nitrate", value: "אוריאה ניטראט" },
-          { key: "Data-sailing", value: "דטה שיט" },
-          { key: "Mercury-roars", value: "כספית רועמת" },
-          { key: "A-5", value: "A-5" },
-          { key: "A-3", value: "A-3" },
-          { key: "VH-10", value: "VH-10" },
-          { key: "PX", value: "PX" },
-          { key: "Nitrocellulose", value: "ניטרוצלולוז" },
-        ]
+          { key: 'RDX', value: 'RDX' },
+          { key: 'TNT', value: 'TNT' },
+          { key: 'COMP-B', value: 'COMP-B' },
+          { key: 'HMX', value: 'HMX' },
+          { key: 'SMTEX', value: 'סמטקס' },
+          { key: 'Tn', value: 'טן' },
+          { key: 'TATP', value: 'TATP' },
+          { key: 'Nitroglycerin', value: 'ניטרו גליצירין' },
+          { key: 'spear', value: 'חנית' },
+          { key: 'ANFO', value: 'ANFO' },
+          { key: 'C-4', value: 'C-4' },
+          { key: 'A-5', value: 'A-5' },
+          { key: 'Octol', value: 'אוקטול' },
+          { key: 'Urea-nitrate', value: 'אוריאה ניטראט' },
+          { key: 'Data-sailing', value: 'דטה שיט' },
+          { key: 'Mercury-roars', value: 'כספית רועמת' },
+          { key: 'A-5', value: 'A-5' },
+          { key: 'A-3', value: 'A-3' },
+          { key: 'VH-10', value: 'VH-10' },
+          { key: 'PX', value: 'PX' },
+          { key: 'Nitrocellulose', value: 'ניטרוצלולוז' },
+        ],
       }),
       new DatePickerField({
-        key:"received_date",
-        label:"תאריך הכנסה",
-        required:true,
+        key: 'received_date',
+        label: 'תאריך הכנסה',
+        required: true,
       }),
       new DatePickerField({
-        key:"handle_date",
-        label:"תאריך טיפול",
-        required:true,
+        key: 'handle_date',
+        label: 'תאריך טיפול',
+        required: true,
       }),
       new TextboxField({
-        key:"investigator_name",
-        label:"שם חוקר",
-        required:true,
-        type:'text',
+        key: 'investigator_name',
+        label: 'שם חוקר',
+        required: true,
+        type: 'text',
       }),
       new TextboxField({
-        key:"lab_name",
-        label:"מעבדה",
-        required:false,
-        type:'text',
+        key: 'lab_name',
+        label: 'מעבדה',
+        required: false,
+        type: 'text',
       }),
       new TextboxField({
-        key:"result",
-        label:"תוצאות בדיקה",
-        required:false,
-        type:'text',
+        key: 'result',
+        label: 'תוצאות בדיקה',
+        required: false,
+        type: 'text',
       }),
       //new ButtonField({
       //  key: 'test',
@@ -172,21 +187,17 @@ export class ExhibitsService {
       //  type: 'button',
       //}),
 
-
-
-
       new ButtonField({
         key: 'sample_navigation',
         label: 'תנועת דגימות',
         type: 'button',
-        onClick: (exhibit:Exhibit) => {
+        onClick: (exhibit: Exhibit) => {
           console.log(exhibit);
           // local storage exhibit
-          localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
+          localStorage.setItem('exhibit_samples', JSON.stringify(exhibit));
           this.router.navigate(['/sampleNavigator']);
-
-      }}),
-
+        },
+      }),
     ];
     return questions;
   }
@@ -282,12 +293,11 @@ export class ExhibitsService {
         onClick: (exhibit: Exhibit) => {
           console.log(exhibit);
           // local storage exhibit
-          localStorage.setItem("exhibit",JSON.stringify(exhibit));
-          localStorage.removeItem("case");
+          localStorage.setItem('exhibit', JSON.stringify(exhibit));
+          localStorage.removeItem('case');
           this.router.navigate(['/editExhibit']);
         },
       },
-
     ];
   }
 }

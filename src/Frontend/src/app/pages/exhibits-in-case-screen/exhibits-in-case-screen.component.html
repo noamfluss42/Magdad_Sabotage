@@ -1,5 +1,11 @@
-<app-dynamic-table
-  [columns]="tableColumns"
-  [tableData]="tableData"
-  
-></app-dynamic-table>
+<!-- ng template if length is more than 0 -->
+<!-- <div *ngIf="this.length != 0; then valid; else noExhibits"></div> -->
+
+<!-- <ng-template #valid> -->
+  <app-dynamic-table>
+    [columns]="tableColumns" [tableData]="tableData"</app-dynamic-table
+  >
+<!-- </ng-template>
+
+<ng-template #noExhibits>
+  <h1>לא קיימים מוצגים בתיק זה</h1> -->

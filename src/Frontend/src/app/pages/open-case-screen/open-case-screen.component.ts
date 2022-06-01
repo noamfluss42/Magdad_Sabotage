@@ -56,19 +56,13 @@ export class OpenCaseScreenComponent implements OnInit {
     // merge from.getRawValue data with tags
     const data = { ...savedCase, ...formRawValue };
     console.log(data);
-    this.searchService.postQuery(data).subscribe((res: any) => {
-      //check if case exist
-      if (res.length > 0) {
-        this.service.updateCase(data).subscribe((res: any) => {
-          cb(res);
-        });
-      } else {
-        //create case
-        this.service.postCase(data).subscribe((res: any) => {
-          cb(res);
-        });
-      }
+
+    this.service.postCase(data).subscribe((res: any) => {
+      cb(res);
     });
+
+    //check if case exist
+
     this.sharedData.addToData(data);
     localStorage.setItem('case', JSON.stringify(data));
 
@@ -83,7 +77,7 @@ export class OpenCaseScreenComponent implements OnInit {
     // get tags values as json
 
     const formRawValue = {
-      ...{internal_number: '' },
+      ...{ internal_number: '' },
       ...form.getRawValue(),
       ...{
         weapon_name: '',
@@ -133,7 +127,7 @@ export class OpenCaseScreenComponent implements OnInit {
         this.service.postCase(formRawValue).subscribe((res: any) => {
           cb(res);
           this.internal_number = res;
-          alert( " תיק"+ this.internal_number + "נפתח בהצלחה "); //TODO for noam
+          alert(' תיק' + this.internal_number + 'נפתח בהצלחה '); //TODO for noam
           formRawValue.internal_number = this.internal_number;
           localStorage.setItem('case', JSON.stringify(formRawValue));
         });
@@ -144,5 +138,4 @@ export class OpenCaseScreenComponent implements OnInit {
   generateDocxPage() {
     this.router.navigate(['/genLabForm']);
   }
-
 }
