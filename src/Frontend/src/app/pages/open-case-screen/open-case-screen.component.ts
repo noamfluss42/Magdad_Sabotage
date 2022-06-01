@@ -30,6 +30,11 @@ export class OpenCaseScreenComponent implements OnInit {
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.internal_number = '';
+
+    let value = `${localStorage.getItem("value")}`;
+    var values = Array.from(this.fields$.values());
+    values[12]['value'] = value == "null" ? "" : value;
+
   }
 
   ngOnInit(): void {}
@@ -117,6 +122,14 @@ export class OpenCaseScreenComponent implements OnInit {
 
   generateDocxPage() {
     this.router.navigate(['/genLabForm']);
+  }
+
+  autoFill() {
+    localStorage.setItem("value", "work!");
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 
 }
