@@ -241,7 +241,10 @@ def caseApi(request, case_name=""):
     elif request.method == 'POST':
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
-        case_data["internal_number"] = idApi('case')
+        print("case_data['internal_number']",case_data['internal_number'])
+        if case_data['internal_number'] == "default":
+            return
+        #case_data["internal_number"] = idApi('case')
         create_default_values(case_data, CaseSerializer)
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
@@ -257,8 +260,8 @@ def caseApi(request, case_name=""):
         department_data = JSONParser().parse(request)
         create_default_values(department_data, CaseSerializer)
         old_department = Case.objects.get(internal_number=department_data['internal_number'])
-        if old_department["status"] == 'פתוח' and (
-                department_data["status"] == 'סגור לללא חווד' or department_data["status"] == 'סגור חווד'):
+        if old_department.status == 'פתוח' and (
+                department_data.status == 'סגור לללא חווד' or department_data.status == 'סגור חווד'):
             today = date.today()
             department_data["status_closed_date"] = today.strftime("%d-%m-%Y")
         department_serializer = CaseSerializer(old_department, data=department_data)
@@ -583,3 +586,8 @@ def downloadFile(request):
         file = generate_docx(docx_data)  # create file binary stream
         return FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
     return Http404("Not Get Request")
+
+@csrf_exempt
+def generate_id(request):
+    print("request",request,request.path)
+    return JsonResponse(idApi("case"), safe=False)

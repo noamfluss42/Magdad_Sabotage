@@ -17,6 +17,7 @@ export class OpenCaseScreenComponent implements OnInit {
   tags$: FormFieldBase<any>[];
   form!: FormGroup;
   internal_number: string;
+  saved_non_tags: string;
 
   constructor(
     private service: CasesService,
@@ -25,35 +26,45 @@ export class OpenCaseScreenComponent implements OnInit {
     private fcs: FieldControlService,
     private router: Router
   ) {
+
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.internal_number = '';
+    this.saved_non_tags = '';
+
+    // Converts fields into array and auto fills case number.
+
   }
 
   ngOnInit(): void {}
 
+  generateId = (): void => {
+    this.service.getCaseId().subscribe((res: any) => {
+      this.internal_number = res;
+      alert("this.internal_number"+this.internal_number + "hjhj");
+    });
+  };
+
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
-
+    if (this.internal_number == "") {
+      alert("press first on" + "צור מספר תיק");
+      return;
+    }
+    if (this.saved_non_tags == ""){
+      alert("save first tags");
+      return;
+    }
+    alert("this.internal_number"+this.internal_number + "onSubmit");
     const savedCase = JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
     const data = { ...savedCase, ...formRawValue };
     console.log(data);
-    this.searchService.postQuery(data).subscribe((res: any) => {
-      //check if case exist
-      if (res.length > 0) {
-        this.service.updateCase(data).subscribe((res: any) => {
+    this.service.updateCase(data).subscribe((res: any) => {
           cb(res);
         });
-      } else {
-        //create case
-        this.service.postCase(data).subscribe((res: any) => {
-          cb(res);
-        });
-      }
-    });
     this.sharedData.addToData(data);
     localStorage.setItem('case', JSON.stringify(data));
 
@@ -61,6 +72,11 @@ export class OpenCaseScreenComponent implements OnInit {
   };
 
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
+    if (this.internal_number == "") {
+      alert("press first on" + "צור מספר תיק");
+      return;
+    }
+    alert("this.internal_number"+this.internal_number + "onSave");
     // sort form value by sinterface keys
     var does_exist = false;
     //print the internal number value from request
@@ -68,7 +84,7 @@ export class OpenCaseScreenComponent implements OnInit {
     // get tags values as json
 
     const formRawValue = {
-      ...{internal_number: '' },
+
       ...form.getRawValue(),
       ...{
         weapon_name: '',
@@ -83,6 +99,7 @@ export class OpenCaseScreenComponent implements OnInit {
         weapon_additional_characteristics: '',
         min_date: form.getRawValue()['event_date'],
         max_date: '',
+        internal_number:this.internal_number,
       },
     };
     console.log(formRawValue);
@@ -92,27 +109,15 @@ export class OpenCaseScreenComponent implements OnInit {
     //sort formRawValue by  order of Case interface
     //check first press
     //get case from service
-    this.searchService.postQuery(formRawValue).subscribe((res: any) => {
-      //check if case exist
-      if (res.length > 0) {
-        does_exist = true;
-      }
-      if (does_exist) {
-        //update case
-        this.service.updateCase(formRawValue).subscribe((res: any) => {
+
+    this.service.postCase(formRawValue).subscribe((res: any) => {
+
           cb(res);
-        });
-      } else {
-        //create case
-        this.service.postCase(formRawValue).subscribe((res: any) => {
-          cb(res);
-          this.internal_number = res;
           alert( " תיק"+ this.internal_number + "נפתח בהצלחה "); //TODO for noam
-          formRawValue.internal_number = this.internal_number;
           localStorage.setItem('case', JSON.stringify(formRawValue));
+          this.saved_non_tags = "yes";
         });
-      }
-    });
+
   };
 
   generateDocxPage() {

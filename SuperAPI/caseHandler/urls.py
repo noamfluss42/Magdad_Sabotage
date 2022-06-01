@@ -22,5 +22,6 @@ urlpatterns=[
     url(r'^id/$', views.idApi),
     url(r'^monthlySummary/.',views.general_sum),
     url(r'^yearlySummary/.',views.general_sum),
+    url(r'^generate_id/.',views.generate_id),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
