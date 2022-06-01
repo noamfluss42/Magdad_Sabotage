@@ -46,5 +46,6 @@ export class EditSamplesScreenComponent implements OnInit {
     }
     );
     localStorage.removeItem('sample');
+    localStorage.setItem('screen','/editSampleScreen');
   }
 }

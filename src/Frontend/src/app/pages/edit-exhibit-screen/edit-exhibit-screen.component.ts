@@ -83,6 +83,7 @@ export class EditExhibitScreenComponent implements OnInit {
     }
     );
     localStorage.removeItem('exhibit');
+    localStorage.setItem('screen','/editExhibit');
 
   }
 

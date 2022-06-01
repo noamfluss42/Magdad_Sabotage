@@ -40,7 +40,7 @@ export class SearchCaseScreenComponent implements OnInit {
         this.router.navigateByUrl('/searchCaseResult');
       });
     });
-    
+    localStorage.setItem('screen', '/searchCase');
   };
     // this.router.navigate(['/searchCaseResult']);
   };

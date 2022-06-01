@@ -67,6 +67,7 @@ export class EditCaseScreenComponent implements OnInit {
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
+    localStorage.setItem('screen','/editCaseScreen');
 
   };
 
