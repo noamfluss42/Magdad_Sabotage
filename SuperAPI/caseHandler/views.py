@@ -477,7 +477,7 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
             id = "1"
             return id
         else:
-            id = max([float(e.exhibit_number) for e in exhibit]) + 1
+            id = int(max([float(e.exhibit_number) for e in exhibit]) + 1)
             return id
     elif type == "case":
         if Case.objects.count() == 0:
@@ -486,7 +486,7 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
         else:
             case = Case.objects.all().order_by('-internal_number')
             # TODO take year into consideration
-            id = max([float(c.internal_number) for c in case]) + 1
+            id = int(max([float(c.internal_number) for c in case]) + 1)
             return id
     elif type == "samples":
         samples = Samples.objects.all().filter(internal_number=internal_number,
@@ -495,7 +495,7 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
             id = "1"
             return id
         else:
-            id = max([float(s.sample_number) for s in samples]) + 1
+            id = int(max([float(s.sample_number) for s in samples]) + 1)
             return id
 
 
