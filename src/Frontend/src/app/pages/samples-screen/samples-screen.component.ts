@@ -23,29 +23,22 @@ export class SamplesScreenComponent implements OnInit {
     values[0]["value"] = localExhibit.internal_number
     values[1]["value"] = localExhibit.exhibit_number
     values[5]["value"] = localExhibit.lab_name
-    values[14]["value"] = localExhibit.investigator_name
+    values[13]["value"] = localExhibit.investigator_name
 
   }
 
   ngOnInit(): void {}
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
-    console.log(form.getRawValue());
-    var does_exist = false;
-    const formRawValue = form.getRawValue();
-    this.service.getSample(formRawValue).subscribe((res: any) => {
-      if (res.length > 0) {
-        this.service.editSample(formRawValue).subscribe((res: any) => {
-          cb(res);
-        });
-      }
-      if (!does_exist) {
-        this.service.postSample(formRawValue).subscribe((res: any) => {
-          cb(res);
-        });
-      }
 
-    });
+    const formRawValue = form.getRawValue();
+    alert("postSample"+formRawValue.exhibit_number)
+    this.service.postSample(formRawValue).subscribe((res: any) => {
+      console.log(res);
+      alert(' דגימה' + res + 'נפתחה בהצלחה '); //TODO for noam
+      localStorage.setItem("sample",JSON.stringify(formRawValue));
+    }
+    );
 
   };
 }

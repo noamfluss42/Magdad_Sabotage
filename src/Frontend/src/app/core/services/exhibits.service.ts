@@ -34,6 +34,7 @@ export class ExhibitsService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         responseType: 'json',
       }
+
     );
   }
 
@@ -46,14 +47,14 @@ export class ExhibitsService {
     });
   }
 
-  // getCaseExhibits(case_id: string) {
+  // getCaseExhibits(internal_number: string) {
   //   return this.http.get<any>(`${this.exhibitsURL}/query/{exhibit_number}`, {
   //     responseType: 'json',
   //   });
   // }
 
   getExhibitsFromCase(case_internal_number: string) {
-    return this.http.get<Exhibit>(`${Constants.API_URL}get_exhibits_query/${case_internal_number}`, {
+    return this.http.get<Exhibit>(`${Constants.API_URL}/get_exhibits_query/${case_internal_number}`, {
       responseType: 'json',
     });
   }
@@ -78,20 +79,20 @@ export class ExhibitsService {
       new TextboxField({
         key: 'description', // +year
         label: 'תיאור המוצג',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
       new TextboxField({
         key: 'amount',
         label: 'כמות',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'destination',
         label: 'ייעוד',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new DropdownField({
@@ -140,12 +141,12 @@ export class ExhibitsService {
       new DatePickerField({
         key:"received_date",
         label:"תאריך הכנסה",
-        required:true,
+        required:false,
       }),
       new DatePickerField({
         key:"handle_date",
         label:"תאריך טיפול",
-        required:true,
+        required:false,
       }),
       new TextboxField({
         key:"result",
@@ -156,7 +157,7 @@ export class ExhibitsService {
       new TextboxField({
         key:"investigator_name",
         label:"שם חוקר",
-        required:true,
+        required:false,
         type:'text',
       }),
       new DropdownField({
@@ -180,16 +181,16 @@ export class ExhibitsService {
       //}),
 
 
-
-
       new ButtonField({
         key: 'sample_navigation',
         label: 'תנועת דגימות',
         type: 'button',
         onClick: (exhibit:Exhibit) => {
           console.log(exhibit);
+
           // local storage exhibit
-          localStorage.setItem("exhibit_samples",JSON.stringify(exhibit));
+          //localStorage.setItem("exhibit",JSON.stringify(exhibit));
+          alert("end edit internal number "+JSON.parse(localStorage.getItem('exhibit') || '{}').exhibit_number)
           this.router.navigate(['/sampleNavigator']);
 
       }}),
@@ -290,7 +291,7 @@ export class ExhibitsService {
           console.log(exhibit);
           // local storage exhibit
           localStorage.setItem("exhibit",JSON.stringify(exhibit));
-          localStorage.removeItem("case");
+          //localStorage.removeItem("case");
           this.router.navigate(['/editExhibit']);
         },
       },

@@ -20,9 +20,11 @@ export class RegisterExhibitScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
-
+    alert("start RegisterExhibitScreenComponent")
     // Gets case's data from local storage
+
     const localCase = JSON.parse(localStorage.getItem('case') || '[]');
+
     // Convert all fields into array and auto fills some fields with values from case.
     var values = Array.from(this.fields$.values());
     values[0]['value'] = localCase.internal_number;
@@ -39,25 +41,14 @@ export class RegisterExhibitScreenComponent implements OnInit {
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
 
-    this.service.getExhibitsFromCase(formRawValue.internal_number).subscribe((res: any) => {
-      //check if case exist
-      if (res.length > 0) {
-        does_exist = true;
-      }
-      if (does_exist) {
-        //update case
-        this.service.editExhibit(formRawValue).subscribe((res: any) => {
-          cb(res);
-        });
-      } else {
-        //create case
-        this.service.postExhibit(formRawValue).subscribe((res: any) => {
-          cb(res);
-          alert(' מוצג' + res + 'נפתח בהצלחה '); //TODO for noam
-          localStorage.setItem('exhibit', JSON.stringify(formRawValue));
-        });
-      }
+
+    this.service.postExhibit(formRawValue).subscribe((res: any) => {
+      cb(res);
+      alert(' מוצג' + res + 'נפתח בהצלחה '); //TODO for noam
+      formRawValue.exhibit_number = res;
+      localStorage.setItem('exhibit', JSON.stringify(formRawValue));
     });
+
 
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);

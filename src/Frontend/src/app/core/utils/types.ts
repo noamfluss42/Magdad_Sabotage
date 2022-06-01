@@ -76,8 +76,8 @@ export interface Case {
 }
 
 export interface Sample {
-  case_id: string;
-  exhibit_id: string;
+  internal_number: string;
+  exhibit_number: string;
   sample_id: string;
   what_sampled: string;
   where_sampled: string;

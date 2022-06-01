@@ -20,8 +20,8 @@ export class SamplesService {
     });
   }
 
-  deleteSample(case_id: string) {
-    return this.http.delete(`${Constants.API_URL}/samples/${case_id}`, {
+  deleteSample(internal_number: string) {
+    return this.http.delete(`${Constants.API_URL}/samples/${internal_number}`, {
       responseType: 'json',
     });
   }
@@ -43,8 +43,8 @@ export class SamplesService {
     });
   }
 
-  getSamplesFromExhibit(exhibit: Exhibit) {
-    return this.http.get(`${Constants.API_URL}/samples/query/${exhibit.exhibit_number}`,{
+  getSamplesFromExhibit(case_internal_number:string,exhibit_number: string) {
+    return this.http.get(`${Constants.API_URL}/get_samples_query/${case_internal_number}_${exhibit_number}`,{
       responseType: 'json',
     });
   }
@@ -52,23 +52,23 @@ export class SamplesService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
-        key: 'case_id',
+        key: 'internal_number',
         label: 'מספר תיק',
         required: true,
         type: 'text',
       }),
       new TextboxField({
-        key: 'exhibit_id',
+        key: 'exhibit_number',
         label: 'מספר מוצג',
         required: true,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'sample_id',
-        label: 'מספר דגימה',
-        required: true,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'sample_id',
+      //   label: 'מספר דגימה',
+      //   required: true,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'what_sampled',
         label: 'מה נדגם',
@@ -78,7 +78,7 @@ export class SamplesService {
       new TextboxField({
         key: 'where_sampled',
         label: 'מאיפה נדגם',
-        required: true,
+        required: false,
         type: 'text',
       }),
       //new DropdownField({
@@ -95,7 +95,7 @@ export class SamplesService {
       //}),
       new DropdownField({
         key: 'transferred_to_lab',
-        label: 'מעבדה',
+        label: 'מעבדת הבדיקה',
         required: true,
         type: 'text',
         options: [
@@ -121,7 +121,7 @@ export class SamplesService {
       new TextboxField({
         key: 'packaging',
         label: 'אריזה',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
@@ -139,37 +139,37 @@ export class SamplesService {
       new DatePickerField({
         key: 'date',
         label: 'תאריך',
-        required: true,
+        required: false,
         type: 'date',
       }),
       new TextboxField({
         key: 'unit_name',
         label: 'שם יחידה',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'reference',
         label: 'סימוכין',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'investigator_name',
         label: 'שם חוקר',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'phone_num',
         label: 'מספר טלפון',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'bag_num',
         label: 'מספר שקית',
-        required: true,
+        required: false,
         type: 'text',
       }),
     ];
@@ -180,12 +180,12 @@ export class SamplesService {
     return [
       {
         name: 'מס תיק',
-        attribute: 'case_id',
+        attribute: 'internal_number',
         sortable: true,
       },
       {
         name: 'מס מוצג',
-        attribute: 'exhibit_id',
+        attribute: 'exhibit_number',
         sortable: true,
       },
 

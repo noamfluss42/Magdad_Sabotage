@@ -88,8 +88,8 @@ class Exhibits(models.Model):
     result = models.CharField(max_length=128)
 
 class Samples(models.Model):
-    case_id = models.CharField(max_length=32)
-    exhibit_id = models.CharField(max_length=32)
+    internal_number = models.CharField(max_length=32)
+    exhibit_number = models.CharField(max_length=32)
     sample_id = models.CharField(max_length=32)
     what_sampled = models.CharField(max_length=256)
     where_sampled = models.CharField(max_length=256)

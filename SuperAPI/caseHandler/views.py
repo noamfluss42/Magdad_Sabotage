@@ -158,7 +158,7 @@ def search_tags(cases, field, data):
 
 @csrf_exempt
 def queryHandler(request):
-    print("start queryHandler",request)
+    print("start queryHandler", request)
     query_data = JSONParser().parse(request)
     create_default_values(query_data, CaseSerializer, default_value="")
     cases = Case.objects.all()
@@ -241,10 +241,10 @@ def caseApi(request, case_name=""):
     elif request.method == 'POST':
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
-        print("case_data['internal_number']",case_data['internal_number'])
+        print("case_data['internal_number']", case_data['internal_number'])
         if case_data['internal_number'] == "default":
             return
-        #case_data["internal_number"] = idApi('case')
+        # case_data["internal_number"] = idApi('case')
         create_default_values(case_data, CaseSerializer)
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
@@ -327,10 +327,10 @@ def WriteToExcelExb(exhibit_data):
 
 @csrf_exempt
 def exhibitDwnld(request):
-    response = HttpResponse(content_type='application/vnd.ms-excel')#set Http response content type
-    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'#set attachment type
-    xlsx_data = WriteToExcelExb(Exhibits.objects.values())#generate excel file
-    response.write(xlsx_data)# add file as attachment
+    response = HttpResponse(content_type='application/vnd.ms-excel')  # set Http response content type
+    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'  # set attachment type
+    xlsx_data = WriteToExcelExb(Exhibits.objects.values())  # generate excel file
+    response.write(xlsx_data)  # add file as attachment
     return response
 
 
@@ -411,30 +411,27 @@ def WriteToExcelCase(exhibit_data):
 
 @csrf_exempt
 def caseDwnld(request):
-    response = HttpResponse(content_type='application/vnd.ms-excel')#set Http response content type
-    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx' #set attachment type
-    xlsx_data = WriteToExcelCase(Case.objects.values())#generate excel file
-    response.write(xlsx_data)# add file as attachment
+    response = HttpResponse(content_type='application/vnd.ms-excel')  # set Http response content type
+    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx'  # set attachment type
+    xlsx_data = WriteToExcelCase(Case.objects.values())  # generate excel file
+    response.write(xlsx_data)  # add file as attachment
     return response
 
 
 # given a case internal number, returns all exhibits related to it
 # internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
-def exhibitQuery(request):
-    print("start exhibitQuery")
-    print(request)
-    query_data = JSONParser().parse(request)
-    print(query_data)
+def exhibitQuery(request, internal_number=""):
     exhibits = Exhibits.objects.all()
-    exhibits = exhibits.filter(internal_number=query_data['internal_number'])
+    exhibits = exhibits.filter(internal_number=internal_number)
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
+    print("exhibits_serializer.data", exhibits_serializer.data)
     return JsonResponse(exhibits_serializer.data, safe=False)
 
 
 @csrf_exempt
 def exhibitsApi(request, exhibit_number=""):
-    print("start exhibitsApi",request)
+    print("start exhibitsApi", request)
     if request.method == 'GET':
 
         exhibit = Exhibits.objects.all()
@@ -445,13 +442,17 @@ def exhibitsApi(request, exhibit_number=""):
         return JsonResponse(exhibits_serializer.data, safe=False)
 
     elif request.method == 'POST':
+
         exhibit_data = JSONParser().parse(request)
-        exhibit_data["exhibit_number"] = idApi('exhibit')
+        exhibit_data["exhibit_number"] = idApi('exhibit', internal_number=exhibit_data["internal_number"])
         create_default_values(exhibit_data, ExhibitsSerializer)
         exhibits_serializer = ExhibitsSerializer(data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
             return JsonResponse(str(exhibit_data["exhibit_number"]), safe=False)
+        else:
+            print("POSTerror", exhibit_data)
+            print("error in exhibits", exhibits_serializer.errors)
         return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
@@ -493,21 +494,23 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
             return id
     elif type == "samples":
         samples = Samples.objects.all().filter(internal_number=internal_number,
-                                               transferred_to_lab=transferred_to_lab).order_by('-sample_number')
+                                               transferred_to_lab=transferred_to_lab).order_by('-sample_id')
         if len(samples) == 0:
             id = "1"
             return id
         else:
-            id = int(max([float(s.sample_number) for s in samples]) + 1)
+            id = int(max([float(s.sample_id) for s in samples]) + 1)
             return id
 
 
 @csrf_exempt
 def sampleQuery(request):
-    query_data = JSONParser().parse(request)
+    print("sampleQuery request")
+    internal_number, exhibit_number = request.path.split("/")[-1].split("_")
     samples = Samples.objects.all()
-    samples = samples.filter(internal_number=query_data['internal_number'], exhibit_id=query_data['exhibit_id'])
+    samples = samples.filter(internal_number=internal_number, exhibit_number=exhibit_number)
     samples_serializer = SamplesSerializer(samples, many=True)
+    print("samples_serializer.data", samples_serializer.data)
     return JsonResponse(samples_serializer.data, safe=False)
 
 
@@ -519,19 +522,32 @@ def samplesApi(request, sample_id=""):
         return JsonResponse(samples_serializer.data, safe=False)
     elif request.method == 'POST':
         samples_data = JSONParser().parse(request)
-        samples_data["sample_number"] = idApi('samples')
+        print("samples_data['internal_number']",samples_data["internal_number"])
+        print("samples_data['transferred_to_lab']",samples_data["transferred_to_lab"])
+        samples_data["sample_id"] = idApi('samples', internal_number=samples_data["internal_number"],
+                                              transferred_to_lab=samples_data["transferred_to_lab"])
+        print("samples_data sample_number",samples_data["sample_id"])
+
         create_default_values(samples_data, SamplesSerializer)
         department_serializer = SamplesSerializer(data=samples_data)
         if department_serializer.is_valid():
             department_serializer.save()
-            return JsonResponse(str(samples_data["sample_number"]), safe=False)
+            return JsonResponse(str(samples_data["sample_id"]), safe=False)
+        else:
+            print("POSTerror", samples_data)
+            print("error in samples", department_serializer.errors)
         return JsonResponse("Failed to Add.", safe=False)
 
     elif request.method == 'PUT':
+        print("start sample put")
         department_data = JSONParser().parse(request)
         create_default_values(department_data, SamplesSerializer)
+        print("department_data['sample_id']",department_data['sample_id'])
+        print("department_data['exhibit_number']",department_data['exhibit_number'])
+        print("department_data['internal_number']", department_data['internal_number'])
+        print("department_data['transferred_to_lab']", department_data['transferred_to_lab'])
         department = Samples.objects.get(sample_id=department_data['sample_id'],
-                                         exhibit_id=department_data['exhibit_id'], case_id=department_data['case_id'],
+                                         exhibit_number=department_data['exhibit_number'], internal_number=department_data['internal_number'],
                                          transferred_to_lab=department_data['transferred_to_lab'])
         department_serializer = SamplesSerializer(department, data=department_data)
         if department_serializer.is_valid():
@@ -552,21 +568,23 @@ param:
 """
 
 
-def getSampleList(internal_num,name):
-    samples = Samples.objects.filter(case_id=internal_num).values()
-    case = Case.objects.get(internal_num = internal_num)
+def getSampleList(internal_num, name):
+    samples = Samples.objects.filter(internal_number=internal_num).values()
+    case = Case.objects.get(internal_num=internal_num)
     list = ""
     for index, sample in enumerate(samples):
-        print("start index",index,"and sample",sample["sample_id"])
+        print("start index", index, "and sample", sample["sample_id"])
 
-        list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id']) \
+        list += str(sample["sample_id"]) + ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_number']) \
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
-                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + +' ושומנה "'+ sample["date"]+"\" מע' חבלה "\
-                + case["lab_name"]+ "מס' " + (case["pele_number"] if case["pele_number"] != "default" else sample["reference"])
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + +' ושומנה "' + sample[
+                    "date"] + "\" מע' חבלה " \
+                + case["lab_name"] + "מס' " + (
+                    case["pele_number"] if case["pele_number"] != "default" else sample["reference"])
         try:
-            list +=str(name.split(" ")[0][0]) +"."+ str(name.split(" ")[1][0]) + '\n'
-        except:#in case only first name is provided
-            list += str(name.split(" ")[0][0]) +'\n'
+            list += str(name.split(" ")[0][0]) + "." + str(name.split(" ")[1][0]) + '\n'
+        except:  # in case only first name is provided
+            list += str(name.split(" ")[0][0]) + '\n'
     return list
 
 
@@ -577,7 +595,7 @@ def downloadFile(request):
         docx_data = request.GET.dict()
         print("docx data", docx_data)
         docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
-        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'],docx_data["name"])
+        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'], docx_data["name"])
         filtered = Case.objects.filter(internal_number=docx_data['internal_number']).values()
         docx_data['investigating_unit'] = filtered['investigating_unit']
         # to_update = filtered.values("reference_type", "reference_number", "event_description")
@@ -587,7 +605,8 @@ def downloadFile(request):
         return FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
     return Http404("Not Get Request")
 
+
 @csrf_exempt
 def generate_id(request):
-    print("request",request,request.path)
+    print("request", request, request.path)
     return JsonResponse(idApi("case"), safe=False)
