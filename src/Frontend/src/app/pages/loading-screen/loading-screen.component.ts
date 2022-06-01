@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loading-screen',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoadingScreenComponent implements OnInit {
 
-  constructor() {
+  constructor(private router: Router) {
+
 
   }
 
@@ -17,7 +19,7 @@ export class LoadingScreenComponent implements OnInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
 
-      window.location.href = localStorage.getItem('screen') || '/';
+      this.router.navigate([localStorage.getItem('screen') || '/']);
 
     }, 500);
   }
