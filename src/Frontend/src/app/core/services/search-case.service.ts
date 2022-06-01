@@ -43,66 +43,66 @@ export class SearchCaseService {
   //TODO CHECK QUERY
   getTags() {
     const tags: FormFieldBase<string>[] = [
-      new TextboxField({
+            new TextboxField({
         key: 'weapon_name',
-        label: 'אמל"ח: שם הפריט',
-
+        label: 'מט"ח: חנ"מ' + "  " + 'אמל"ח: שם הפריט',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'explosive_device_material',
-        label: 'מט"ח: חנ"מ',
-
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'explosive_device_material',
+      //   label: 'מט"ח: חנ"מ',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_means',
-        label: 'מט"ח: אמצעי ייזום',
-
+        label: 'מט"ח: אמצעי ייזום'+ "  "+'אמל"ח: הגדרות',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_options',
-        label: 'אמל"ח: הגדרות',
-
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_options',
+      //   label: 'אמל"ח: הגדרות',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_operating_system',
-        label: 'מט"ח: מע' + "' הפעלה",
-
+        label: 'מט"ח: מע' + "' הפעלה"+ "  "+ 'אמל"ח: סימון',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_mark',
-        label: 'אמל"ח: סימון',
-
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_mark',
+      //   label: 'אמל"ח: סימון',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_spray',
-        label: 'מט"ח: רסס',
-
+        label: 'מט"ח: רסס'+ "  "+ 'אמל"ח: צבע',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_color',
-        label: 'אמל"ח: צבע',
-
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_color',
+      //   label: 'אמל"ח: צבע',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_camouflage',
-        label: 'מט"ח: הסוואה',
-
+        label: 'מט"ח: הסוואה' + "  "+ 'אמל"ח: מאפיינים נוספים',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_additional_characteristics',
-        label: 'אמל"ח: מאפיינים נוספים',
-
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_additional_characteristics',
+      //   label: 'אמל"ח: מאפיינים נוספים',
+      //   required: false,
+      //   type: 'text',
+      // }),
     ];
     return tags;
   }
@@ -138,10 +138,10 @@ export class SearchCaseService {
         label: 'מאפיין האירוע',
 
         options: [
-          { key: 'אמל"ח', value: 'אמל"ח' },
-          { key: 'מטען חבלה', value: 'מטען חבלה' },
-          { key: 'זיקוקין', value: 'זיקוקין' },
-          { key: 'בדיקות/שאילתה', value: 'בדיקות/שאילתה' },
+          { key: 'weapons', value: 'אמל"ח' },
+          { key: 'explosive_device', value: 'מטען חבלה' },
+          { key: 'fireworks', value: 'זיקוקין' },
+          { key: 'query', value: 'בדיקות/שאילתה' },
         ],
       }),
       new DatePickerField({

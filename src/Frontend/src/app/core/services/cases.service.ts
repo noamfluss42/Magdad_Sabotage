@@ -51,6 +51,8 @@ export class CasesService {
       }),
     });
   }
+
+
   /*TODO check merge */
   cacheCaseOnReturn(case_: Case) {
     localStorage.setItem('case', JSON.stringify(case_));
@@ -67,13 +69,13 @@ export class CasesService {
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      new TextboxField({
-        key: 'internal_number', // +year
-        label: 'מספר פנימי',
-        required: true,
-        type: 'text',
-        value: '' + '.' + this.getShortYear().toString(),
-      }),
+      // new TextboxField({
+      //   key: 'internal_number', // +year
+      //   label: 'מספר פנימי',
+      //   required: true,
+      //   type: 'text',
+      //   value: this.generateInternalNumber(),
+      // }),
       new DropdownField({
         key: 'received_or_go',
         label: 'יציאה/קבלה',
@@ -99,10 +101,10 @@ export class CasesService {
         label: 'מאפיין האירוע',
         required: true,
         options: [
-          { key: 'אמל"ח', value: 'אמל"ח' },
-          { key: 'מטען חבלה', value: 'מטען חבלה' },
-          { key: 'זיקוקין', value: 'זיקוקין' },
-          { key: 'בדיקות/שאילתה', value: 'בדיקות/שאילתה' },
+          { key: 'weapons', value: 'אמל"ח' },
+          { key: 'explosive_device', value: 'מטען חבלה' },
+          { key: 'fireworks', value: 'זיקוקין' },
+          { key: 'query', value: 'בדיקות/שאילתה' },
         ],
       }),
       new DatePickerField({
@@ -187,7 +189,7 @@ export class CasesService {
         required: false,
         options: [
           { key: 'פתוח', value: 'פתוח' },
-          { key: ' סגור לללא חווד', value: ' סגור לללא חווד' },
+          { key: 'סגור לללא חווד', value: 'סגור לללא חווד' },
           { key: 'סגור חווד', value: 'סגור חווד' },
         ],
       }),
@@ -212,6 +214,15 @@ export class CasesService {
         type: 'text',
       }),
 
+      new DropdownField({
+        key: 'helping',
+        label: 'סיוע',
+        required: true,
+        options: [
+          { key: 'כן', value: 'כן' },
+          { key: 'לא', value: 'לא' },
+        ],
+      }),
 
       new ButtonField({
         key:'navigator',
@@ -251,64 +262,64 @@ export class CasesService {
     const tags: FormFieldBase<string>[] = [
       new TextboxField({
         key: 'weapon_name',
-        label: 'אמל"ח: שם הפריט',
+        label: 'מט"ח: חנ"מ' + "  " + 'אמל"ח: שם הפריט',
         required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'explosive_device_material',
-        label: 'מט"ח: חנ"מ',
-        required: false,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'explosive_device_material',
+      //   label: 'מט"ח: חנ"מ',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_means',
-        label: 'מט"ח: אמצעי ייזום',
+        label: 'מט"ח: אמצעי ייזום'+ "  "+'אמל"ח: הגדרות',
         required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_options',
-        label: 'אמל"ח: הגדרות',
-        required: false,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_options',
+      //   label: 'אמל"ח: הגדרות',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_operating_system',
-        label: 'מט"ח: מע' + "' הפעלה",
+        label: 'מט"ח: מע' + "' הפעלה"+ "  "+ 'אמל"ח: סימון',
         required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_mark',
-        label: 'אמל"ח: סימון',
-        required: false,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_mark',
+      //   label: 'אמל"ח: סימון',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_spray',
-        label: 'מט"ח: רסס',
+        label: 'מט"ח: רסס'+ "  "+ 'אמל"ח: צבע',
         required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_color',
-        label: 'אמל"ח: צבע',
-        required: false,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_color',
+      //   label: 'אמל"ח: צבע',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_camouflage',
-        label: 'מט"ח: הסוואה',
+        label: 'מט"ח: הסוואה' + "  "+ 'אמל"ח: מאפיינים נוספים',
         required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_additional_characteristics',
-        label: 'אמל"ח: מאפיינים נוספים',
-        required: false,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_additional_characteristics',
+      //   label: 'אמל"ח: מאפיינים נוספים',
+      //   required: false,
+      //   type: 'text',
+      // }),
 
     ];
     return tags;
@@ -320,7 +331,7 @@ export class CasesService {
         label: 'יצירת טופס ושליחה למעבדה',
         onClick: () => {
           this.router.navigate(['/genLabForm']);
-        }
+        },
       }),
     ];
     return button;

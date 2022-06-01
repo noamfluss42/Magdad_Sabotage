@@ -37,37 +37,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var testing_1 = require("@angular/core/testing");
-var testing_2 = require("@angular/router/testing");
-var app_component_1 = require("./app.component");
-describe('AppComponent', function () {
+var dynamic_form_field_component_1 = require("./dynamic-form-field.component");
+describe('DynamicFormFieldComponent', function () {
+    var component;
+    var fixture;
     beforeEach(function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, testing_1.TestBed.configureTestingModule({
-                        imports: [
-                            testing_2.RouterTestingModule
-                        ],
-                        declarations: [
-                            app_component_1.AppComponent
-                        ],
-                    }).compileComponents()];
+                        declarations: [dynamic_form_field_component_1.DynamicFormFieldComponent]
+                    })
+                        .compileComponents()];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
             }
         });
     }); });
-    it('should create the app', function () {
-        var fixture = testing_1.TestBed.createComponent(app_component_1.AppComponent);
-        var app = fixture.componentInstance;
-        expect(app).toBeTruthy();
-    });
-    it('should render title', function () {
-        var _a;
-        var fixture = testing_1.TestBed.createComponent(app_component_1.AppComponent);
+    beforeEach(function () {
+        fixture = testing_1.TestBed.createComponent(dynamic_form_field_component_1.DynamicFormFieldComponent);
+        component = fixture.componentInstance;
         fixture.detectChanges();
-        var compiled = fixture.nativeElement;
-        expect((_a = compiled.querySelector('.content span')) === null || _a === void 0 ? void 0 : _a.textContent).toContain('Frontend app is running!');
+    });
+    it('should create', function () {
+        expect(component).toBeTruthy();
     });
 });
-//# sourceMappingURL=app.component.spec.js.map
+//# sourceMappingURL=dynamic-form-field.component.spec.js.map

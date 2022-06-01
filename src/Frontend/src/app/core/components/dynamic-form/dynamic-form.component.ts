@@ -61,5 +61,4 @@ export class DynamicFormComponent implements OnInit {
   }
   //buttonstatus getter
 
-
 }

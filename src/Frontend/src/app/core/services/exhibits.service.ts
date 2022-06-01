@@ -11,8 +11,11 @@ import { Exhibit, TableColumn } from '../utils/types';
 })
 export class ExhibitsService {
   exhibitsURL = `${Constants.API_URL}/exhibits`;
+  public exhibit_number: string;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.exhibit_number = '';
+  }
 
   /* GET: get exhibit by bag_number from the server */
   getExhibit(exhibit_number: string) {
@@ -50,10 +53,12 @@ export class ExhibitsService {
   // }
 
   getExhibitsFromCase(case_internal_number: string) {
-    return this.http.get<Exhibit>(`${this.exhibitsURL}/query${case_internal_number}`, {
+    return this.http.get<Exhibit>(`${Constants.API_URL}get_exhibits_query/${case_internal_number}`, {
       responseType: 'json',
     });
   }
+
+
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
@@ -63,12 +68,6 @@ export class ExhibitsService {
         required: true,
         type: 'text',
         // value:OpenCaseFieldsService.getQuestions().key['internalNumber'], //! impleament method to get case id from open case service to exhibit register.
-      }),
-      new TextboxField({
-        key: 'exhibit_number', // +year
-        label: "מס' מוצג",
-        required: true,
-        type: 'text',
       }),
       new TextboxField({
         key: 'location',
@@ -98,7 +97,7 @@ export class ExhibitsService {
       new DropdownField({
         key:'explosive',
         label:'חנ"פ',
-        required: true,
+        required: false,
         options: [
           { key: "yes", value: "כן" },
           { key: "no", value: "לא" },
@@ -107,13 +106,13 @@ export class ExhibitsService {
       new TextboxField({
         key:'explosive_weight',
         label:'משקל חנ"פ',
-        required:true,
+        required:false,
         type:'text',
       }),
       new DropdownField({
         key:"tnt_equivalent",
         label:"סוג חומר נפץ",
-        required:true,
+        required:false,
         options: [
           { key: "RDX", value: "RDX" },
           { key: "TNT", value: "TNT" },
@@ -149,23 +148,30 @@ export class ExhibitsService {
         required:true,
       }),
       new TextboxField({
+        key:"result",
+        label:"תוצאות בדיקה",
+        required:false,
+        type:'text',
+      }),
+      new TextboxField({
         key:"investigator_name",
         label:"שם חוקר",
         required:true,
         type:'text',
       }),
-      new TextboxField({
+      new DropdownField({
         key:"lab_name",
         label:"מעבדה",
-        required:true,
+        required:false,
         type:'text',
+        options: [
+          { key: 'דרום', value: 'דרום' },
+          { key: 'תל אביב', value: 'ת"א' },
+          { key: 'צפון', value: 'צפון' },
+          { key: 'מטא"ר', value: 'מטא"ר' },
+        ],
       }),
-      new TextboxField({
-        key:"result",
-        label:"תוצאות בדיקה",
-        required:true,
-        type:'text',
-      }),
+
       //new ButtonField({
       //  key: 'test',
       //  label: 'תנועת דגימות',

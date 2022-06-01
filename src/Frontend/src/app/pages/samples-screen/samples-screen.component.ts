@@ -18,8 +18,9 @@ export class SamplesScreenComponent implements OnInit {
 
     const localExhibit = JSON.parse(localStorage.getItem('exhibit') || '[]');
     var values = Array.from(this.fields$.values())
-    values[0]["value"] = localExhibit.case_id
+    values[0]["value"] = localExhibit.internal_number
     values[1]["value"] = localExhibit.exhibit_number
+    values[5]["value"] = localExhibit.lab_name
     values[14]["value"] = localExhibit.investigator_name
 
   }

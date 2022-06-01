@@ -20,6 +20,8 @@ class Case(models.Model):
     event_location = models.CharField(max_length=100)
     event_description = models.CharField(max_length=256)
     sender_name = models.CharField(max_length=50)
+    helping = models.CharField(max_length=50)
+    status_closed_date = models.CharField(max_length=100)
 
     weapon_name = models.CharField(max_length=256)
     explosive_device_material = models.CharField(max_length=256)
@@ -50,6 +52,8 @@ class CaseI(models.Model):
     event_location = models.CharField(max_length=100)
     event_description = models.CharField(max_length=256)
     sender_name = models.CharField(max_length=50)
+    helping = models.CharField(max_length=50)
+    status_closed_date = models.CharField(max_length=100)
 
     weapon_name = models.CharField(max_length=256)
     explosive_device_material = models.CharField(max_length=256)
@@ -84,18 +88,6 @@ class Exhibits(models.Model):
     result = models.CharField(max_length=128)
 
 class Samples(models.Model):
-
-    # SOUTH = 'S'
-    # TEL_AVIV = 'TLV'
-    # NORTH = 'N'
-    # MATE_ARTZI = 'MATAR'
-    # LABRATORIES = [
-    #     (SOUTH, 'דרום'),
-    #     (TEL_AVIV, 'תל אביב'),
-    #     (NORTH, 'צפון'),
-    #     (MATE_ARTZI, 'מטא"ר'),
-    # ]
-
     case_id = models.CharField(max_length=32)
     exhibit_id = models.CharField(max_length=32)
     sample_id = models.CharField(max_length=32)
