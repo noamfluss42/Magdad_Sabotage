@@ -66,7 +66,7 @@ export class YearlySummaryScreenComponent implements OnInit {
     this.range = "";
 
     let currentDate = this.datePipe.transform(new Date(), 'dd-MM-yyyy')
-    let result =
+    let result = // Gets recent yearly summary from backend.
       service.getYearlySummary(`${currentDate}`)
         .subscribe((res: any) => (this.yearlySummary = res));
 
@@ -87,6 +87,7 @@ export class YearlySummaryScreenComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // Gets monthly summary by given month number.
   getMonthlySummary(month: number) {
 
     var lastMonthDay = new Date(new Date().getFullYear(), month, 0);

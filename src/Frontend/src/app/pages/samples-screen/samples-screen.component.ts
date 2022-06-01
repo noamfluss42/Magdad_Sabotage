@@ -16,7 +16,9 @@ export class SamplesScreenComponent implements OnInit {
   constructor(private service: SamplesService) {
     this.fields$ = this.service.getQuestions();
 
+    // Gets exhibit's data from local storage
     const localExhibit = JSON.parse(localStorage.getItem('exhibit') || '[]');
+    // Convert all fields into array and auto fills some fields with values from exhibit.
     var values = Array.from(this.fields$.values())
     values[0]["value"] = localExhibit.internal_number
     values[1]["value"] = localExhibit.exhibit_number
