@@ -21,21 +21,14 @@ export class ExhibitsInCaseScreenComponent implements OnInit {
 
   ngOnInit(): void {
     //redirect to loading screen for 1 sec while getting real data
+    // TODO fix get item
     this.case= localStorage.getItem('case')
     if (this.case) {
       this.internal_number =JSON.parse(this.case).internal_number.split('.')[0]
+      alert(this.internal_number)
     }
     this.tableColumns = this.service.getTableColumns();
     this.tableData = this.service.getExhibitsFromCase(this.internal_number);
-
-
-
-
-
-
-
-
-
 
   }
 }

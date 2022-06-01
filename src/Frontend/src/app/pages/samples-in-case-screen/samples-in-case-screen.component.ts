@@ -12,6 +12,8 @@ export class SamplesInCaseScreenComponent implements OnInit {
   private caseId: string = '';
   private exhibit_id: any;
   private exhibit_number: any;
+  private internal_number:any;
+  private case:any;
   public tableColumns: TableColumn[] = [];
   public tableData: any = [];
   constructor(
@@ -22,9 +24,14 @@ export class SamplesInCaseScreenComponent implements OnInit {
   ngOnInit(): void {
     this.tableColumns = this.service.getTableColumns();
     this.exhibit_number =localStorage.getItem('exhibit_number')
+    this.case= localStorage.getItem('case')
+    if (this.case) {
+      this.internal_number = JSON.parse(this.case).internal_number.split('.')[0]
+    }
+
     console.log(this.exhibit_number);
     if (this.exhibit_number) {
-      this.tableData = this.service.getSamplesFromExhibit(this.exhibit_number);
+      this.tableData = this.service.getSamplesFromExhibit(this.internal_number,this.exhibit_number);
     }
 
 

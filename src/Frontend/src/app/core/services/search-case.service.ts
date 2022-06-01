@@ -294,7 +294,9 @@ export class SearchCaseService {
         onClick: (_case: Case) => {
           console.log(_case);
           // local storage exhibit
-          localStorage.setItem('caseQ', JSON.stringify(_case));
+          //localStorage.setItem('caseQ', JSON.stringify(_case));
+          localStorage.clear();
+          localStorage.setItem('case', JSON.stringify(_case));
           this.router.navigate(['/editCaseScreen']);
         },
       },

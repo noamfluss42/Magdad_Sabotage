@@ -43,8 +43,8 @@ export class SamplesService {
     });
   }
 
-  getSamplesFromExhibit(exhibit: Exhibit) {
-    return this.http.get(`${Constants.API_URL}/samples/query/${exhibit.exhibit_number}`,{
+  getSamplesFromExhibit(internal_number:string, exhibit: Exhibit) {
+    return this.http.get(`${Constants.API_URL}/get_samples_query/${exhibit.exhibit_number}_${internal_number}`,{
       responseType: 'json',
     });
   }
