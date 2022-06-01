@@ -44,9 +44,13 @@ def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filt
     res = []
     for case in case_list:
         if filter_by_status_closed_date:
+            if case.status_closed_date == "default":
+                continue
             case_date = datetime.strptime(case.status_closed_date,date_format)
         else:
-            case_date = datetime.strptime(case.event_date, date_format)
+            if case.event_date == "default":
+                continue
+            case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
 
         if min_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
                 case_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
@@ -261,7 +265,7 @@ def caseApi(request, case_name=""):
         create_default_values(department_data, CaseSerializer)
         old_department = Case.objects.get(internal_number=department_data['internal_number'])
         if old_department.status == 'פתוח' and (
-                department_data.status == 'סגור לללא חווד' or department_data.status == 'סגור חווד'):
+                department_data["status"] == 'סגור לללא חווד' or department_data["status"] == 'סגור חווד'):
             today = date.today()
             department_data["status_closed_date"] = today.strftime("%d-%m-%Y")
         department_serializer = CaseSerializer(old_department, data=department_data)

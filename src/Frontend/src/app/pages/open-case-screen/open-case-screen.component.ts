@@ -19,6 +19,7 @@ export class OpenCaseScreenComponent implements OnInit {
   internal_number: string;
   saved_non_tags: string;
 
+
   constructor(
     private service: CasesService,
     private searchService: SearchCaseService,
@@ -109,16 +110,14 @@ export class OpenCaseScreenComponent implements OnInit {
     //sort formRawValue by  order of Case interface
     //check first press
     //get case from service
-
+    // TODO if this.saved_non_tags == "": else put
     this.service.postCase(formRawValue).subscribe((res: any) => {
-
           cb(res);
           alert( " תיק"+ this.internal_number + "נפתח בהצלחה ");
           localStorage.setItem('case', JSON.stringify(formRawValue));
           localStorage.setItem('internal_number', JSON.stringify(this.internal_number));
           this.saved_non_tags = "yes";
         });
-
   };
 
   generateDocxPage() {
