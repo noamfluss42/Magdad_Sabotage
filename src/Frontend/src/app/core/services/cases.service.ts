@@ -325,16 +325,4 @@ export class CasesService {
     return tags;
   }
 
-  getGenerateDocxButton() {
-    const button: FormFieldBase<string>[] = [
-      new ButtonField({
-        label: 'יצירת טופס ושליחה למעבדה',
-        onClick: () => {
-          this.router.navigate(['/genLabForm']);
-        },
-      }),
-    ];
-    return button;
-  }
-
 }

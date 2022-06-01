@@ -35,11 +35,13 @@ export class MonthlySummaryScreenComponent implements OnInit {
     private datePipe: DatePipe
   ) {
 
+    // Making date format string of recent month date range.
+    // "01-{recent month}-2022", "{current day}-{recent month}-2022"
     let currentDate = new Date()
     let fromDate = "01-" + this.datePipe.transform(currentDate, 'MM-yyyy')
     let toDate = this.datePipe.transform(currentDate, 'dd-MM-yyyy')
 
-    let result =
+    let result = // Gets recent monthly summary from backend.
       service.getMonthlySummary(`${fromDate}|${toDate}`)
         .subscribe((res: any) => (this.monthlySummary = [res.totalOpenCases,
                                                               res.monthlyOpenedCases,

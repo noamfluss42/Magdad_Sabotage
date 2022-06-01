@@ -324,10 +324,10 @@ def WriteToExcelExb(exhibit_data):
 
 @csrf_exempt
 def exhibitDwnld(request):
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'
-    xlsx_data = WriteToExcelExb(Exhibits.objects.values())
-    response.write(xlsx_data)
+    response = HttpResponse(content_type='application/vnd.ms-excel')#set Http response content type
+    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'#set attachment type
+    xlsx_data = WriteToExcelExb(Exhibits.objects.values())#generate excel file
+    response.write(xlsx_data)# add file as attachment
     return response
 
 
@@ -408,10 +408,10 @@ def WriteToExcelCase(exhibit_data):
 
 @csrf_exempt
 def caseDwnld(request):
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx'
-    xlsx_data = WriteToExcelCase(Case.objects.values())
-    response.write(xlsx_data)
+    response = HttpResponse(content_type='application/vnd.ms-excel')#set Http response content type
+    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx' #set attachment type
+    xlsx_data = WriteToExcelCase(Case.objects.values())#generate excel file
+    response.write(xlsx_data)# add file as attachment
     return response
 
 
@@ -549,15 +549,21 @@ param:
 """
 
 
-def getSampleList(internal_num):
+def getSampleList(internal_num,name):
     samples = Samples.objects.filter(case_id=internal_num).values()
+    case = Case.objects.get(internal_num = internal_num)
     list = ""
     for index, sample in enumerate(samples):
-        print("start index", index, "and sample", sample["sample_id"])
-        list += str(sample["sample_id"]) + ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id']) \
+        print("start index",index,"and sample",sample["sample_id"])
+
+        list += str(sample["sample_id"])+ ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_id']) \
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
-                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample[
-                    "bag_num"] + '\n'  # TODO replace 1 with sample['bag_num'] after sample update
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + +' ושומנה "'+ sample["date"]+"\" מע' חבלה "\
+                + case["lab_name"]+ "מס' " + (case["pele_number"] if case["pele_number"] != "default" else sample["reference"])
+        try:
+            list +=str(name.split(" ")[0][0]) +"."+ str(name.split(" ")[1][0]) + '\n'
+        except:#in case only first name is provided
+            list += str(name.split(" ")[0][0]) +'\n'
     return list
 
 
@@ -568,12 +574,12 @@ def downloadFile(request):
         docx_data = request.GET.dict()
         print("docx data", docx_data)
         docx_data['date_created'] = date.today().strftime("%d/%m/%Y")
-        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'])
-        filtered = Case.objects.filter(internal_number=docx_data['internal_number'])
+        docx_data['exhibit_description'] = getSampleList(docx_data['internal_number'],docx_data["name"])
+        filtered = Case.objects.filter(internal_number=docx_data['internal_number']).values()
+        docx_data['investigating_unit'] = filtered['investigating_unit']
         # to_update = filtered.values("reference_type", "reference_number", "event_description")
         print("filtered", filtered)
         # docx_data.update() # TODO update
         file = generate_docx(docx_data)  # create file binary stream
-        resp = FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
-        return resp
+        return FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
     return Http404("Not Get Request")

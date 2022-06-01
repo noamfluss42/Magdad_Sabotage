@@ -21,7 +21,9 @@ export class RegisterExhibitScreenComponent implements OnInit {
   ) {
     this.fields$ = this.service.getQuestions();
 
+    // Gets case's data from local storage
     const localCase = JSON.parse(localStorage.getItem('case') || '[]');
+    // Convert all fields into array and auto fills some fields with values from case.
     var values = Array.from(this.fields$.values());
     values[0]['value'] = localCase.internal_number;
     values[11]['value'] = localCase.sender_name;

@@ -17,7 +17,6 @@ export class OpenCaseScreenComponent implements OnInit {
   tags$: FormFieldBase<any>[];
   form!: FormGroup;
   internal_number: string;
-  generateDocxButton$: FormFieldBase<any>[];
 
   constructor(
     private service: CasesService,
@@ -28,7 +27,6 @@ export class OpenCaseScreenComponent implements OnInit {
   ) {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
-    this.generateDocxButton$ = service.getGenerateDocxButton();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.internal_number = '';
@@ -38,19 +36,6 @@ export class OpenCaseScreenComponent implements OnInit {
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
-    // if (
-    //   !(
-    //     formRawValue['internal_number'] &&
-    //     formRawValue['received_or_go'] &&
-    //     formRawValue['lab_name'] &&
-    //     formRawValue['event_characteristic'] &&
-    //     formRawValue['district'] &&
-    //     formRawValue['investigating_unit']
-    //   )
-    // ) {
-    //   alert('Fields are required!');
-    //   //return;
-    // }
 
     const savedCase = JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
@@ -103,17 +88,6 @@ export class OpenCaseScreenComponent implements OnInit {
     console.log(formRawValue);
     delete formRawValue.navigator;
     //alert opened internal_number successfully
-
-    // if (!(formRawValue["internal_number"]
-    //    && formRawValue["received_or_go"]
-    //    && formRawValue["lab_name"]
-    //    && formRawValue["event_characteristic"]
-    //    && formRawValue["district"]
-    //    && formRawValue["investigating_unit"])
-    // ) {
-    //   alert("Fields are required!")
-    //   return;
-    // }
 
     //sort formRawValue by  order of Case interface
     //check first press
