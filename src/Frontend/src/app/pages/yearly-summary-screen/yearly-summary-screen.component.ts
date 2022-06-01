@@ -26,20 +26,23 @@ export class YearlySummaryScreenComponent implements OnInit {
   monthlyOpenedCases: number = 1;
   monthlyClosedCases: number = 2;
   totalNoneAreaEvents: number = 3;
-  areasTreatedBySapper: number = 4;
-  totalCheckedAreas: number = 5;
-  totalMonthlyEvents: number = 6;
-  eventsByCategories: number = 7;
+  totalCheckedAreas: number = 4;
+  eventsByCategories_count_weapons: number = 5;
+  eventsByCategories_count_explosive_device: number = 6;
+  eventsByCategories_count_fireworks: number = 7;
+  eventsByCategories_count_query: number = 8;
+
 
   totalYealryOpenCases: number = 0;
   totalOpenCasesThisYear: number = 1;
   yearlyOpenedCases: number = 2;
   yearlyClosedCases: number = 3;
   totalYearlyNoneAreaEvents: number = 4;
-  areasTreatedBySapperYearly: number = 5;
-  totalYearlyCheckedAreas: number = 6;
-  totalYearlyEvents: number = 7;
-  eventsByCategoriesYearly: number = 8;
+  totalYearlyCheckedAreas: number = 5;
+  eventsByCategories_count_weaponsYearly: number = 6;
+  eventsByCategories_count_explosive_deviceYearly: number = 7;
+  eventsByCategories_count_fireworksYearly: number = 8;
+  eventsByCategories_count_queryYearly: number = 9;
 
   months: Array<string> = [
     "סיכום שנתי",
@@ -71,15 +74,16 @@ export class YearlySummaryScreenComponent implements OnInit {
         .subscribe((res: any) => (this.yearlySummary = res));
 
     this.yearlySummary = [
-      "Data1",
-      "Data2",
-      "Data3",
-      "Data4",
-      "Data5",
-      "Data6",
-      "Data7",
-      "Data8",
-      "Data9",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
     ]
 
   }
@@ -97,17 +101,26 @@ export class YearlySummaryScreenComponent implements OnInit {
 
     let result =
       this.service.getMonthlySummary(`${fromDate}|${toDate}`)
-        .subscribe((res: any) => (this.monthlySummary = res));
+        .subscribe((res: any) => (this.monthlySummary = [res.totalOpenCases,
+                                                              res.monthlyOpenedCases,
+                                                              res.monthlyClosedCases,
+                                                              res.totalNoneAreaEvents,
+                                                              res.totalCheckedAreas,
+                                                              res.eventsByCategories_count_weapons,
+                                                              res.eventsByCategories_count_explosive_device,
+                                                              res.eventsByCategories_count_fireworks,
+                                                              res.eventsByCategories_count_query]));
 
     this.monthlySummary = [
-      "Data1",
-      "Data2",
-      "Data3",
-      "Data4",
-      "Data5",
-      "Data6",
-      "Data7",
-      "Data8",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
     ]
 
     this.month = month

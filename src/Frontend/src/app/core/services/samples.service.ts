@@ -93,11 +93,18 @@ export class SamplesService {
       //    { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
       //  ],
       //}),
-      new TextboxField({
+      new DropdownField({
         key: 'transferred_to_lab',
         label: 'מעבדה',
         required: true,
         type: 'text',
+        options: [
+         { key: 'hanam', value: 'חנ"מ' },
+         { key: 'ta', value: 'ט"א' },
+         { key: 'biologically', value: 'ביולוגית' },
+         { key: 'arsons', value: 'הצתות' },
+         { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
+       ],
       }),
       new DatePickerField({
         key: 'sending_date',

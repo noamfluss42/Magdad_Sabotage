@@ -9,7 +9,7 @@ urlpatterns=[
     url(r'^case/$',views.caseApi),
     url(r'^case/([0-9]+)$',views.caseApi),
     url(r'^case/dwnld/$',views.caseDwnld),
-    url(r'^exhibits/query/$', views.exhibitQuery),
+    url(r'^get_exhibits_query/$', views.exhibitQuery),
     url(r'^exhibits/dwnld/$', views.exhibitDwnld),
     url(r'^exhibits', views.exhibitsApi),
     url(r'^exhibits/([0-9]+)$', views.exhibitsApi),
@@ -20,6 +20,7 @@ urlpatterns=[
     url(r'^img', views.downloadFile),
     url(r'^query', views.queryHandler),
     url(r'^id/$', views.idApi),
-    #url(r'^monthlySummary/',views.general_sum),
+    url(r'^monthlySummary/.',views.general_sum),
+    url(r'^yearlySummary/.',views.general_sum),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
