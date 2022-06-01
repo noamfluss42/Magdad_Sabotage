@@ -29,10 +29,10 @@ from caseHandler.serializers import SamplesSerializer
 from docsCreate.docx_generator import generate_docx
 from django.core.files.storage import default_storage
 
-from caseHandler.create_default_values import create_default_values
+from caseHandler.create_default_values import create_default_values, DEFAULT_VALUE
 
 
-def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z'):
+def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filter_by_status_closed_date=False):
     if "" != query_data['min_date']:
         min_date = datetime.strptime(query_data['min_date'], date_format)
     else:
@@ -43,11 +43,14 @@ def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z'):
         max_date = datetime.max
     res = []
     for case in case_list:
-        case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
+        if filter_by_status_closed_date:
+            case_date = datetime.strptime(case.status_closed_date, '%Y-%m-%dT%H:%M:%S.%f%z')
+        else:
+            case_date = datetime.strptime(case.event_date, '%Y-%m-%dT%H:%M:%S.%f%z')
 
         if min_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
-                        case_date.replace(hour=0,minute=0,second=0,microsecond=0,tzinfo=None) <= \
-                        max_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None):
+                case_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None) <= \
+                max_date.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None):
             res.append(case)
     # returns new case querySet object
     return res
@@ -57,14 +60,11 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
     print("start monthly_sum")
     case_list = []
     count = 0
-    monthly_sum_events = []
     result = {"totalOpenCases": 0,
               "monthlyOpenedCases": 0,
               "monthlyClosedCases": 0,
               "totalNoneAreaEvents": 0,
-              "areasTreatedBySapper": 0,
               "totalCheckedAreas": 0,
-              "totalMonthlyEvents": 0,
               "eventsByCategories_count_weapons": 0,
               "eventsByCategories_count_explosive_device": 0,
               "eventsByCategories_count_fireworks": 0,
@@ -78,12 +78,14 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
     for case in case_list:
         if case.status == 'פתוח':
             result["totalOpenCases"] += 1
+    result["monthlyClosedCases"] = len(filterDate(case_list, dates,
+                                                  date_format='%d-%m-%Y', filter_by_status_closed_date=True))
 
     case_list = filterDate(case_list, dates, date_format='%d-%m-%Y')
 
     for case in case_list:
         if case.received_or_go == 'קבלת אירוע':
-            result["areasTreatedBySapper"] += 1
+            result["totalNoneAreaEvents"] += 1
     #
 
     for case in case_list:
@@ -95,8 +97,7 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
             result["eventsByCategories_count_fireworks"] += 1
         if case.event_characteristic == 'query':
             result["eventsByCategories_count_query"] += 1
-    result["totalNoneAreaEvents"] = result["eventsByCategories_count_query"]
-
+    result["totalCheckedAreas"] = result["monthlyOpenedCases"] - result["totalNoneAreaEvents"]
     if get_dict:
         return result
     return JsonResponse(result, safe=False)
@@ -105,12 +106,12 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
 def yearly_sum(msg):
     year = msg[-4:]
     print("start yearly_sum", year)
-    yearly_result = monthly_sum({'min_date': ('01-01-' + year), 'max_date': ('31-12-' + year)},get_dict=True)
+    yearly_result = monthly_sum({'min_date': ('01-01-' + year), 'max_date': ('31-12-' + year)}, get_dict=True)
     yearly_result_list = []
     index = 0
     for key in yearly_result.keys():
         if index == 0:
-            index+=1
+            index += 1
         if index == 1:
             yearly_result_list.append(0)
             index += 1
@@ -157,6 +158,7 @@ def search_tags(cases, field, data):
 
 @csrf_exempt
 def queryHandler(request):
+    print("start queryHandler",request)
     query_data = JSONParser().parse(request)
     create_default_values(query_data, CaseSerializer, default_value="")
     cases = Case.objects.all()
@@ -232,6 +234,7 @@ def caseApi(request, case_name=""):
         cases.annotate(index=Value(''))
         for row_num, case in enumerate(cases):
             case.index = row_num
+
         cases_serializer = CaseSerializerI(cases, many=True)
         return JsonResponse(cases_serializer.data, safe=False)
 
@@ -239,11 +242,9 @@ def caseApi(request, case_name=""):
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
         case_data["internal_number"] = idApi('case')
-        print("case_data['internal_number']", case_data["internal_number"])
         create_default_values(case_data, CaseSerializer)
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
-            print("is valid")
             department_serializer.save()
             print("Added Successfully")
             return JsonResponse(str(case_data["internal_number"]), safe=False)
@@ -255,16 +256,20 @@ def caseApi(request, case_name=""):
         print("case put")
         department_data = JSONParser().parse(request)
         create_default_values(department_data, CaseSerializer)
-        department = Case.objects.get(internal_number=department_data['internal_number'])
-        department_serializer = CaseSerializer(department, data=department_data)
+        old_department = Case.objects.get(internal_number=department_data['internal_number'])
+        if old_department["status"] == 'פתוח' and (
+                department_data["status"] == 'סגור לללא חווד' or department_data["status"] == 'סגור חווד'):
+            today = date.today()
+            department_data["status_closed_date"] = today.strftime("%d-%m-%Y")
+        department_serializer = CaseSerializer(old_department, data=department_data)
         if department_serializer.is_valid():
             department_serializer.save()
             return JsonResponse("Updated Successfully!!", safe=False)
         return JsonResponse("Failed to Update.", safe=False)
 
     elif request.method == 'DELETE':
-        department = Case.objects.get(internal_number=case_name)
-        department.delete()
+        old_department = Case.objects.get(internal_number=case_name)
+        old_department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
 
@@ -414,18 +419,21 @@ def caseDwnld(request):
 # internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
 def exhibitQuery(request):
+    print("start exhibitQuery")
     print(request)
     query_data = JSONParser().parse(request)
     print(query_data)
     exhibits = Exhibits.objects.all()
-    exhibits.filter(internal_number=query_data['internal_number'])
+    exhibits = exhibits.filter(internal_number=query_data['internal_number'])
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
     return JsonResponse(exhibits_serializer.data, safe=False)
 
 
 @csrf_exempt
 def exhibitsApi(request, exhibit_number=""):
+    print("start exhibitsApi",request)
     if request.method == 'GET':
+
         exhibit = Exhibits.objects.all()
         exhibit.annotate(index=Value(''))
         for row_num, exh in enumerate(exhibit):
@@ -495,7 +503,7 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
 def sampleQuery(request):
     query_data = JSONParser().parse(request)
     samples = Samples.objects.all()
-    samples.filter(internal_number=query_data['internal_number'], exhibit_id=query_data['exhibit_id'])
+    samples = samples.filter(internal_number=query_data['internal_number'], exhibit_id=query_data['exhibit_id'])
     samples_serializer = SamplesSerializer(samples, many=True)
     return JsonResponse(samples_serializer.data, safe=False)
 

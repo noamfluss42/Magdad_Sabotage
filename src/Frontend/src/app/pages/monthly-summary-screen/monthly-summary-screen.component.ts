@@ -24,13 +24,11 @@ export class MonthlySummaryScreenComponent implements OnInit {
   monthlyOpenedCases: number = 1;
   monthlyClosedCases: number = 2;
   totalNoneAreaEvents: number = 3;
-  areasTreatedBySapper: number = 4;
-  totalCheckedAreas: number = 5;
-  totalMonthlyEvents: number = 6;
-  eventsByCategories_count_weapons: number = 7;
-  eventsByCategories_count_explosive_device: number = 8;
-  eventsByCategories_count_fireworks: number = 9;
-  eventsByCategories_count_query: number = 10;
+  totalCheckedAreas: number = 4;
+  eventsByCategories_count_weapons: number = 5;
+  eventsByCategories_count_explosive_device: number = 6;
+  eventsByCategories_count_fireworks: number = 7;
+  eventsByCategories_count_query: number = 8;
 
   constructor(
     private service: SummaryService,
@@ -47,9 +45,7 @@ export class MonthlySummaryScreenComponent implements OnInit {
                                                               res.monthlyOpenedCases,
                                                               res.monthlyClosedCases,
                                                               res.totalNoneAreaEvents,
-                                                              res.areasTreatedBySapper,
                                                               res.totalCheckedAreas,
-                                                              res.totalMonthlyEvents,
                                                               res.eventsByCategories_count_weapons,
                                                               res.eventsByCategories_count_explosive_device,
                                                               res.eventsByCategories_count_fireworks,

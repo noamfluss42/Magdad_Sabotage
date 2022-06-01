@@ -53,7 +53,7 @@ export class ExhibitsService {
   // }
 
   getExhibitsFromCase(case_internal_number: string) {
-    return this.http.get<Exhibit>(`${this.exhibitsURL}/query${case_internal_number}`, {
+    return this.http.get<Exhibit>(`${Constants.API_URL}get_exhibits_query/${case_internal_number}`, {
       responseType: 'json',
     });
   }
