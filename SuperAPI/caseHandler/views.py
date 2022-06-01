@@ -324,10 +324,10 @@ def WriteToExcelExb(exhibit_data):
 
 @csrf_exempt
 def exhibitDwnld(request):
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'
-    xlsx_data = WriteToExcelExb(Exhibits.objects.values())
-    response.write(xlsx_data)
+    response = HttpResponse(content_type='application/vnd.ms-excel')#set Http response content type
+    response['Content-Disposition'] = 'attachment; filename=Exhibit_Report.xlsx'#set attachment type
+    xlsx_data = WriteToExcelExb(Exhibits.objects.values())#generate excel file
+    response.write(xlsx_data)# add file as attachment
     return response
 
 
@@ -408,10 +408,10 @@ def WriteToExcelCase(exhibit_data):
 
 @csrf_exempt
 def caseDwnld(request):
-    response = HttpResponse(content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx'
-    xlsx_data = WriteToExcelCase(Case.objects.values())
-    response.write(xlsx_data)
+    response = HttpResponse(content_type='application/vnd.ms-excel')#set Http response content type
+    response['Content-Disposition'] = 'attachment; filename=Case_Report.xlsx' #set attachment type
+    xlsx_data = WriteToExcelCase(Case.objects.values())#generate excel file
+    response.write(xlsx_data)# add file as attachment
     return response
 
 
