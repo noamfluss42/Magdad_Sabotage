@@ -18,7 +18,7 @@ export class OpenCaseScreenComponent implements OnInit {
   form!: FormGroup;
   internal_number: string;
   saved_non_tags: string;
-
+  saved_tags: string;
 
   constructor(
     private service: CasesService,
@@ -34,7 +34,7 @@ export class OpenCaseScreenComponent implements OnInit {
     this.form = this.fcs.toFormGroup([this.field$]);
     this.internal_number = '';
     this.saved_non_tags = '';
-
+    this.saved_tags = '';
     // Converts fields into array and auto fills case number.
 
   }
@@ -46,6 +46,8 @@ export class OpenCaseScreenComponent implements OnInit {
       this.internal_number = res;
       alert("this.internal_number"+this.internal_number + "hjhj");
     });
+    this.saved_tags = ""
+    this.saved_non_tags = ""
   };
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
@@ -68,7 +70,7 @@ export class OpenCaseScreenComponent implements OnInit {
         });
     this.sharedData.addToData(data);
     localStorage.setItem('case', JSON.stringify(data));
-
+    this.saved_tags = "yes"
     // this.router.navigate(['/registerExhibit']);
   };
 
@@ -110,14 +112,24 @@ export class OpenCaseScreenComponent implements OnInit {
     //sort formRawValue by  order of Case interface
     //check first press
     //get case from service
-    // TODO if this.saved_non_tags == "": else put
-    this.service.postCase(formRawValue).subscribe((res: any) => {
-          cb(res);
-          alert( " תיק"+ this.internal_number + "נפתח בהצלחה ");
-          localStorage.setItem('case', JSON.stringify(formRawValue));
-          localStorage.setItem('internal_number', JSON.stringify(this.internal_number));
-          this.saved_non_tags = "yes";
-        });
+    if (this.saved_non_tags == "") {
+      this.service.postCase(formRawValue).subscribe((res: any) => {
+        cb(res);
+        alert(" תיק" + this.internal_number + "נפתח בהצלחה ");
+        localStorage.setItem('case', JSON.stringify(formRawValue));
+        localStorage.setItem('internal_number', JSON.stringify(this.internal_number));
+        this.saved_non_tags = "yes";
+      });
+    }
+    else if(this.saved_tags == "yes"){
+      alert("ניתן לשמור רק דרך הכפתור התחתון")
+    }
+    else{
+      this.service.updateCase(formRawValue).subscribe((res: any) => {
+        cb(res);
+        localStorage.setItem('case', JSON.stringify(formRawValue));
+      });
+    }
   };
 
   generateDocxPage() {

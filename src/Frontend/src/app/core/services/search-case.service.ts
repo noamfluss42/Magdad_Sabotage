@@ -111,7 +111,6 @@ export class SearchCaseService {
       new TextboxField({
         key: 'internal_number', // +year
         label: 'מספר פנימי',
-
         type: 'text',
       }),
       new DropdownField({

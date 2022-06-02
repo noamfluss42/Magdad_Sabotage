@@ -77,12 +77,12 @@ export class CasesService {
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      new TextboxField({
-        key: 'internal_number', // +year
-        label: 'מספר פנימי',
-        required: false,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'internal_number', // +year
+      //   label: 'מספר פנימי',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new DropdownField({
         key: 'received_or_go',
         label: 'יציאה/קבלה',
