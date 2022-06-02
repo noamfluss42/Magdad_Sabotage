@@ -59,9 +59,12 @@ export class EditCaseScreenComponent implements OnInit {
     const formRawValue = form.getRawValue();
     this.caseData[1] = formRawValue;
     const data = { ...this.caseData[0], ...this.caseData[1] };
+    data.internal_number = JSON.parse(localStorage.getItem('internal_number') || '[]')
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
+    
+    
     localStorage.setItem('case', JSON.stringify(data));
   };
 

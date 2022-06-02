@@ -120,6 +120,7 @@ def yearly_sum(msg):
             yearly_result_list.append(0)
             index += 1
         yearly_result_list.append(yearly_result[key])
+    yearly_result_list[0] = yearly_result_list[1] # TODO
     return JsonResponse(yearly_result_list, safe=False)
 
 
@@ -151,7 +152,8 @@ def search_tags(cases, field, data):
                             "explosive_device_operating_system": case.explosive_device_operating_system,
                             "explosive_device_spray": case.explosive_device_spray,
                             "explosive_device_camouflage": case.explosive_device_camouflage}
-            if data_value not in case.weapon_name:
+            if data_value not in search_value[field]:
+                
                 all_in_case = False
                 break
         if all_in_case:
