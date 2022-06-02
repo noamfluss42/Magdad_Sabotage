@@ -190,7 +190,7 @@ export class ExhibitsService {
 
           // local storage exhibit
           //localStorage.setItem("exhibit",JSON.stringify(exhibit));
-          alert("end edit internal number "+JSON.parse(localStorage.getItem('exhibit') || '{}').exhibit_number)
+          //alert("end edit internal number "+JSON.parse(localStorage.getItem('exhibit') || '{}').exhibit_number)
           this.router.navigate(['/sampleNavigator']);
 
       }}),

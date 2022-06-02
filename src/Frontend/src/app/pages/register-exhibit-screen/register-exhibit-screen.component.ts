@@ -20,7 +20,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
-    alert("start RegisterExhibitScreenComponent")
+    //alert("start RegisterExhibitScreenComponent")
     // Gets case's data from local storage
 
     const localCase = JSON.parse(localStorage.getItem('case') || '[]');
@@ -29,7 +29,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
     var values = Array.from(this.fields$.values());
     values[0]['value'] = localCase.internal_number;
     values[11]['value'] = localCase.sender_name;
-    alert("try to put in lab" + localCase.lab_name)
+    //alert("try to put in lab" + localCase.lab_name)
     values[12]['value'] = localCase.lab_name;
   }
 
@@ -45,7 +45,7 @@ export class RegisterExhibitScreenComponent implements OnInit {
 
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
-      alert(' מוצג' + res + 'נפתח בהצלחה ');
+      alert('מוצג' +" "+ res +" "+ 'נפתח בהצלחה');
       formRawValue.exhibit_number = res;
       localStorage.setItem('exhibit', JSON.stringify(formRawValue));
     });

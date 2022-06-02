@@ -215,7 +215,7 @@ export class SearchCaseService {
         label: 'סטטוס',
         options: [
           { key: 'פתוח', value: 'פתוח' },
-          { key: ' סגור לללא חווד', value: ' סגור לללא חווד' },
+          { key: ' סגור ללא חווד', value: ' סגור ללא חווד' },
           { key: 'סגור חווד', value: 'סגור חווד' },
         ],
       }),
@@ -294,7 +294,7 @@ export class SearchCaseService {
           console.log(_case);
           // local storage exhibit
           localStorage.removeItem('query');
-          alert("after query internal number"+_case.internal_number)
+          //alert("after query internal number"+_case.internal_number)
           localStorage.setItem('caseQ', JSON.stringify(_case))
           localStorage.setItem('internal_number', JSON.stringify(_case.internal_number));
           this.router.navigate(['/editCaseScreen']);

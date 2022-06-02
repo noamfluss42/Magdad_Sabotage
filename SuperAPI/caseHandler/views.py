@@ -264,7 +264,7 @@ def caseApi(request, case_name=""):
         create_default_values(department_data, CaseSerializer)
         old_department = Case.objects.get(internal_number=department_data['internal_number'])
         if old_department.status == 'פתוח' and (
-                department_data["status"] == 'סגור לללא חווד' or department_data["status"] == 'סגור חווד'):
+                department_data["status"] == 'סגור ללא חווד' or department_data["status"] == 'סגור חווד'):
             today = date.today()
             department_data["status_closed_date"] = today.strftime("%d-%m-%Y")
         department_serializer = CaseSerializer(old_department, data=department_data)

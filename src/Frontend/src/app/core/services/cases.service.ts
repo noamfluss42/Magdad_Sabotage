@@ -196,7 +196,7 @@ export class CasesService {
         required: false,
         options: [
           { key: 'פתוח', value: 'פתוח' },
-          { key: 'סגור לללא חווד', value: 'סגור לללא חווד' },
+          { key: 'סגור ללא חווד', value: 'סגור ללא חווד' },
           { key: 'סגור חווד', value: 'סגור חווד' },
         ],
       }),

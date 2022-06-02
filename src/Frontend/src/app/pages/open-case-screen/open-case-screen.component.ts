@@ -61,7 +61,7 @@ export class OpenCaseScreenComponent implements OnInit {
       alert("save first tags");
       return;
     }
-    alert("this.internal_number"+this.internal_number + "onSubmit");
+    //alert("this.internal_number"+this.internal_number + "onSubmit");
     const savedCase = JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
     const data = { ...savedCase, ...formRawValue };
@@ -116,9 +116,9 @@ export class OpenCaseScreenComponent implements OnInit {
       this.service.postCase(formRawValue).subscribe((res: any) => {
         cb(res);
         this.internal_number = res;
-        alert(" תיק" + this.internal_number + "נפתח בהצלחה ");
+        alert(" תיק" +" " + this.internal_number + " "+"נפתח בהצלחה");
         formRawValue.internal_number = res;
-        alert("check formRawValue.internal_number " + formRawValue.internal_number);
+        //alert("check formRawValue.internal_number " + formRawValue.internal_number);
         localStorage.setItem('case', JSON.stringify(formRawValue));
         localStorage.setItem('internal_number', JSON.stringify(this.internal_number));
         this.saved_non_tags = "yes";
