@@ -31,7 +31,7 @@ from django.core.files.storage import default_storage
 
 from caseHandler.create_default_values import create_default_values, DEFAULT_VALUE
 
-
+#The fuction return list of cases between choosen dates in the case list it gets
 def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filter_by_status_closed_date=False):
     if "min_date" in query_data and "" != query_data['min_date']:
         min_date = datetime.strptime(query_data['min_date'], date_format)
@@ -59,7 +59,7 @@ def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filt
     # returns new case querySet object
     return res
 
-
+#The function return monthly summery(by dates)
 def monthly_sum(dates, get_dict=False):  # more updates will come
     print("start monthly_sum")
     case_list = []
@@ -106,7 +106,7 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
         return result
     return JsonResponse(result, safe=False)
 
-
+#The function return yearly summery(by dates)
 def yearly_sum(msg):
     year = msg[-4:]
     print("start yearly_sum", year)
@@ -122,7 +122,7 @@ def yearly_sum(msg):
         yearly_result_list.append(yearly_result[key])
     return JsonResponse(yearly_result_list, safe=False)
 
-
+#The function get the request from the frontend and ask from yearly_sum\monthly_sum the data by dates it gets from the request
 @csrf_exempt
 def general_sum(request):
     msg = request.path
@@ -138,7 +138,7 @@ def general_sum(request):
 
     return data_list
 
-
+#The function return list of cases that each of them has all of the search values that fuction gets
 def search_tags(cases, field, data):
     data_values = data.split(",")
     res = []
@@ -159,7 +159,7 @@ def search_tags(cases, field, data):
     print("res", res)
     return res
 
-
+#The function filtering cases by the request data
 @csrf_exempt
 def queryHandler(request):
     print("start queryHandler", request)
@@ -229,6 +229,8 @@ def queryHandler(request):
 
 
 # Create your views here.
+
+#The function add\return\delete\edit the case data in the database by the type of the request:put,delete,get,post
 @csrf_exempt
 def caseApi(request, case_name=""):
     if request.method == 'GET':
@@ -281,7 +283,7 @@ def caseApi(request, case_name=""):
         old_department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
-
+#write an exhibit into xlsx file
 def WriteToExcelExb(exhibit_data):
     output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
@@ -330,7 +332,7 @@ def WriteToExcelExb(exhibit_data):
     # xlsx_data contains the Excel file
     return xlsx_data
 
-
+#download the exhibit data as a xlsx file
 @csrf_exempt
 def exhibitDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')  # set Http response content type
@@ -339,7 +341,7 @@ def exhibitDwnld(request):
     response.write(xlsx_data)  # add file as attachment
     return response
 
-
+#write the case data into xlsx file
 def WriteToExcelCase(exhibit_data):
     output = BytesIO()
     workbook = xlsxwriter.Workbook(output)
@@ -414,7 +416,7 @@ def WriteToExcelCase(exhibit_data):
     # xlsx_data contains the Excel file
     return xlsx_data
 
-
+#download the case data as a xlsx file
 @csrf_exempt
 def caseDwnld(request):
     response = HttpResponse(content_type='application/vnd.ms-excel')  # set Http response content type
@@ -433,7 +435,7 @@ def exhibitQuery(request, internal_number=""):
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
     return JsonResponse(exhibits_serializer.data, safe=False)
 
-
+#The function add\return\delete\edit the exhibit data in the database by the type of the request:put,delete,get,post
 @csrf_exempt
 def exhibitsApi(request, exhibit_number=""):
     print("start exhibitsApi", request)
@@ -476,7 +478,7 @@ def exhibitsApi(request, exhibit_number=""):
         department.delete()
         return JsonResponse("Deleted Succeffully!!", safe=False)
 
-
+#generate id for every new case\exhibit\sample(gives new id number for every case\exhibit\sample)
 def idApi(type, internal_number=None, transferred_to_lab=None):
     id = ''
     if type == "exhibit":
@@ -507,7 +509,7 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
             id = int(max([float(s.sample_id) for s in samples]) + 1)
             return id
 
-
+# by given a case and an exhibit internal number, returns all samples related to it
 @csrf_exempt
 def sampleQuery(request):
     print("sampleQuery request")
@@ -518,7 +520,7 @@ def sampleQuery(request):
     print("samples_serializer.data", samples_serializer.data)
     return JsonResponse(samples_serializer.data, safe=False)
 
-
+#The function add\return\delete\edit the sample data in the database by the type of the request:put,delete,get,post
 @csrf_exempt
 def samplesApi(request, sample_id=""):
     if request.method == 'GET':
@@ -594,7 +596,7 @@ def getSampleList(internal_number, name,transferred_to_lab):
             list += str(name.split(" ")[0][0]) + '\n'
     return list
 
-
+#download a docx file by the request data
 @csrf_exempt
 def downloadFile(request):
     if request.method == 'GET':
@@ -612,7 +614,7 @@ def downloadFile(request):
         return FileResponse(file, as_attachment=True, filename='temp.docx')  # create return resp with file
     return Http404("Not Get Request")
 
-
+#generate new id by new request of new case\exhibit\sample
 @csrf_exempt
 def generate_id(request):
     print("request", request, request.path)
