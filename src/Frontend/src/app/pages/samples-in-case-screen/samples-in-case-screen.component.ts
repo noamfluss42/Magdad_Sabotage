@@ -9,8 +9,7 @@ import { TableColumn } from 'src/app/core/utils/types';
   styleUrls: ['./samples-in-case-screen.component.css']
 })
 export class SamplesInCaseScreenComponent implements OnInit {
-  private caseId: string = '';
-  private exhibit_id: any;
+  private case_internal_number: any;
   private exhibit_number: any;
   public tableColumns: TableColumn[] = [];
   public tableData: any = [];
@@ -21,13 +20,11 @@ export class SamplesInCaseScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableColumns = this.service.getTableColumns();
-    this.exhibit_number =localStorage.getItem('exhibit_number')
+    this.case_internal_number = JSON.parse(localStorage.getItem('case') || '[]').internal_number;
+    this.exhibit_number = JSON.parse(localStorage.getItem('exhibit') || '[]').exhibit_number;
     console.log(this.exhibit_number);
-    if (this.exhibit_number) {
-      this.tableData = this.service.getSamplesFromExhibit(this.exhibit_number);
-    }
 
-
+    this.tableData = this.service.getSamplesFromExhibit(this.case_internal_number,this.exhibit_number);
 
   }
 

@@ -78,12 +78,13 @@ export class EditExhibitScreenComponent implements OnInit {
   onEditSubmit= (form: FormGroup): void => {
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
+    formRawValue.exhibit_number = JSON.parse(localStorage.getItem('exhibit') || '{}').exhibit_number;
+    localStorage.setItem("exhibit",JSON.stringify(formRawValue));
     this.service.editExhibit(formRawValue).subscribe((res: any) => {
       console.log(res);
     }
     );
-    localStorage.removeItem('exhibit');
-
+    //localStorage.removeItem('exhibit');
   }
 
 }

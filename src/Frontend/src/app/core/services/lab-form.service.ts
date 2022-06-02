@@ -14,16 +14,15 @@ export class LabFormService {
         label: 'מספר תיק',
       }),
       new DropdownField({
-        key: 'recipient',
+        key: 'transferred_to_lab',
         label: 'אל מעבדה',
         required: true,
         options: [
-          { key: 'חנ"מ', value: 'חנ"מ' },
-          { key: 'ט"א', value: 'ט"א' },
-          { key: 'ביולוגית', value: 'ביולוגית' },
-          { key: 'הצתות', value: 'הצתות' },
-          { key: 'סימנים', value: 'סימנים' },
-          { key: 'חומרים', value: 'חומרים' },
+         { key: 'חנ"מ', value: 'חנ"מ' },
+         { key: 'ט"א', value: 'ט"א' },
+         { key: 'ביולוגית', value: 'ביולוגית' },
+         { key: 'הצתות', value: 'הצתות' },
+         { key: 'סימנים וחומרים', value: 'סימנים וחומרים' },
         ],
       }),
       new DropdownField({

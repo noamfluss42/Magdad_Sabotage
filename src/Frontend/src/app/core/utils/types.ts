@@ -55,7 +55,7 @@ export interface Case {
   event_type: string;
   pele_number: string;
   district: string;
-  investigation_unit: string;
+  investigating_unit: string;
   explosion_or_disarm: string;
   reference_number: string;
   status: string;
@@ -76,8 +76,8 @@ export interface Case {
 }
 
 export interface Sample {
-  case_id: string;
-  exhibit_id: string;
+  internal_number: string;
+  exhibit_number: string;
   sample_id: string;
   what_sampled: string;
   where_sampled: string;
@@ -121,7 +121,7 @@ export interface CaseSearch {
   event_type: string;
   pele_number: string;
   district: string;
-  investigation_unit: string;
+  investigating_unit: string;
   explosion_or_disarm: string;
   reference_number: string;
   status: string;

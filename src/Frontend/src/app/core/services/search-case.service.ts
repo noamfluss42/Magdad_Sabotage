@@ -111,7 +111,6 @@ export class SearchCaseService {
       new TextboxField({
         key: 'internal_number', // +year
         label: 'מספר פנימי',
-
         type: 'text',
       }),
       new DropdownField({
@@ -294,7 +293,10 @@ export class SearchCaseService {
         onClick: (_case: Case) => {
           console.log(_case);
           // local storage exhibit
-          localStorage.setItem('caseQ', JSON.stringify(_case));
+          localStorage.removeItem('query');
+          alert("after query internal number"+_case.internal_number)
+          localStorage.setItem('caseQ', JSON.stringify(_case))
+          localStorage.setItem('internal_number', JSON.stringify(_case.internal_number));
           this.router.navigate(['/editCaseScreen']);
         },
       },

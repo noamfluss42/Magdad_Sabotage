@@ -17,7 +17,7 @@ export class ResultsScreenComponent implements OnInit {
   constructor(private route: ActivatedRoute,private service: SearchCaseService) {
 
   }
-  
+
 
 
   //gets data from the local storage and shows it in the results screen
@@ -29,8 +29,9 @@ export class ResultsScreenComponent implements OnInit {
     this.tableData = this.service.getData();
     this.searchResults = this.tableData.length | 0;
     this.resultCaseTableColumns = this.service.getTableColumns();;
+
   }
 
-  
+
 
 }

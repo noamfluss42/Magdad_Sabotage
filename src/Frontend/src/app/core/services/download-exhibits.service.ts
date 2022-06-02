@@ -17,7 +17,7 @@ export class DownloadExhibitsService {
         responseType: 'blob',
       })
       .subscribe((data: any) => {
-        saveAs(data, 'exhibits.xlsx'); //TODO Fix file extension
+        saveAs(data, 'exhibits.xlsx');
       });
   }
   downloadCases() {
@@ -26,7 +26,7 @@ export class DownloadExhibitsService {
         responseType: 'blob',
       })
       .subscribe((data: any) => {
-        saveAs(data, 'cases.xlsx'); //TODO Fix file extension
+        saveAs(data, 'cases.xlsx');
       });
   }
 

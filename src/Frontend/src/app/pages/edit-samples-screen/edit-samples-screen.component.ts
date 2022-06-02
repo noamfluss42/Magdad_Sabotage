@@ -40,11 +40,13 @@ export class EditSamplesScreenComponent implements OnInit {
   }
 
   onSubmit= (form: FormGroup): void => {
-
-    this.service.editSample(form.getRawValue()).subscribe((res: any) => {
+    const formRawValue = form.getRawValue();
+    delete formRawValue.sample_navigation;
+    formRawValue.sample_id = JSON.parse(localStorage.getItem('sample') || '{}').sample_id;
+    localStorage.setItem("sample",JSON.stringify(formRawValue));
+    this.service.editSample(formRawValue).subscribe((res: any) => {
       console.log(res);
     }
-    );
-    localStorage.removeItem('sample');
+    )
   }
 }

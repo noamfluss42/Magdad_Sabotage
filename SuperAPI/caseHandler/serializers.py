@@ -119,8 +119,8 @@ class ExhibitsSerializerI(serializers.ModelSerializer):
 class SamplesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Samples
-        fields = ('case_id',
-        'exhibit_id',
+        fields = ('internal_number',
+        'exhibit_number',
         'sample_id',
         'what_sampled',
         'where_sampled',

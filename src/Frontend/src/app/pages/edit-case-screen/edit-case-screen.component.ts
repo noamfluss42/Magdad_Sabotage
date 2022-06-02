@@ -25,9 +25,9 @@ export class EditCaseScreenComponent implements OnInit {
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
+    localStorage.setItem('case', JSON.stringify(this.caseData))
     localStorage.removeItem('caseQ');
     this.splitAt("weapon_name",this.caseData);
-    
     //split caseData to get only tags
   }
   splitAt(key: any, value: any) {
@@ -52,7 +52,7 @@ export class EditCaseScreenComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
@@ -62,7 +62,7 @@ export class EditCaseScreenComponent implements OnInit {
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
-
+    localStorage.setItem('case', JSON.stringify(data));
   };
 
   // sort form value by interface keys

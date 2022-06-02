@@ -7,7 +7,7 @@ import { DownloadExhibitsService } from 'src/app/core/services/download-exhibits
 })
 export class MainScreenComponent implements OnInit {
 
-  constructor(private service: DownloadExhibitsService) { }
+  constructor(private service: DownloadExhibitsService) { localStorage.clear();}
   ngOnInit(): void {
   }
 

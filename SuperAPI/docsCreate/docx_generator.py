@@ -39,7 +39,7 @@ def generate_docx(args):
 
     doc.paragraphs[2].runs[2].text = args["phone_number"]
     doc.paragraphs[3].runs[3].text = args["internal_number"]
-    doc.paragraphs[5].runs[1].text = args["recipient"]
+    doc.paragraphs[5].runs[1].text = args["transferred_to_lab"]
     # This segement handle the checkboxes
     if args["urgency"] == 'normal':
         doc.tables[0].rows[0].cells[0].paragraphs[1].runs[0]._r.xpath(CHECKBOX_PATH)[0].insert(2,
@@ -89,7 +89,7 @@ def main():
         'lab_name':"LAB",#
         'phone_number':"PHONE",#
         'internal_number': "IN",#
-        'recipient': "RECEPEINT",#
+        'transferred_to_lab': "RECEPEINT",#
         'urgency': "urgent",#
         'hazards': "sharp",#
         'exhibits': "exhibits",#
@@ -100,7 +100,7 @@ def main():
         "person_id": "person_id",#
         "reference_type": "reference_type",
         "reference_number": "פלאא",
-        "exhibit_description": "1. "+'what_sampled1'+" ממוצג מס' "+'exhibit_id1'+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+'packaging1'+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ str(1) +'\n'+"2. "+'what_sampled2'+" ממוצג מס' "+'exhibit_id2'+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+'packaging2'+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ str(2) +'\n'"3. "+'what_sampled3'+" ממוצג מס' "+'exhibit_id3'+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+'packaging3'+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ str(3) +'\n',
+        "exhibit_description": "1. "+'what_sampled1'+" ממוצג מס' "+'exhibit_number1'+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+'packaging1'+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ str(1) +'\n'+"2. "+'what_sampled2'+" ממוצג מס' "+'exhibit_id2'+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+'packaging2'+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ str(2) +'\n'"3. "+'what_sampled3'+" ממוצג מס' "+'exhibit_id3'+' בדוח התפיסה הוכנסו לשקית צלף שסומנה "'+'packaging3'+'" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה '+ str(3) +'\n',
         "event_description": "event_description",
         'date_created': "08/08/2005"
 

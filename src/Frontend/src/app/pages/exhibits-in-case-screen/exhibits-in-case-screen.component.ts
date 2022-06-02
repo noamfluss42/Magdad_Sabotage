@@ -20,11 +20,8 @@ export class ExhibitsInCaseScreenComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.case= localStorage.getItem('case')
-
-    if (this.case) {
-      this.internal_number = JSON.parse(this.case).internal_number.split('.')[0];
-    }
+    this.internal_number= JSON.parse(localStorage.getItem('internal_number') || '[]')
+    alert("start moving Exhibits" + this.internal_number)
     this.tableColumns = this.service.getTableColumns();
     this.tableData = this.service.getExhibitsFromCase(this.internal_number);
   }

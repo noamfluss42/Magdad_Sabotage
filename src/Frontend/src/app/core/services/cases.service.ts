@@ -20,11 +20,19 @@ export class CasesService {
   getCase() {
     return this.http.get<Case[]>(this.caseURL);
   }
+
+  getCaseId() {
+    return this.http.get(`${Constants.API_URL}/generate_id/case`, { // TODO add generate_id to backend
+      responseType: 'json',
+    });
+  }
+
   /* POST: add new Case do database */
 
   // In Typescript 'case' is an illegal parameter name, therefore we use 'case_'
   postCase(case_: Case): Observable<Case> {
-    return this.http.post<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
+
+    return this.http.post<Case>(this.caseURL + case_.internal_number, case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -45,7 +53,7 @@ export class CasesService {
   /*TODO check merge */
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
+    return this.http.put<Case>(this.caseURL + case_.internal_number, case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -72,14 +80,13 @@ export class CasesService {
       // new TextboxField({
       //   key: 'internal_number', // +year
       //   label: 'מספר פנימי',
-      //   required: true,
+      //   required: false,
       //   type: 'text',
-      //   value: this.generateInternalNumber(),
       // }),
       new DropdownField({
         key: 'received_or_go',
         label: 'יציאה/קבלה',
-        required: true,
+        required: false,
         options: [
           { key: 'יציאה לאירוע', value: 'יציאה לאירוע' },
           { key: 'קבלת אירוע', value: 'קבלת אירוע' },
@@ -88,7 +95,7 @@ export class CasesService {
       new DropdownField({
         key: 'lab_name',
         label: 'שם מעבדה ',
-        required: true,
+        required: false,
         options: [
           { key: 'דרום', value: 'דרום' },
           { key: 'תל אביב', value: 'ת"א' },
@@ -99,7 +106,7 @@ export class CasesService {
       new DropdownField({
         key: 'event_characteristic',
         label: 'מאפיין האירוע',
-        required: true,
+        required: false,
         options: [
           { key: 'weapons', value: 'אמל"ח' },
           { key: 'explosive_device', value: 'מטען חבלה' },
@@ -111,12 +118,12 @@ export class CasesService {
         key: 'event_date',
         label: 'תאריך אירוע',
         type: 'text',
-        required: true,
+        required: false,
       }),
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
-        required: true,
+        required: false,
         type: 'text',
 
       }),
@@ -234,6 +241,7 @@ export class CasesService {
         }
       }),
 
+
       // new TextboxField({
       //   key: 'sender_rank',
       //   label: 'דרגה ',
@@ -324,5 +332,6 @@ export class CasesService {
     ];
     return tags;
   }
+
 
 }
