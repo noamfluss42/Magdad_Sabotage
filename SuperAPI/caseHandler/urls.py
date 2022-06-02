@@ -7,7 +7,7 @@ from django.conf import settings
 
 urlpatterns=[
     url(r'^case/$',views.caseApi),
-    url(r'^case/([0-9]+)$',views.caseApi),
+    url(r'^case/([0-9]+).([0-9]+)$',views.caseApi),
     url(r'^case/dwnld/$',views.caseDwnld),
     url(r'^get_exhibits_query/([0-9]+)$', views.exhibitQuery),
     url(r'^exhibits/dwnld/$', views.exhibitDwnld),

@@ -15,7 +15,7 @@ export class LoadingScreenComponent implements OnInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       window.location.href = '/searchCaseResult';
-    }, 1000);
+    }, 2000);
   }
 
 

@@ -232,7 +232,7 @@ def queryHandler(request):
 
 # Create your views here.
 @csrf_exempt
-def caseApi(request, case_name=""):
+def caseApi(request, case_name1="", case_name2=""):
     if request.method == 'GET':
         cases = Case.objects.all()
         cases.annotate(index=Value(''))
@@ -264,6 +264,8 @@ def caseApi(request, case_name=""):
         print("case put")
         department_data = JSONParser().parse(request)
         create_default_values(department_data, CaseSerializer)
+        print("department_data",department_data['internal_number'])
+
         old_department = Case.objects.get(internal_number=department_data['internal_number'])
         if old_department.status == 'פתוח' and (
                 department_data["status"] == 'סגור ללא חווד' or department_data["status"] == 'סגור חווד'):
