@@ -69,8 +69,10 @@ def generate_docx(args):
     if args["exhibits"] == 'returning':
         doc.tables[0].rows[0].cells[2].paragraphs[3].runs[0]._r.xpath(CHECKBOX_PATH)[0].insert(2,
                                                                                                OxmlElement('w:checked'))
-    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[2].text = "\t" + "נוסף" + ":" + " "
-    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[1].text = " "+args["lab_name"]
+
+    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[1].text = " "+args["investigating_unit"]
+    if args["pele_number"] != "default":
+        doc.tables[0].rows[1].cells[0].paragraphs[0].runs[1].text += "\t" + "נוסף" + ":" + " " + args["pele_number"]
     doc.tables[0].rows[1].cells[0].paragraphs[2].runs[0].text = args["exhibit_description"]
 
     doc.tables[0].rows[1].cells[0].paragraphs[6].runs[0].text = args["testing_essence"]

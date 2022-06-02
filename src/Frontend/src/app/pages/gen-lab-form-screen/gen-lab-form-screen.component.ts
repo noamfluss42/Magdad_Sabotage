@@ -26,6 +26,8 @@ export class GenLabFormScreenComponent implements OnInit {
     values[0]["value"] = localCase.internal_number
     values[2]["value"] = localCase.district
     values[8]["value"] = localCase.sender_name
+    values[12]["value"] = localCase.investigating_unit
+    values[13]["value"] = localCase.pele_number
   }
 
   ngOnInit(): void {}

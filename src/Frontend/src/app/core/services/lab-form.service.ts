@@ -99,8 +99,27 @@ export class LabFormService {
         label: 'מספר טלפון',
         required: false,
         type: 'text',
-      })
-
+      }),
+      new DropdownField({
+        key: 'investigating_unit',
+        label: 'יחידת חקירות',
+        required: false,
+        options: [
+          { key: 'בין שאן', value: 'בין שאן' },
+          { key: 'טבריה', value: 'טבריה' },
+          { key: 'כנא', value: 'כנא' },
+          { key: 'מגדל העמק', value: 'מגדל העמק' },
+          { key: 'נצרת', value: 'נצרת' },
+          { key: ' נצרת עילית', value: 'נצרת עילית' },
+          { key: ' עפולה', value: 'עפולה' },
+          { key: ' שפרעם', value: 'שפרעם' },
+        ],
+      }),
+      new TextboxField({
+        key: 'pele_number',
+        label: "'מס" + ' פלא',
+        type: 'text',
+      }),
     ];
     return questions.sort((a, b) => a.order - b.order);
   }
