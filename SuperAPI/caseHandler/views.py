@@ -494,12 +494,21 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
             return id
     elif type == "case":
         if Case.objects.count() == 0:
-            id = "1"
+            year = date.today().year
+            id = "1." + str(year)
             return id
         else:
-            case = Case.objects.all().order_by('-internal_number')
+            cases = Case.objects.all()
+            year = date.today().year
+            cases_current_year = []
+            for case in cases:
+                if case.internal_number.endswith("." + str(year)):
+                    cases_current_year.append(case)
+            if len(cases_current_year) == 0:
+                id = "1." + str(year)
             # TODO take year into consideration
-            id = int(max([float(c.internal_number) for c in case]) + 1)
+            else:
+                id = str(int(max([float(c.internal_number[:c.internal_number.find(".")]) for c in cases_current_year]) + 1)) + "." + str(year)
             print("case id",id)
             return id
     elif type == "samples":

@@ -31,7 +31,8 @@ def generate_transfer_doc(args):
 def generate_docx(args):
     dir_path = os.path.dirname(os.path.realpath(__file__))
     doc = docx.Document(dir_path+'/template.docx') #get  directory of template docx
-
+    print("\n\n\nargs:")
+    print(args)
     doc.paragraphs[0].runs[0].text = 'מעבדת חבלה ' + args["lab_name"]
     doc.paragraphs[1].runs[0].text = '         תאריך: ' + args["date_created"].split('/')[2]
     doc.paragraphs[1].runs[4].text = args["date_created"].split('/')[1]
@@ -68,7 +69,8 @@ def generate_docx(args):
     if args["exhibits"] == 'returning':
         doc.tables[0].rows[0].cells[2].paragraphs[3].runs[0]._r.xpath(CHECKBOX_PATH)[0].insert(2,
                                                                                                OxmlElement('w:checked'))
-    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[2].text = "TEST"
+    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[2].text = "\t" + "נוסף" + ":" + " "
+    doc.tables[0].rows[1].cells[0].paragraphs[0].runs[1].text = " "+args["lab_name"]
     doc.tables[0].rows[1].cells[0].paragraphs[2].runs[0].text = args["exhibit_description"]
 
     doc.tables[0].rows[1].cells[0].paragraphs[6].runs[0].text = args["testing_essence"]
