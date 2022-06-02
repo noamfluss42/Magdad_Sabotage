@@ -22,6 +22,7 @@ export class SamplesScreenComponent implements OnInit {
     var values = Array.from(this.fields$.values())
     values[0]["value"] = localExhibit.internal_number
     values[1]["value"] = localExhibit.exhibit_number
+    alert("sample fill lab name"+localExhibit.lab_name)
     values[11]["value"] = localExhibit.lab_name
     values[13]["value"] = localExhibit.investigator_name
 

@@ -118,7 +118,7 @@ export class CasesService {
         key: 'event_date',
         label: 'תאריך אירוע',
         type: 'text',
-        required: false,
+        required: true,
       }),
       new DatePickerField({
         key: 'received_date',

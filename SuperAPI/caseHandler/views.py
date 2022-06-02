@@ -243,11 +243,12 @@ def caseApi(request, case_name=""):
     elif request.method == 'POST':
         print("\n\ncase post")
         case_data = JSONParser().parse(request)
+        create_default_values(case_data, CaseSerializer)
         print("case_data['internal_number']", case_data['internal_number'])
         if case_data['internal_number'] == "default":
-            return
-        # case_data["internal_number"] = idApi('case')
-        create_default_values(case_data, CaseSerializer)
+            case_data["internal_number"] = idApi('case')
+        print("case_data['internal_number']",case_data["internal_number"])
+
         department_serializer = CaseSerializer(data=case_data)
         if department_serializer.is_valid():
             department_serializer.save()
@@ -454,6 +455,7 @@ def exhibitsApi(request, exhibit_number=""):
         exhibits_serializer = ExhibitsSerializer(data=exhibit_data)
         if exhibits_serializer.is_valid():
             exhibits_serializer.save()
+            print("save exhibit",exhibit_data["exhibit_number"])
             return JsonResponse(str(exhibit_data["exhibit_number"]), safe=False)
         else:
             print("POSTerror", exhibit_data)
@@ -496,6 +498,7 @@ def idApi(type, internal_number=None, transferred_to_lab=None):
             case = Case.objects.all().order_by('-internal_number')
             # TODO take year into consideration
             id = int(max([float(c.internal_number) for c in case]) + 1)
+            print("case id",id)
             return id
     elif type == "samples":
         samples = Samples.objects.all().filter(internal_number=internal_number,

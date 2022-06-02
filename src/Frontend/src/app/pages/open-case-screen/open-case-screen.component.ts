@@ -41,21 +41,22 @@ export class OpenCaseScreenComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  generateId = (): void => {
+
+  /*generateId = (): void => {
     this.service.getCaseId().subscribe((res: any) => {
       this.internal_number = res;
       alert("this.internal_number"+this.internal_number + "hjhj");
     });
     this.saved_tags = ""
     this.saved_non_tags = ""
-  };
+  };*/
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
-    if (this.internal_number == "") {
+    /*if (this.internal_number == "") {
       alert("press first on" + "צור מספר תיק");
       return;
-    }
+    }*/
     if (this.saved_non_tags == ""){
       alert("save first tags");
       return;
@@ -67,19 +68,18 @@ export class OpenCaseScreenComponent implements OnInit {
     console.log(data);
     this.service.updateCase(data).subscribe((res: any) => {
           cb(res);
-        });
+          localStorage.setItem('case', JSON.stringify(data));
+    });
     this.sharedData.addToData(data);
-    localStorage.setItem('case', JSON.stringify(data));
     this.saved_tags = "yes"
     // this.router.navigate(['/registerExhibit']);
   };
 
   onSave = (form: FormGroup, cb: (res: string) => void): void => {
-    if (this.internal_number == "") {
+    /*if (this.internal_number == "") {
       alert("press first on" + "צור מספר תיק");
       return;
-    }
-    alert("this.internal_number"+this.internal_number + "onSave");
+    }*/
     // sort form value by sinterface keys
     var does_exist = false;
     //print the internal number value from request
@@ -115,7 +115,10 @@ export class OpenCaseScreenComponent implements OnInit {
     if (this.saved_non_tags == "") {
       this.service.postCase(formRawValue).subscribe((res: any) => {
         cb(res);
+        this.internal_number = res;
         alert(" תיק" + this.internal_number + "נפתח בהצלחה ");
+        formRawValue.internal_number = res;
+        alert("check formRawValue.internal_number " + formRawValue.internal_number);
         localStorage.setItem('case', JSON.stringify(formRawValue));
         localStorage.setItem('internal_number', JSON.stringify(this.internal_number));
         this.saved_non_tags = "yes";
