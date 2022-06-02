@@ -166,8 +166,7 @@ def queryHandler(request):
     query_data = JSONParser().parse(request)
     create_default_values(query_data, CaseSerializer, default_value="")
     cases = Case.objects.all()
-    if "" != query_data['min_date'] and "" != query_data['max_date']:
-        cases = filterDate(cases, query_data)
+    print("typecases",cases)
     if "" != query_data['internal_number']:
         cases = cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['received_or_go']:
@@ -226,6 +225,7 @@ def queryHandler(request):
         # cases = cases.filter(explosive_device_camouflage=query_data['explosive_device_camouflage'])
     if "" != query_data['weapon_additional_characteristics']:
         cases = cases.filter(weapon_additional_characteristics=query_data['weapon_additional_characteristics'])
+    cases = filterDate(cases, query_data)
     cases_serializer = CaseSerializer(cases, many=True)
     return JsonResponse(cases_serializer.data, safe=False)
 
@@ -269,9 +269,13 @@ def caseApi(request, case_name=""):
             today = date.today()
             department_data["status_closed_date"] = today.strftime("%d-%m-%Y")
         department_serializer = CaseSerializer(old_department, data=department_data)
+        print(department_data)
         if department_serializer.is_valid():
             department_serializer.save()
+            print("save")
             return JsonResponse("Updated Successfully!!", safe=False)
+        else:
+            print("error", department_serializer.errors)
         return JsonResponse("Failed to Update.", safe=False)
 
     elif request.method == 'DELETE':

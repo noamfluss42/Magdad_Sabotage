@@ -53,7 +53,7 @@ export class CasesService {
   /*TODO check merge */
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
+    return this.http.put<Case>(this.caseURL + case_.internal_number, case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),

@@ -55,7 +55,7 @@ export interface Case {
   event_type: string;
   pele_number: string;
   district: string;
-  investigation_unit: string;
+  investigating_unit: string;
   explosion_or_disarm: string;
   reference_number: string;
   status: string;
@@ -121,7 +121,7 @@ export interface CaseSearch {
   event_type: string;
   pele_number: string;
   district: string;
-  investigation_unit: string;
+  investigating_unit: string;
   explosion_or_disarm: string;
   reference_number: string;
   status: string;

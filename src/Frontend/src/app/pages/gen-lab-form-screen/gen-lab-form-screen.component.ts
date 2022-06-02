@@ -24,7 +24,8 @@ export class GenLabFormScreenComponent implements OnInit {
     // Converts fields into array and auto fills case number.
     var values = Array.from(this.fields$.values())
     values[0]["value"] = localCase.internal_number
-
+    values[2]["value"] = localCase.district
+    values[8]["value"] = localCase.sender_name
   }
 
   ngOnInit(): void {}

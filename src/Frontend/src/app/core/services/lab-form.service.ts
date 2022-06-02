@@ -18,11 +18,11 @@ export class LabFormService {
         label: 'אל מעבדה',
         required: true,
         options: [
-         { key: 'hanam', value: 'חנ"מ' },
-         { key: 'ta', value: 'ט"א' },
-         { key: 'biologically', value: 'ביולוגית' },
-         { key: 'arsons', value: 'הצתות' },
-         { key: 'signsAndMaterials', value: 'סימנים וחומרים' },
+         { key: 'חנ"מ', value: 'חנ"מ' },
+         { key: 'ט"א', value: 'ט"א' },
+         { key: 'ביולוגית', value: 'ביולוגית' },
+         { key: 'הצתות', value: 'הצתות' },
+         { key: 'סימנים וחומרים', value: 'סימנים וחומרים' },
         ],
       }),
       new DropdownField({
