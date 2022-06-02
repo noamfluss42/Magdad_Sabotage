@@ -33,11 +33,11 @@ from caseHandler.create_default_values import create_default_values, DEFAULT_VAL
 
 
 def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filter_by_status_closed_date=False):
-    if "" != query_data['min_date']:
+    if "min_date" in query_data and "" != query_data['min_date']:
         min_date = datetime.strptime(query_data['min_date'], date_format)
     else:
         min_date = datetime.min
-    if "" != query_data['max_date']:
+    if "max_date" in query_data and "" != query_data['max_date']:
         max_date = datetime.strptime(query_data['max_date'], date_format)
     else:
         max_date = datetime.max
@@ -166,7 +166,6 @@ def queryHandler(request):
     query_data = JSONParser().parse(request)
     create_default_values(query_data, CaseSerializer, default_value="")
     cases = Case.objects.all()
-    print("typecases",cases)
     if "" != query_data['internal_number']:
         cases = cases.filter(internal_number=query_data['internal_number'])
     if "" != query_data['received_or_go']:
@@ -199,7 +198,6 @@ def queryHandler(request):
         cases = cases.filter(event_description=query_data['event_description'])
     if "" != query_data['sender_name']:
         cases = cases.filter(sender_name=query_data['sender_name'])
-
     if "" != query_data['weapon_name']:
         cases = search_tags(cases, "weapon_name",
                             query_data['weapon_name'])  # cases.filter(weapon_name=query_data['weapon_name'])
@@ -433,7 +431,6 @@ def exhibitQuery(request, internal_number=""):
     exhibits = Exhibits.objects.all()
     exhibits = exhibits.filter(internal_number=internal_number)
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
-    print("exhibits_serializer.data", exhibits_serializer.data)
     return JsonResponse(exhibits_serializer.data, safe=False)
 
 
