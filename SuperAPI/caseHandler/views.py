@@ -594,6 +594,8 @@ param:
     internal_num - id of case
 """
 
+def convert_date_format(original_date):
+    return datetime.strptime(original_date, '%Y-%m-%dT%H:%M:%S.%f%z').strftime("%d/%m/%Y")
 
 def getSampleList(internal_number, name,transferred_to_lab):
     print("internal_number=",internal_number,"transferred_to_lab =", transferred_to_lab)
@@ -605,8 +607,8 @@ def getSampleList(internal_number, name,transferred_to_lab):
         print("start index", index, "and sample", sample["sample_id"])
         list += str(sample["sample_id"]) + ".  " + sample['what_sampled'] + " ממוצג מס' " + str(sample['exhibit_number']) \
                 + ' בדוח התפיסה הוכנסו לשקית צלף שסומנה "' + str(sample['packaging']) \
-                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + ' וסומנה "' + sample[
-                    "date"] + "\" מע' חבלה " \
+                + '" והוכנסה לשקית מאובטחת לשימוש חד פעמי שמספרה ' + sample["bag_num"] + ' וסומנה "' + convert_date_format(sample[
+                    "date"]) + "\" מע' חבלה " \
                 + case.lab_name + " " + "מס'" + " "
         list += case.pele_number if case.pele_number != "default" else sample["reference"]
         list += " " + "ר.ז "
