@@ -62,6 +62,7 @@ def filterDate(case_list, query_data, date_format='%Y-%m-%dT%H:%M:%S.%f%z', filt
 
 def monthly_sum(dates, get_dict=False):  # more updates will come
     print("start monthly_sum")
+
     case_list = []
     count = 0
     result = {"totalOpenCases": 0,
@@ -82,11 +83,12 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
     for case in case_list:
         if case.status == 'פתוח':
             result["totalOpenCases"] += 1
+
     result["monthlyClosedCases"] = len(filterDate(case_list, dates,
                                                   date_format='%d-%m-%Y', filter_by_status_closed_date=True))
 
     case_list = filterDate(case_list, dates, date_format='%d-%m-%Y')
-
+    result["monthlyOpenedCases"] = len(case_list)
     for case in case_list:
         if case.received_or_go == 'קבלת אירוע':
             result["totalNoneAreaEvents"] += 1
@@ -104,6 +106,7 @@ def monthly_sum(dates, get_dict=False):  # more updates will come
     result["totalCheckedAreas"] = result["monthlyOpenedCases"] - result["totalNoneAreaEvents"]
     if get_dict:
         return result
+    print("result",result)
     return JsonResponse(result, safe=False)
 
 
@@ -432,8 +435,10 @@ def caseDwnld(request):
 # given a case internal number, returns all exhibits related to it
 # internal number should be sent as a Json param 'internal_number' : <value>
 @csrf_exempt
-def exhibitQuery(request, internal_number=""):
+def exhibitQuery(request, internal_number1="",internal_number2 = ""):
     exhibits = Exhibits.objects.all()
+    internal_number = internal_number1 + "." + internal_number2
+    print("exhibitQuery internal_number",internal_number)
     exhibits = exhibits.filter(internal_number=internal_number)
     exhibits_serializer = ExhibitsSerializer(exhibits, many=True)
     return JsonResponse(exhibits_serializer.data, safe=False)
@@ -545,6 +550,7 @@ def samplesApi(request, sample_id=""):
         samples_data = JSONParser().parse(request)
         print("samples_data['internal_number']",samples_data["internal_number"])
         print("samples_data['transferred_to_lab']",samples_data["transferred_to_lab"])
+        print("")
         samples_data["sample_id"] = idApi('samples', internal_number=samples_data["internal_number"],
                                               transferred_to_lab=samples_data["transferred_to_lab"])
         print("samples_data sample_number",samples_data["sample_id"])

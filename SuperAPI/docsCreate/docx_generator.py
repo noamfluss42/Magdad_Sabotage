@@ -74,7 +74,8 @@ def generate_docx(args):
     if args["pele_number"] != "default":
         doc.tables[0].rows[1].cells[0].paragraphs[0].runs[1].text += "\t" + "נוסף" + ":" + " " + args["pele_number"]
     doc.tables[0].rows[1].cells[0].paragraphs[2].runs[0].text = args["exhibit_description"]
-
+    doc.tables[0].rows[1].cells[0].paragraphs[4].runs[0].text = args["event_description"]
+    
     doc.tables[0].rows[1].cells[0].paragraphs[6].runs[0].text = args["testing_essence"]
     doc.tables[0].rows[1].cells[0].paragraphs[8].runs[0].text = args["notes"]
     doc.tables[0].rows[1].cells[0].paragraphs[9].runs[1].text = args["name"]

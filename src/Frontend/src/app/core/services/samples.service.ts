@@ -131,7 +131,7 @@ export class SamplesService {
         type: 'date',
       }),
       new DropdownField({
-        key: 'lab_name',
+        key: 'unit_name',
         label: 'מעבדה שולחת',
         required: true,
         options: [
@@ -233,7 +233,7 @@ export class SamplesService {
         sortable: true,
       },
       {
-        name: 'שם יחידה',
+        name: 'מעבדה שולחת',
         attribute: 'unit_name',
         sortable: true,
       },

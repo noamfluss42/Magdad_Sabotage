@@ -120,6 +120,12 @@ export class LabFormService {
         label: "'מס" + ' פלא',
         type: 'text',
       }),
+      new TextboxField({
+        key: 'event_description',
+        label: 'תיאור האירוע',
+        required: false,
+        type: 'text',
+      }),
     ];
     return questions.sort((a, b) => a.order - b.order);
   }
