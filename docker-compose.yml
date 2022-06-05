@@ -17,6 +17,6 @@ services:
         ports:
             - "12581:12581"
         environment:
-            - API_URL=http://10.190.109.225:12580
+            - API_URL=http://localhost:12580
         links:
             - app-backend   
