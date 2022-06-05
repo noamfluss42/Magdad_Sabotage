@@ -78,12 +78,12 @@ hr {
   margin: 1.5rem 0;
 }
 
-.onSave
-{
-  border-radius: 4px;
-  padding: 2rem;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-  margin-top: -6.5rem;
+.errorMessage {
+  text-align: center;
+  color: red;
 }
-
+mat-spinner {
+  margin: auto;
+  width: 50px;
+  height: 50px;
+}

@@ -7,6 +7,8 @@ import { DropdownField, TextboxField, DatePickerField, ButtonField } from '../ut
 import { FormFieldBase } from '../utils/form-field-base';
 import type { Case } from '../utils/types';
 import { formatDate } from '@angular/common';
+import { FormGroup } from '@angular/forms';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,11 +20,19 @@ export class CasesService {
   getCase() {
     return this.http.get<Case[]>(this.caseURL);
   }
+
+  getCaseId() {
+    return this.http.get(`${Constants.API_URL}/generate_id/case`, { // TODO add generate_id to backend
+      responseType: 'json',
+    });
+  }
+
   /* POST: add new Case do database */
 
   // In Typescript 'case' is an illegal parameter name, therefore we use 'case_'
   postCase(case_: Case): Observable<Case> {
-    return this.http.post<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
+
+    return this.http.post<Case>(this.caseURL + case_.internal_number, case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
@@ -40,15 +50,18 @@ export class CasesService {
   deleteCase(id: number): Observable<unknown> {
     return this.http.delete(`${this.caseURL}/${id}`);
   }
-
+  /*TODO check merge */
   /* UPDATE: update the case field on the server. Returns the updated case upon success. */
   updateCase(case_: Case): Observable<Case> {
-    return this.http.put<Case>(this.caseURL + case_.internal_number.split('.')[0], case_, {
+    return this.http.put<Case>(this.caseURL + case_.internal_number, case_, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
     });
   }
+
+
+  /*TODO check merge */
   cacheCaseOnReturn(case_: Case) {
     localStorage.setItem('case', JSON.stringify(case_));
   }
@@ -64,17 +77,16 @@ export class CasesService {
 
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
-      new TextboxField({
-        key: 'internal_number', // +year
-        label: 'מספר פנימי',
-        required: true,
-        type: 'text',
-        value: '' + '.' + this.getShortYear().toString(),
-      }),
+      // new TextboxField({
+      //   key: 'internal_number', // +year
+      //   label: 'מספר פנימי',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new DropdownField({
         key: 'received_or_go',
         label: 'יציאה/קבלה',
-        required: true,
+        required: false,
         options: [
           { key: 'יציאה לאירוע', value: 'יציאה לאירוע' },
           { key: 'קבלת אירוע', value: 'קבלת אירוע' },
@@ -83,7 +95,7 @@ export class CasesService {
       new DropdownField({
         key: 'lab_name',
         label: 'שם מעבדה ',
-        required: true,
+        required: false,
         options: [
           { key: 'דרום', value: 'דרום' },
           { key: 'תל אביב', value: 'ת"א' },
@@ -94,12 +106,12 @@ export class CasesService {
       new DropdownField({
         key: 'event_characteristic',
         label: 'מאפיין האירוע',
-        required: true,
+        required: false,
         options: [
-          { key: 'אמל"ח', value: 'אמל"ח' },
-          { key: 'מטען חבלה', value: 'מטען חבלה' },
-          { key: 'זיקוקין', value: 'זיקוקין' },
-          { key: 'בדיקות/שאילתה', value: 'בדיקות/שאילתה' },
+          { key: 'weapons', value: 'אמל"ח' },
+          { key: 'explosive_device', value: 'מטען חבלה' },
+          { key: 'fireworks', value: 'זיקוקין' },
+          { key: 'query', value: 'בדיקות/שאילתה' },
         ],
       }),
       new DatePickerField({
@@ -107,12 +119,11 @@ export class CasesService {
         label: 'תאריך אירוע',
         type: 'text',
         required: true,
-        
       }),
       new DatePickerField({
         key: 'received_date',
         label: 'תאריך קבלה',
-        required: true,
+        required: false,
         type: 'text',
 
       }),
@@ -165,6 +176,7 @@ export class CasesService {
       new DropdownField({
         key: 'explosion_or_disarm',
         label: 'פיצוץ/נטרול',
+        required: false,
         options: [
           { key: 'פיצוץ', value: 'פיצוץ' },
           { key: 'נטרול', value: 'נטרול' },
@@ -181,10 +193,10 @@ export class CasesService {
       new DropdownField({
         key: 'status',
         label: 'סטטוס',
-        required: true,
+        required: false,
         options: [
           { key: 'פתוח', value: 'פתוח' },
-          { key: ' סגור לללא חווד', value: ' סגור לללא חווד' },
+          { key: 'סגור ללא חווד', value: 'סגור ללא חווד' },
           { key: 'סגור חווד', value: 'סגור חווד' },
         ],
       }),
@@ -197,23 +209,27 @@ export class CasesService {
       new TextboxField({
         key: 'event_location',
         label: 'מקום האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'catch_report',
-        label: 'דוח תפיסה',
-        required: true,
-        type: 'text',
-      }),
+
 
       new TextboxField({
         key: 'event_description',
         label: 'תיאור האירוע',
-        required: true,
+        required: false,
         type: 'text',
       }),
 
+      new DropdownField({
+        key: 'helping',
+        label: 'סיוע',
+        required: true,
+        options: [
+          { key: 'כן', value: 'כן' },
+          { key: 'לא', value: 'לא' },
+        ],
+      }),
 
       new ButtonField({
         key:'navigator',
@@ -222,7 +238,9 @@ export class CasesService {
         required: false,
         onClick: () => {
           this.router.navigate(['/exhibitNavigator']);
-      }}),
+        }
+      }),
+
 
       // new TextboxField({
       //   key: 'sender_rank',
@@ -252,66 +270,68 @@ export class CasesService {
     const tags: FormFieldBase<string>[] = [
       new TextboxField({
         key: 'weapon_name',
-        label: 'אמל"ח: שם הפריט',
-        required: true,
+        label: 'מט"ח: חנ"מ' + "  " + 'אמל"ח: שם הפריט',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'explosive_device_material',
-        label: 'מט"ח: חנ"מ',
-        required: true,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'explosive_device_material',
+      //   label: 'מט"ח: חנ"מ',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_means',
-        label: 'מט"ח: אמצעי ייזום',
-        required: true,
+        label: 'מט"ח: אמצעי ייזום'+ "  "+'אמל"ח: הגדרות',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_options',
-        label: 'אמל"ח: הגדרות',
-        required: true,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_options',
+      //   label: 'אמל"ח: הגדרות',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_operating_system',
-        label: 'מט"ח: מע' + "' הפעלה",
-        required: true,
+        label: 'מט"ח: מע' + "' הפעלה"+ "  "+ 'אמל"ח: סימון',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_mark',
-        label: 'אמל"ח: סימון',
-        required: true,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_mark',
+      //   label: 'אמל"ח: סימון',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_spray',
-        label: 'מט"ח: רסס',
-        required: true,
+        label: 'מט"ח: רסס'+ "  "+ 'אמל"ח: צבע',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_color',
-        label: 'אמל"ח: צבע',
-        required: true,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_color',
+      //   label: 'אמל"ח: צבע',
+      //   required: false,
+      //   type: 'text',
+      // }),
       new TextboxField({
         key: 'explosive_device_camouflage',
-        label: 'מט"ח: הסוואה',
-        required: true,
+        label: 'מט"ח: הסוואה' + "  "+ 'אמל"ח: מאפיינים נוספים',
+        required: false,
         type: 'text',
       }),
-      new TextboxField({
-        key: 'weapon_additional_characteristics',
-        label: 'אמל"ח: מאפיינים נוספים',
-        required: true,
-        type: 'text',
-      }),
+      // new TextboxField({
+      //   key: 'weapon_additional_characteristics',
+      //   label: 'אמל"ח: מאפיינים נוספים',
+      //   required: false,
+      //   type: 'text',
+      // }),
 
     ];
     return tags;
   }
+
+
 }

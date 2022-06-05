@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from caseHandler.models import Samples
 from caseHandler.models import Case
 from caseHandler.models import CaseI
 from caseHandler.models import Exhibits
@@ -23,6 +24,8 @@ class CaseSerializer(serializers.ModelSerializer):
             "reference_number",
             "status",
             "sender_name",
+            "helping",
+            "status_closed_date",
             "event_location",
             "event_description",
             "weapon_name",
@@ -54,6 +57,8 @@ class CaseSerializerI(serializers.ModelSerializer):
                   "reference_number",
                   "status",
                   "sender_name",
+                  "helping",
+                  "status_closed_date",
                   "event_location",
                   "event_description",
                   "weapon_name",
@@ -110,3 +115,24 @@ class ExhibitsSerializerI(serializers.ModelSerializer):
             "result",
             "index"
         )
+        
+class SamplesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Samples
+        fields = ('internal_number',
+        'exhibit_number',
+        'sample_id',
+        'what_sampled',
+        'where_sampled',
+        'transferred_to_lab',
+        'sending_date',
+        'receiving_date',
+        'packaging',
+        'results',
+        'notes',
+        'date',
+        'unit_name', 
+        'reference',
+        'investigator_name',
+        'phone_num',
+        'bag_num',)

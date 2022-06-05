@@ -13,7 +13,9 @@
       <button mat-raised-button color="primary" routerLink="/yearlySummary">סיכום שנתי</button>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-raised-button color="primary">עדכון אירוע קיים</button>
+      <button mat-raised-button (click)="downloadCases()" type="submit" color="primary">
+      הורדת תיקים
+      </button>
     </mat-grid-tile>
     <mat-grid-tile>
       <button mat-raised-button routerLink="/searchCase" color="primary">שאילתות</button>

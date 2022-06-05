@@ -42,7 +42,9 @@ import { YearlySummaryScreenComponent } from './pages/yearly-summary-screen/year
 import { SamplesNavigatorScreenComponent } from './pages/samples-navigator-screen/samples-navigator-screen.component';
 import { SamplesInCaseScreenComponent } from './pages/samples-in-case-screen/samples-in-case-screen.component';
 import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-screen.component';
-
+import { EditSamplesScreenComponent } from './pages/edit-samples-screen/edit-samples-screen.component';
+import { LoadingScreenComponent } from './pages/loading-screen/loading-screen.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 @NgModule({
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-scre
     MatListModule,
     MatAutocompleteModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   ],
 
   declarations: [
@@ -87,6 +90,8 @@ import { EditCaseScreenComponent } from './pages/edit-case-screen/edit-case-scre
     SamplesNavigatorScreenComponent,
     SamplesInCaseScreenComponent,
     EditCaseScreenComponent,
+    EditSamplesScreenComponent,
+    LoadingScreenComponent,
   ],
   bootstrap: [AppComponent],
   providers: [

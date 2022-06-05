@@ -1,6 +1,11 @@
 <div>
+  <h1>תנועת דגימות</h1>
+  <app-samples-in-case-screen></app-samples-in-case-screen>
+  <mat-divider></mat-divider>
   <h1>רישום דגימה</h1>
-  <app-dynamic-form [fields]="fields$"
-                    buttonText="הבא"
-                    [onSubmit]="onSubmit"></app-dynamic-form>
+  <app-dynamic-form
+    [fields]="fields$"
+    buttonText="שמור"
+    [onSubmit]="onSubmit"
+  ></app-dynamic-form>
 </div>

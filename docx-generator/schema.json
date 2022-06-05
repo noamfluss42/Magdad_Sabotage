@@ -3,7 +3,7 @@
     "date_created": "DD/MM/YYYY",
     "phone_number": "TEXT",
     "inside_lab": "NNN/YYYY",
-    "recipient": "TEXT",
+    "transferred_to_lab": "TEXT",
     "urgency": "normal/urgent/urgent_arrest",
     "hazards": ["biological","toxic","sharp","The first three are the only options, not all of them have to appear"],
     "exhibits": ["normal","additional","returning","The first three are the only options, not all of them have to appear"],

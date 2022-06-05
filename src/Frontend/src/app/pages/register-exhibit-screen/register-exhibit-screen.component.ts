@@ -6,8 +6,6 @@ import { SharedDataService } from 'src/app/core/services/shared-data.service';
 import { SamplesService } from 'src/app/core/services/samples.service';
 import { FormFieldBase } from '../../core/utils/form-field-base';
 
-enum Mode { Exhibits, RegisterSamples, EditSamples }
-
 @Component({
   selector: 'app-register-exhibit-screen',
   templateUrl: './register-exhibit-screen.component.html',
@@ -15,23 +13,24 @@ enum Mode { Exhibits, RegisterSamples, EditSamples }
 })
 export class RegisterExhibitScreenComponent implements OnInit {
   fields$: FormFieldBase<any>[];
-  samplesFields$: FormFieldBase<any>[];
-
-  mode$: Mode;
 
   constructor(
     private service: ExhibitsService,
     private sharedData: SharedDataService,
-    private samplesService: SamplesService,
     private router: Router
   ) {
     this.fields$ = this.service.getQuestions();
-    this.samplesFields$ = this.samplesService.getQuestions();
-    this.mode$ = Mode.Exhibits
+    //alert("start RegisterExhibitScreenComponent")
+    // Gets case's data from local storage
 
-    //var values = Array.from(this.fields$.values())
-    //values[values.length - 1]["onClick"] = this.a
+    const localCase = JSON.parse(localStorage.getItem('case') || '[]');
 
+    // Convert all fields into array and auto fills some fields with values from case.
+    var values = Array.from(this.fields$.values());
+    values[0]['value'] = localCase.internal_number;
+    values[11]['value'] = localCase.sender_name;
+    //alert("try to put in lab" + localCase.lab_name)
+    values[12]['value'] = localCase.lab_name;
   }
 
   ngOnInit(): void {}
@@ -39,21 +38,20 @@ export class RegisterExhibitScreenComponent implements OnInit {
   // Function must be defined as arrow function otherwise 'this' keyword will refer to
   // DynamicFormComponent insted of this(RegisterExhibitScreenComponent) component.
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
+    var does_exist = false;
     const formRawValue = form.getRawValue();
     delete formRawValue.sample_navigation;
+
+
     this.service.postExhibit(formRawValue).subscribe((res: any) => {
       cb(res);
+      alert('מוצג' +" "+ res +" "+ 'נפתח בהצלחה');
+      formRawValue.exhibit_number = res;
+      localStorage.setItem('exhibit', JSON.stringify(formRawValue));
     });
+
+
     this.sharedData.addToData(formRawValue);
     // this.router.navigate(['/genLabForm']);
   };
-
-  openNewSample() {
-    this.mode$ = Mode.RegisterSamples
-  }
-
-  registerNewSample() {
-    this.mode$ = Mode.Exhibits
-  }
-
 }

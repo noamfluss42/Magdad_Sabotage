@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { DynamicFormComponent } from 'src/app/core/components/dynamic-form/dynamic-form.component';
 import { CasesService } from 'src/app/core/services/cases.service';
 import { FieldControlService } from 'src/app/core/services/field-control.service';
+import { Router } from '@angular/router';
 import { FormFieldBase } from 'src/app/core/utils/form-field-base';
 @Component({
   selector: 'app-edit-case-screen',
@@ -15,13 +17,16 @@ export class EditCaseScreenComponent implements OnInit {
   data: any;
   form!: FormGroup;
   caseData: any;
-  constructor(private service: CasesService, private fcs: FieldControlService) {
+  caseQdata :any;
+  caseQTags :any;
+  constructor(private service: CasesService, private fcs: FieldControlService, private router: Router) {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
-
+    localStorage.setItem('case', JSON.stringify(this.caseData))
+    localStorage.removeItem('caseQ');
     this.splitAt("weapon_name",this.caseData);
     //split caseData to get only tags
   }
@@ -41,27 +46,33 @@ export class EditCaseScreenComponent implements OnInit {
       }
     });
       console.log(a,b);
-      localStorage.setItem('caseQdata', JSON.stringify(a));
-      localStorage.setItem('caseQTags', JSON.stringify(b));
+      this.caseQdata = a;
+      this.caseQTags = b;
 
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
     this.caseData[1] = formRawValue;
     const data = { ...this.caseData[0], ...this.caseData[1] };
+    data.internal_number = JSON.parse(localStorage.getItem('internal_number') || '[]')
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
-    localStorage.removeItem('caseQ');
+    
+    
+    localStorage.setItem('case', JSON.stringify(data));
   };
 
   // sort form value by interface keys
 
   onFieldsInit = (form: FormGroup): void => {
-    var value = JSON.parse(localStorage.getItem('caseQdata')||'[]');
+    var value = this.caseQdata;
+
     // form.controls['exhibit_number'].setValue(this.data.exhibit_number);
     // go over this.data and set the value of the form
 
@@ -72,11 +83,12 @@ export class EditCaseScreenComponent implements OnInit {
     for (let key in value) {
       if (form.controls[key]) {
         form.controls[key].setValue(value[key]);
+
       }
   }
   };
   onTagsInit = (form: FormGroup): void => {
-    var value = JSON.parse(localStorage.getItem('caseQTags')||'[]');
+    var value = this.caseQTags;
     for (let key in value) {
       if (form.controls[key]) {
         form.controls[key].setValue(value[key]);
@@ -89,4 +101,9 @@ export class EditCaseScreenComponent implements OnInit {
     delete formRawValue.navigator;
     this.caseData[0] = formRawValue;
   };
+
+  generateDocxPage() {
+    this.router.navigate(['/genLabForm']);
+  }
+
 }

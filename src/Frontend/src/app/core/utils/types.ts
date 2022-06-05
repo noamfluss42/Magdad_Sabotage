@@ -1,5 +1,5 @@
 export interface Exhibit {
-  case_id: string;
+  internal_number: string;
   exhibit_number: string;
   location: string;
   description: string;
@@ -47,21 +47,20 @@ export interface Exhibit {
 // }
 export interface Case {
   internal_number: string;
-  received_or_go :string;
+  received_or_go: string;
   lab_name: string;
   event_characteristic: string;
   event_date: string;
   received_date: string;
   event_type: string;
-  pele_number :string;
+  pele_number: string;
   district: string;
-  investigation_unit: string;
+  investigating_unit: string;
   explosion_or_disarm: string;
   reference_number: string;
   status: string;
   sender_name: string;
   event_location: string;
-  catch_report: string;
   event_description: string;
 
   weapon_name: string;
@@ -74,6 +73,26 @@ export interface Case {
   weapon_color: string;
   explosive_device_camouflage: string;
   weapon_additional_characteristics: string;
+}
+
+export interface Sample {
+  internal_number: string;
+  exhibit_number: string;
+  sample_id: string;
+  what_sampled: string;
+  where_sampled: string;
+  transferred_to_lab: string;
+  sending_date: string;
+  receiving_date: string;
+  packaging: string;
+  results: string;
+  notes: string;
+  date: string;
+  unit_name: string;
+  reference: string;
+  investigator_name: string;
+  phone_num: string;
+  bag_num: string;
 }
 
 export interface TableColumn {
@@ -90,38 +109,23 @@ export interface ResultCaseTable {
   internal_number: string;
   min_date: string;
   max_date: string;
-
 }
-export interface CaseSearch {
 
+export interface CaseSearch {
   internal_number: string;
-  received_or_go :string;
+  received_or_go: string;
   lab_name: string;
   event_characteristic: string;
   event_date: string;
   received_date: string;
   event_type: string;
-  pele_number :string;
+  pele_number: string;
   district: string;
-  investigation_unit: string;
+  investigating_unit: string;
   explosion_or_disarm: string;
   reference_number: string;
   status: string;
   sender_name: string;
   event_location: string;
-  catch_report: string;
   event_description: string;
-
-  weapon_name: string;
-  explosive_device_material: string;
-  explosive_device_means: string;
-  weapon_options: string;
-  explosive_device_operating_system: string;
-  weapon_mark: string;
-  explosive_device_spray: string;
-  weapon_color: string;
-  explosive_device_camouflage: string;
-  weapon_additional_characteristics: string;
-  min_date: string;
-  max_date: string;
 }

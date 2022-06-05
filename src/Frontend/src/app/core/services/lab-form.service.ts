@@ -9,21 +9,31 @@ export class LabFormService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
-        key: 'recipient',
+        key: 'internal_number',
         required: true,
         label: 'מספר תיק',
       }),
       new DropdownField({
-        key: 'lab_name',
+        key: 'transferred_to_lab',
         label: 'אל מעבדה',
         required: true,
         options: [
-          { key: 'חנ"מ', value: 'חנ"מ' },
-          { key: 'ט"א', value: 'ט"א' },
-          { key: 'ביולוגית', value: 'ביולוגית' },
-          { key: 'הצתות', value: 'הצתות' },
-          { key: 'סימנים', value: 'סימנים' },
-          { key: 'חומרים', value: 'חומרים' },
+         { key: 'חנ"מ', value: 'חנ"מ' },
+         { key: 'ט"א', value: 'ט"א' },
+         { key: 'ביולוגית', value: 'ביולוגית' },
+         { key: 'הצתות', value: 'הצתות' },
+         { key: 'סימנים וחומרים', value: 'סימנים וחומרים' },
+        ],
+      }),
+      new DropdownField({
+        key: 'lab_name',
+        label: 'מעבדה שולחת',
+        required: true,
+        options: [
+          { key: 'דרום', value: 'דרום' },
+          { key: 'תל אביב', value: 'תל אביב' },
+          { key: 'צפון', value: 'צפון' },
+          { key: 'מטא"ר', value: 'מטא"ר' },
         ],
       }),
       new DropdownField({
@@ -83,8 +93,39 @@ export class LabFormService {
         label: 'מספר אישי',
         required: false,
         type: 'text',
-      })
-
+      }),
+      new TextboxField({
+        key: 'phone_number',
+        label: 'מספר טלפון',
+        required: false,
+        type: 'text',
+      }),
+      new DropdownField({
+        key: 'investigating_unit',
+        label: 'יחידת חקירות',
+        required: false,
+        options: [
+          { key: 'בין שאן', value: 'בין שאן' },
+          { key: 'טבריה', value: 'טבריה' },
+          { key: 'כנא', value: 'כנא' },
+          { key: 'מגדל העמק', value: 'מגדל העמק' },
+          { key: 'נצרת', value: 'נצרת' },
+          { key: ' נצרת עילית', value: 'נצרת עילית' },
+          { key: ' עפולה', value: 'עפולה' },
+          { key: ' שפרעם', value: 'שפרעם' },
+        ],
+      }),
+      new TextboxField({
+        key: 'pele_number',
+        label: "'מס" + ' פלא',
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'event_description',
+        label: 'תיאור האירוע',
+        required: false,
+        type: 'text',
+      }),
     ];
     return questions.sort((a, b) => a.order - b.order);
   }
