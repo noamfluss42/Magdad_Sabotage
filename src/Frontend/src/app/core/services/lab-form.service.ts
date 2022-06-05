@@ -9,25 +9,31 @@ export class LabFormService {
   getQuestions() {
     const questions: FormFieldBase<string>[] = [
       new TextboxField({
-        key: 'recipient',
-        label: 'אל',
+        key: 'internal_number',
+        required: true,
+        label: 'מספר תיק',
+      }),
+      new DropdownField({
+        key: 'transferred_to_lab',
+        label: 'אל מעבדה',
+        required: true,
         options: [
-          { key: 'מעבדה ביולוגית', value: 'מעבדה ביולוגית' },
-          { key: 'מעבדת פיתוח ט"א ', value: 'מעבדת פיתוח ט"א' },
-          {
-            key: ' מעבדה ביולוגית ומעבדת פיתוח ט"א',
-            value: 'מעבדה ביולוגית ומעבדת פיתוח ט"א',
-          },
-          { key: ' מעבדת אלקטרוניקה', value: 'מעבדת אלקטרוניקה' },
-          { key: ' חוקר זירה במחוז', value: 'חוקר זירה במחוז' },
-          { key: ' מעבדת סימנים', value: ' מעבדת סימנים' },
-          { key: ' מעבדת דליקים', value: 'מעבדת דליקים' },
-          { key: ' חי"ק ענף טכני ל"א', value: 'חי"ק ענף טכני ל"א' },
-          { key: ' מעבדת סיבים ופולימרים', value: 'מעבדת סיבים ופולימרים' },
-          {
-            key: ' מעבדת ניידת לזירת עבירה מחוז צפון',
-            value: 'מעבדת ניידת לזירת עבירה מחוז צפון',
-          },
+         { key: 'חנ"מ', value: 'חנ"מ' },
+         { key: 'ט"א', value: 'ט"א' },
+         { key: 'ביולוגית', value: 'ביולוגית' },
+         { key: 'הצתות', value: 'הצתות' },
+         { key: 'סימנים וחומרים', value: 'סימנים וחומרים' },
+        ],
+      }),
+      new DropdownField({
+        key: 'lab_name',
+        label: 'מעבדה שולחת',
+        required: true,
+        options: [
+          { key: 'דרום', value: 'דרום' },
+          { key: 'תל אביב', value: 'תל אביב' },
+          { key: 'צפון', value: 'צפון' },
+          { key: 'מטא"ר', value: 'מטא"ר' },
         ],
       }),
       new DropdownField({
@@ -61,13 +67,63 @@ export class LabFormService {
       new TextboxField({
         key: 'testing_essence',
         label: 'מהות הבדיקה',
-        required: true,
+        required: false,
         type: 'text',
       }),
       new TextboxField({
         key: 'notes',
         label: 'הערות',
-        required: true,
+        required: false,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'name',
+        label: 'שם',
+        required: false,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'rank',
+        label: 'דרגה',
+        required: false,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'person_id',
+        label: 'מספר אישי',
+        required: false,
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'phone_number',
+        label: 'מספר טלפון',
+        required: false,
+        type: 'text',
+      }),
+      new DropdownField({
+        key: 'investigating_unit',
+        label: 'יחידת חקירות',
+        required: false,
+        options: [
+          { key: 'בין שאן', value: 'בין שאן' },
+          { key: 'טבריה', value: 'טבריה' },
+          { key: 'כנא', value: 'כנא' },
+          { key: 'מגדל העמק', value: 'מגדל העמק' },
+          { key: 'נצרת', value: 'נצרת' },
+          { key: ' נצרת עילית', value: 'נצרת עילית' },
+          { key: ' עפולה', value: 'עפולה' },
+          { key: ' שפרעם', value: 'שפרעם' },
+        ],
+      }),
+      new TextboxField({
+        key: 'pele_number',
+        label: "'מס" + ' פלא',
+        type: 'text',
+      }),
+      new TextboxField({
+        key: 'event_description',
+        label: 'תיאור האירוע',
+        required: false,
         type: 'text',
       }),
     ];

@@ -4,11 +4,11 @@ Running the app locally:
 	- From the main folder go to SuperApI -> SuperAPI -> setting.py line 81. Make sure the postgerSQL database is set to the listed parameters or change them. 
 	- In the cmd, go to SuperPI, run "Python manage.py makemigrations" and than "python manage.py migrate" this step is one-time step.
 	- run "python manage.py runserver 12580". The django server should work now.
-	- you should see something like this: 
+	- you should see something like this:
 	"Starting development server at http://0.0.0.0:12580/
 
 	  Quit the server with CONTROL-C."
-	
+
 	- now we will run the angular app:
 	- in another cmd, go back to the main folder and then, go to the folder src -> Frontend
 	- run "npm i"

@@ -2,7 +2,15 @@
   <h1>שאילתות</h1>
   <app-dynamic-form
     [fields]="fields$"
-    buttonText="חפש"
+    buttonText="הוסף מידע לחיפוש"
+    [onSubmit]="onSaveSubmit"
+  ></app-dynamic-form>
+  <mat-divider></mat-divider>
+  <h1>תיוגים</h1>
+  <app-dynamic-form
+    [fields]="tags$"
+    buttonText = "חפש"
     [onSubmit]="onSubmit"
   ></app-dynamic-form>
+
 </div>

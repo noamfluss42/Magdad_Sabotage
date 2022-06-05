@@ -8,30 +8,40 @@ import { FormFieldBase } from 'src/app/core/utils/form-field-base';
 @Component({
   selector: 'app-search-case-screen',
   templateUrl: './search-case-screen.component.html',
-  styleUrls: ['./search-case-screen.component.css']
+  styleUrls: ['./search-case-screen.component.css'],
 })
 export class SearchCaseScreenComponent implements OnInit {
-
   fields$: FormFieldBase<any>[];
+  tags$: FormFieldBase<any>[];
 
-  constructor(
-    private service: SearchCaseService,
-    private router: Router
-  ) {
+  constructor(private service: SearchCaseService, private router: Router) {
     this.fields$ = service.getQuestions();
-   }
+    this.tags$ = service.getTags();
+  }
 
   ngOnInit(): void {
+    sessionStorage.removeItem('results');
   }
+  onSaveSubmit = (form: FormGroup, cb: (res: string) => void): void => {
+    const data = form.getRawValue();
+    console.log(data);
+    localStorage.setItem('query', JSON.stringify(data));
+  };
+
   //posts data to the server and gets back a list of json objects with the cases. save them and navigate to the search-case-result-screen and pass the data to it
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
-    this.service.postQuery(form.value).subscribe(
-      (res: any) => {
-        // this.router.navigate(['/search-case-result']);
-        this.service.setData(res);
+    const savedQuery = JSON.parse(localStorage.getItem('query') || '[]');
+    const data = { ...savedQuery, ...form.getRawValue() };
+    //navigate and reload the page without discconecting the user
+    this.router.navigate(['/loadingScreen']).then(() => {
+      this.service.postQuery(data).subscribe((res: any) => {
+        sessionStorage.setItem('results', JSON.stringify(res));
         console.log(res);
-      }
-    );
+        this.router.navigateByUrl('/searchCaseResult');
+      });
+    });
+    
+  };
+    // this.router.navigate(['/searchCaseResult']);
+  };
 
-  }
-}

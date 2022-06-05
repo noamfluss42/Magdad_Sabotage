@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+src/Frontend/src/.vs/
+
 # Distribution / packaging
 .Python
 build/
@@ -129,3 +131,4 @@ dmypy.json
 .pyre/
 #vscode configuration
 /.vscode
+.vs

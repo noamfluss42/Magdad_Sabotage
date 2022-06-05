@@ -3,7 +3,7 @@ services:
     app-backend:
         build: ./SuperAPI/
         image: barsheffer/backv1
-        container_name: backend
+        container_name: backend2
         restart: always
         ports:
             - "12580:12580"
@@ -12,9 +12,11 @@ services:
     app-frontend:
         build: ./src\Frontend/
         image: barsheffer/frontv1
-        container_name: frontend
+        container_name: frontend2
         restart: always
         ports:
-            - "4200:4200"
+            - "12581:12581"
+        environment:
+            - API_URL=http://localhost:12580
         links:
             - app-backend   

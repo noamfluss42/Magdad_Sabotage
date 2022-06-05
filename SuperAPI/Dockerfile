@@ -1,4 +1,4 @@
-FROM bitnami/python:3.8.13-debian-10-r42
+FROM bitnami/python:3.8.13-debian-10-r78
 WORKDIR /app
 ENV PYTHONUNBUFFERED 1
 
@@ -10,4 +10,3 @@ COPY . .
 
 EXPOSE 12580
 CMD ["python","manage.py", "runserver", "0.0.0.0:12580"]
-

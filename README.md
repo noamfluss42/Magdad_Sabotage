@@ -1,3 +1,6 @@
-# Magdad_Sabotage
+This project was made for managing investigations of sabotaging events.
 
-## folder structure:     https://medium.com/@shijin_nath/angular-right-file-structure-and-best-practices-that-help-to-scale-2020-52ce8d967df5 ##
+Some explanations about the program can be found in the documentations:
+ - documentation_of_the_program.txt
+ - run_the_app_instructions.txt
+ - create_dockers.txt
