@@ -19,12 +19,14 @@ export class EditCaseScreenComponent implements OnInit {
   caseData: any;
   caseQdata :any;
   caseQTags :any;
+  saved_non_tags:boolean;
   constructor(private service: CasesService, private fcs: FieldControlService, private router: Router) {
     this.fields$ = service.getQuestions();
     this.tags$ = service.getTags();
     this.field$ = this.fields$[1];
     this.form = this.fcs.toFormGroup([this.field$]);
     this.caseData = JSON.parse(localStorage.getItem('caseQ') || '[]');
+    this.saved_non_tags = false;
     localStorage.setItem('case', JSON.stringify(this.caseData))
     localStorage.removeItem('caseQ');
     this.splitAt("weapon_name",this.caseData);
@@ -57,14 +59,18 @@ export class EditCaseScreenComponent implements OnInit {
 
   onSubmit = (form: FormGroup, cb: (res: string) => void): void => {
     const formRawValue = form.getRawValue();
+    if (!this.saved_non_tags){
+      alert("קודם יש ללחוץ על עריכת תיק ללא תיוגים")
+      return
+    }
     this.caseData[1] = formRawValue;
-    const data = { ...this.caseData[0], ...this.caseData[1] };
-    data.internal_number = JSON.parse(localStorage.getItem('internal_number') || '[]')
+    const data = {...this.caseData[0], ...this.caseData[1]};
+    localStorage.setItem('case', JSON.stringify(data));
     this.service.updateCase(data).subscribe((res: any) => {
       console.log(res);
     });
-    
-    
+
+
     localStorage.setItem('case', JSON.stringify(data));
   };
 
@@ -100,6 +106,13 @@ export class EditCaseScreenComponent implements OnInit {
     const formRawValue = form.getRawValue();
     delete formRawValue.navigator;
     this.caseData[0] = formRawValue;
+    this.caseData[0].internal_number = JSON.parse(localStorage.getItem('internal_number') || '[]')
+    const data = {...this.caseData[0], ...this.caseData[1]};
+    localStorage.setItem('case', JSON.stringify(data));
+    this.service.updateCase(data).subscribe((res: any) => {
+      console.log(res);
+    });
+    this.saved_non_tags = true
   };
 
   generateDocxPage() {
