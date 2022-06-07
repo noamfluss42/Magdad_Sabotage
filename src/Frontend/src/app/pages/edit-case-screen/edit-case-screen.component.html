@@ -2,13 +2,13 @@
   <h1 mat-dialog-title> עריכת תיק</h1>
   <button (click)="generateDocxPage()" style="color: white; background: #009688">יצירת טופס ושליחה למעבדה</button>
   <app-dynamic-form [fields]="fields$"
-                    buttonText="עריכת תיק"
+                    buttonText="עריכת תיק ללא תיוגים"
                     [onSubmit]="onSave"
                     [onInit]="onFieldsInit"></app-dynamic-form>
   <mat-divider></mat-divider>
   <h1>עריכת תיוגים </h1>
   <app-dynamic-form [fields]="tags$"
-                    buttonText="שמירה"
+                    buttonText="עריכת תיוגים בלבד"
                     [onSubmit]="onSubmit"
                     [onInit]="onTagsInit"></app-dynamic-form>
 </div>
