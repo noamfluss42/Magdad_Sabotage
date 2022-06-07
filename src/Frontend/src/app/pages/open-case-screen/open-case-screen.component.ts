@@ -18,7 +18,7 @@ export class OpenCaseScreenComponent implements OnInit {
   form!: FormGroup;
   internal_number: string;
   saved_non_tags: string;
-  saved_tags: string;
+  tags:any;
 
   constructor(
     private service: CasesService,
@@ -34,7 +34,18 @@ export class OpenCaseScreenComponent implements OnInit {
     this.form = this.fcs.toFormGroup([this.field$]);
     this.internal_number = '';
     this.saved_non_tags = '';
-    this.saved_tags = '';
+    this.tags = {
+        weapon_name: '',
+        explosive_device_material: '',
+        explosive_device_means: '',
+        weapon_options: '',
+        explosive_device_operating_system: '',
+        weapon_mark: '',
+        explosive_device_spray: '',
+        weapon_color: '',
+        explosive_device_camouflage: '',
+        weapon_additional_characteristics: '',
+      };
     // Converts fields into array and auto fills case number.
 
   }
@@ -61,6 +72,7 @@ export class OpenCaseScreenComponent implements OnInit {
       alert("save first tags");
       return;
     }
+    this.tags = formRawValue;
     //alert("this.internal_number"+this.internal_number + "onSubmit");
     const savedCase = JSON.parse(localStorage.getItem('case') || '[]');
     // merge from.getRawValue data with tags
@@ -71,7 +83,6 @@ export class OpenCaseScreenComponent implements OnInit {
           localStorage.setItem('case', JSON.stringify(data));
     });
     this.sharedData.addToData(data);
-    this.saved_tags = "yes"
     // this.router.navigate(['/registerExhibit']);
   };
 
@@ -81,7 +92,6 @@ export class OpenCaseScreenComponent implements OnInit {
       return;
     }*/
     // sort form value by sinterface keys
-    var does_exist = false;
     //print the internal number value from request
 
     // get tags values as json
@@ -89,17 +99,8 @@ export class OpenCaseScreenComponent implements OnInit {
     const formRawValue = {
 
       ...form.getRawValue(),
+      ...this.tags,
       ...{
-        weapon_name: '',
-        explosive_device_material: '',
-        explosive_device_means: '',
-        weapon_options: '',
-        explosive_device_operating_system: '',
-        weapon_mark: '',
-        explosive_device_spray: '',
-        weapon_color: '',
-        explosive_device_camouflage: '',
-        weapon_additional_characteristics: '',
         min_date: form.getRawValue()['event_date'],
         max_date: '',
         internal_number:this.internal_number,
@@ -123,9 +124,6 @@ export class OpenCaseScreenComponent implements OnInit {
         localStorage.setItem('internal_number', JSON.stringify(this.internal_number));
         this.saved_non_tags = "yes";
       });
-    }
-    else if(this.saved_tags == "yes"){
-      alert("ניתן לשמור רק דרך הכפתור התחתון")
     }
     else{
       this.service.updateCase(formRawValue).subscribe((res: any) => {
